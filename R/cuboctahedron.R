@@ -12,7 +12,7 @@ library(stringr)
 #' get_set(mx)
 #'
 get_set <- function(info) {
-  sel <- info %>% apply(1,function(r) {sets::set(sets::as.set(r))})
+  sel <- apply(info,1,function(r) {sets::set(sets::as.set(r))})
   Reduce(sets::set_union, sel)
 }
 

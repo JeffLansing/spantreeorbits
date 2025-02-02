@@ -21,8 +21,6 @@ Suggests:
     dplyr,
     knitr,
     rmarkdown,
-    kableExtra,
-    cxhull,
     rgl (>= 1.3.0),
     permutations,
     sets
