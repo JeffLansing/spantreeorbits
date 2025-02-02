@@ -1,6 +1,16 @@
 library(magrittr)
 library(stringr)
 
+#' Get Set
+#'Converts an edgelist of a graph into a set of tw0-element sets.
+#' @param info An edgelist of a graph
+#'
+#' @return a set of tw0-element sets
+#'
+#' @examples
+#' mx <- matrix(c(1,2,3,4), ncol = 2)
+#' get_set(mx)
+#'
 get_set <- function(info) {
   sel <- info %>% apply(1,function(r) {sets::set(sets::as.set(r))})
   Reduce(sets::set_union, sel)
