@@ -19,6 +19,8 @@ Imports:
 Suggests: 
     testthat (>= 3.0.0),
     dplyr,
+    igraph,
+    abind,
     knitr,
     rmarkdown,
     rgl (>= 1.3.0),

@@ -2,10 +2,11 @@ library(magrittr)
 library(stringr)
 
 #' Get Set
-#'Converts an edgelist of a graph into a set of tw0-element sets.
+#'Converts an edgelist of a graph into a set of two-element sets (i.e., a set
+#'of unordered pairs).
 #' @param info An edgelist of a graph
 #'
-#' @return a set of tw0-element sets
+#' @return a set of two-element sets
 #'
 #' @examples
 #' mx <- matrix(c(1,2,3,4), ncol = 2)
@@ -33,7 +34,7 @@ for(i in 25:32) tmp <- c(tmp, data[i] %>% str_replace("\\{", "c(") %>%
 code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("oct_faces <- rbind(", ., ")"))
 eval(parse(text=code))
 
-texts <- str_c('o', 1:12)
+texts <- c(str_c('o', 1:4),c('t1','s1','t2','s2','s3','s4','t3','t4'))
 
 segs <- list()
 for(i in 1:nrow(cu_faces)) {
@@ -61,8 +62,19 @@ segx <- Reduce(rbind, segs)
 segix <- get_set(segx) %>% as.list() %>% unlist()
 segments <- verts[segix,]
 
+edges <- texts[segix] %>% matrix(byrow = T, ncol = 2)
+g <- edges %>% igraph::graph_from_edgelist(directed = F)
+
+nghmap <- lapply(1:4, function(k) {
+  txt <- texts[k]
+  ngh <- igraph::neighbors(g, txt)
+  vals <- names(ngh) %>% str_remove_all("(s|t)") %>% as.numeric()
+  c(sort(vals[1:2]), sort(vals[3:4]))
+}) %>% abind::abind(along = 2) %>% t() %>% `[`(TRUE,c(1,3,2,4))
+
 cuboctahedron <- list(
   verts = verts,
+  nghmap = nghmap,
   texts = texts,
   segments = segments,
   cu_faces = cu_faces,
