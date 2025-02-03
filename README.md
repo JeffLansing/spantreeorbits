@@ -30,6 +30,7 @@ polyhedron. These are [Sage](https://www.sagemath.org/) and
 Cells](https://sagecell.sagemath.org/). To run the code shown in any
 Sage Cell, click the *Evaluate* button below the cell.
 
+<div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
 <script>sagecell.makeSagecell({"inputLocation": ".sage"});</script>
 <link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css"  data-external="1">
@@ -42,6 +43,12 @@ for i,t in enumerate(st):
     print(t.edges(labels=False))
   </script>
 </div>
+</div>
+
+Each spanning tree of the (skeleton graph of) the tetrahedron has 3
+edges, which connect all 4 vertices, without cycles.
+
+<div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
 <script>sagecell.makeSagecell({"inputLocation": ".sage"});</script>
 <link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css"  data-external="1">
@@ -54,16 +61,20 @@ for i,t in enumerate(t4):
 print(*reps, sep = "', '")
   </script>
 </div>
+</div>
 
-So there are 16 different spanning trees for the tetrahedron, and there
-will be between 16 and 2 orbits. ([This
-document](https://doi.org/10.1016/j.tcs.2024.114593), in Table 1,
-suggests that there will be exactly 2 orbits.)
+There are two different trees on 4 vertices.
+
+So from these evaluations we see that there are 16 different spanning
+trees for the tetrahedron, and that there will be between 16 and 2
+orbits. ([This document](https://doi.org/10.1016/j.tcs.2024.114593), in
+Table 1, suggests that there will be exactly 2 orbits.)
 
 Each spanning tree of the tetrahedron has 3 edges, and the tetrahedron
 is self dual, so we will look for some more data pertinent to these two
 sets of 3 edges. We will use GAP for this.
 
+<div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
 <div id="cell2">
 <script type="text/x-sage">
@@ -83,9 +94,15 @@ languages: ['gap'],
 callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();}
 });
 </script>
+</div>
 
 When we evaluate this GAP code, we see that the symmetric group S6 has 2
 subgroups of order 36, called S3 X S3. Further, looking at the right
 cosets in S6 of either of these subgroups, it appears that there could
 be some interesting relation with the 2 sets of 3 edges mentioned above.
 We use the R code in this package to explore that relation.
+
+``` r
+library(spantreeorbits)
+## basic example code
+```
