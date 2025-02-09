@@ -20,6 +20,8 @@ devtools::install_github("JeffLansing/spantreeorbits")
 
 ## Example
 
+A simple example is presented on the [GitHub page](index.md)
+
 Consider the tetrahedron, a self-dual polyhedron with 4 vertices, 4
 faces, and 6 edges. (See:
 <https://dmccooey.com/polyhedra/Tetrahedron.html>)
