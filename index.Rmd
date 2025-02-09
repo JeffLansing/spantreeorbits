@@ -1,5 +1,9 @@
 ---
-output: github_document
+title: Spanning Tree Orbits
+output: 
+  html_document:
+    mathjax: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+    self_contained: no
 ---
 
 <!-- index.md is generated from index.Rmd. Please edit that file -->
@@ -7,18 +11,15 @@ output: github_document
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+  comment = "#>"
 )
 ```
 
-# spantreeorbits
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of spantreeorbits is to use algebra to generate the orbits of the spanning trees of some polyhedra.
+The goal of **_spantreeorbits_** is to use algebra to generate the orbits of the spanning trees of some polyhedra.
 
 ## Installation
 
@@ -103,7 +104,7 @@ callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();
 </div>
 ```
 
-When we evaluate this GAP code, we see that the symmetric group $ S_6 $ has 2 subgroups of order 36, called $ S_3 \times S_3 $. Further, looking at the representatives of the right cosets in $ S_6 $ of either of these subgroups, it appears that there could be some interesting connection to the 2 sets of 3 edges mentioned above. 
+When we evaluate this GAP code, we see that the symmetric group $ S_6 $ has 2 subgroups of order 36, called $ S_3 $ x $ S_3 $. Further, looking at the representatives of the right cosets in $ S_6 $ of either of these subgroups, it appears that there could be some interesting connection to the 2 sets of 3 edges mentioned above. 
 We use the R code in this package to explore that relation.
 
 ```{r example}

@@ -98,11 +98,11 @@ callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();
 </div>
 
 When we evaluate this GAP code, we see that the symmetric group \$ S_6
-\$ has 2 subgroups of order 36, called \$ S_3 S_3 \$. Further, looking
-at the representatives of the right cosets in \$ S_6 \$ of either of
-these subgroups, it appears that there could be some interesting
-connection to the 2 sets of 3 edges mentioned above. We use the R code
-in this package to explore that relation.
+\$ has 2 subgroups of order 36, called \$ S_3\$ $\times$ \$S_3 \$.
+Further, looking at the representatives of the right cosets in \$ S_6 \$
+of either of these subgroups, it appears that there could be some
+interesting connection to the 2 sets of 3 edges mentioned above. We use
+the R code in this package to explore that relation.
 
 ``` r
 library(spantreeorbits)
