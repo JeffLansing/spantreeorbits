@@ -91,7 +91,7 @@ print(*reps, sep = "', '")
 </div>
 <p>There are two different trees on 4 vertices.</p>
 <p>So from these evaluations we see that there are 16 different spanning trees for the tetrahedron, and that there will be between 16 and 2 orbits. (<a href="https://doi.org/10.1016/j.tcs.2024.114593" class="external-link">This document</a>, in Table 1, suggests that there will be exactly 2 orbits.)</p>
-<p>Each spanning tree of the tetrahedron has 3 edges, and the tetrahedron is self dual, so we will look for some more data pertinent to these two sets of 3 edges. We will use GAP for this.</p>
+<p>Each spanning tree of the tetrahedron has 3 edges, and the tetrahedron is self dual, so we will look for some more data pertinent to these two sets of 3 edges (one set for the spanning trees of the tetrahedron, and the other for the spanning trees of the dual). We will use GAP for this.</p>
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell2">
 <script type="text/x-sage">
@@ -112,7 +112,7 @@ callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();
 });
 </script>
 </div>
-<p>When we evaluate this GAP code, we see that the symmetric group <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">S6</annotation></semantics></math> has 2 subgroups of order 36, called <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mn>3</mn><mi>X</mi><mi>S</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">S3 X S3</annotation></semantics></math>. Further, looking at the representatives of the right cosets in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">S6</annotation></semantics></math> of either of these subgroups, it appears that there could be some interesting relation with the 2 sets of 3 edges mentioned above. We use the R code in this package to explore that relation.</p>
+<p>When we evaluate this GAP code, we see that the symmetric group $ S_6 $ has 2 subgroups of order 36, called $ S_3 S_3 $. Further, looking at the representatives of the right cosets in $ S_6 $ of either of these subgroups, it appears that there could be some interesting connection to the 2 sets of 3 edges mentioned above. We use the R code in this package to explore that relation.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JeffLansing/spantreeorbits" class="external-link">spantreeorbits</a></span><span class="op">)</span></span>
 <span><span class="co">## basic example code</span></span></code></pre></div>
