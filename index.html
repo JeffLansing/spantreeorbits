@@ -98,8 +98,8 @@ print(*reps, sep = "', '")
 s6 := SymmetricGroup(6);
 ll6 := LowLayerSubgroups(s6,2);;Display(List(ll6, Order));
 Print(StructureDescription(ll6[21]), ", ", StructureDescription(ll6[22]), "\n");
-rc21 := RightCosets(s6, ll6[21]);;
-lrc := List(rc21, x -> ListPerm(Representative(x),6));;
+rc21 := RightTransversal(s6, ll6[21]);;
+lrc := List(rc21, x -> ListPerm(x,6));;
 for p in lrc do Print(p,"\n");; od;;
 </script>
 </div>
@@ -112,7 +112,7 @@ callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();
 });
 </script>
 </div>
-<p>When we evaluate this GAP code, we see that the symmetric group S6 has 2 subgroups of order 36, called S3 X S3. Further, looking at the right cosets in S6 of either of these subgroups, it appears that there could be some interesting relation with the 2 sets of 3 edges mentioned above. We use the R code in this package to explore that relation.</p>
+<p>When we evaluate this GAP code, we see that the symmetric group <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">S6</annotation></semantics></math> has 2 subgroups of order 36, called <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mn>3</mn><mi>X</mi><mi>S</mi><mn>3</mn></mrow><annotation encoding="application/x-tex">S3 X S3</annotation></semantics></math>. Further, looking at the representatives of the right cosets in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">S6</annotation></semantics></math> of either of these subgroups, it appears that there could be some interesting relation with the 2 sets of 3 edges mentioned above. We use the R code in this package to explore that relation.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JeffLansing/spantreeorbits" class="external-link">spantreeorbits</a></span><span class="op">)</span></span>
 <span><span class="co">## basic example code</span></span></code></pre></div>
