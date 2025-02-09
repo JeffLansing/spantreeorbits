@@ -72,7 +72,8 @@ Table 1, suggests that there will be exactly 2 orbits.)
 
 Each spanning tree of the tetrahedron has 3 edges, and the tetrahedron
 is self dual, so we will look for some more data pertinent to these two
-sets of 3 edges. We will use GAP for this.
+sets of 3 edges (one set for the spanning trees of the tetrahedron, and
+the other for the spanning trees of the dual). We will use GAP for this.
 
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
@@ -96,12 +97,12 @@ callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();
 </script>
 </div>
 
-When we evaluate this GAP code, we see that the symmetric group $S6$ has
-2 subgroups of order 36, called $S3 X S3$. Further, looking at the
-representatives of the right cosets in $S6$ of either of these
-subgroups, it appears that there could be some interesting relation with
-the 2 sets of 3 edges mentioned above. We use the R code in this package
-to explore that relation.
+When we evaluate this GAP code, we see that the symmetric group \$ S_6
+\$ has 2 subgroups of order 36, called \$ S_3 S_3 \$. Further, looking
+at the representatives of the right cosets in \$ S_6 \$ of either of
+these subgroups, it appears that there could be some interesting
+connection to the 2 sets of 3 edges mentioned above. We use the R code
+in this package to explore that relation.
 
 ``` r
 library(spantreeorbits)

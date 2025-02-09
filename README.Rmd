@@ -31,5 +31,5 @@ devtools::install_github("JeffLansing/spantreeorbits")
 
 ## Example
 
-A simple example is presented on the [GitHub page](index.md)
+A simple example is presented on the [GitHub page](https://jefflansing.github.io/spantreeorbits/)
 
