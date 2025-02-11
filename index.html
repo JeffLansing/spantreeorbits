@@ -31,6 +31,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="articles/spantreeorbits.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
@@ -68,60 +69,7 @@
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>Consider the tetrahedron, a self-dual polyhedron with 4 vertices, 4 faces, and 6 edges. (See: <a href="https://dmccooey.com/polyhedra/Tetrahedron.html" class="external-link uri">https://dmccooey.com/polyhedra/Tetrahedron.html</a>)</p>
-<p>We will use some external tools to assemble some data concerning this polyhedron. These are <a href="https://www.sagemath.org/" class="external-link">Sage</a> and <a href="https://www.gap-system.org/" class="external-link">GAP</a>, which will be accessed using <a href="https://sagecell.sagemath.org/" class="external-link">Sage Cells</a>. To run the code shown in any Sage Cell, click the <em>Evaluate</em> button below the cell.</p>
-<div>
-<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><script>sagecell.makeSagecell({"inputLocation": ".sage"});</script><link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css" data-external="1">
-<div class="sage">
-<script type="text/x-sage">
-tet = graphs.TetrahedralGraph()
-tet.relabel({0:1,1:2,2:3,3:4})
-st = tet.spanning_trees()
-for i,t in enumerate(st):
-    print(t.edges(labels=False))
-  </script>
-</div>
-</div>
-<p>Each spanning tree of the (skeleton graph of) the tetrahedron has 3 edges, which connect all 4 vertices, without cycles.</p>
-<div>
-<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><script>sagecell.makeSagecell({"inputLocation": ".sage"});</script><link rel="stylesheet" type="text/css" href="https://sagecell.sagemath.org/static/sagecell_embed.css" data-external="1">
-<div class="sage">
-<script type="text/x-sage">
-t4 = graphs.trees(4)
-for i,t in enumerate(t4):
-    t.relabel({0:1,1:2,2:3,3:4})
-    print(t.edges(labels=False))
-print(*reps, sep = "', '")
-  </script>
-</div>
-</div>
-<p>There are two different trees on 4 vertices.</p>
-<p>So from these evaluations we see that there are 16 different spanning trees for the tetrahedron, and that there will be between 16 and 2 orbits. (<a href="https://doi.org/10.1016/j.tcs.2024.114593" class="external-link">This document</a>, in Table 1, suggests that there will be exactly 2 orbits.)</p>
-<p>Each spanning tree of the tetrahedron has 3 edges, and the tetrahedron is self dual, so we will look for some more data pertinent to these two sets of 3 edges (one set for the spanning trees of the tetrahedron, and the other for the spanning trees of the dual). We will use GAP for this.</p>
-<div>
-<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell2">
-<script type="text/x-sage">
-s6 := SymmetricGroup(6);
-ll6 := LowLayerSubgroups(s6,2);;Display(List(ll6, Order));
-Print(StructureDescription(ll6[21]), ", ", StructureDescription(ll6[22]), "\n");
-rc21 := RightTransversal(s6, ll6[21]);;
-lrc := List(rc21, x -> ListPerm(x,6));;
-for p in lrc do Print(p,"\n");; od;;
-</script>
-</div>
-<script>
-sagecell.makeSagecell({
-inputLocation: '#cell2',
-languages: ['gap'],
-//Focus the editor
-callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();}
-});
-</script>
-</div>
-<p>When we evaluate this GAP code, we see that the symmetric group $ S_6 $ has 2 subgroups of order 36, called $ S_3$ <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>×</mo><annotation encoding="application/x-tex">\times</annotation></semantics></math> $S_3 $. Further, looking at the representatives of the right cosets in $ S_6 $ of either of these subgroups, it appears that there could be some interesting connection to the 2 sets of 3 edges mentioned above. We use the R code in this package to explore that relation.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JeffLansing/spantreeorbits" class="external-link">spantreeorbits</a></span><span class="op">)</span></span>
-<span><span class="co">## basic example code</span></span></code></pre></div>
+<p>A simple example is presented on the <a href="https://jefflansing.github.io/spantreeorbits/">GitHub page</a></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

@@ -3,7 +3,8 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   Pair_Alignment: Pair_Alignment.html
-last_built: 2025-02-11T20:23Z
+  spantreeorbits: spantreeorbits.html
+last_built: 2025-02-11T23:00Z
 urls:
   reference: https://jefflansing.github.io/spantreeorbits/reference
   article: https://jefflansing.github.io/spantreeorbits/articles
