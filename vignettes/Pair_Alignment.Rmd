@@ -1,0 +1,27 @@
+---
+title: "Pair_Alignment"
+author: "Jeff Lansing"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Pair_Alignment}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r setup, echo = FALSE, warning=FALSE}
+library(spantreeorbits)
+source("./rgl_setup.R")
+rgl::setupKnitr(autoprint = TRUE)
+```
+
+## Introduction
+

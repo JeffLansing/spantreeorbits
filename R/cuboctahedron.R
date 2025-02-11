@@ -73,20 +73,8 @@ get_cuboctahedron <- function() {
   segix <- get_set(segx) %>% as.list() %>% unlist()
   segments <- verts[segix,]
 
-  edges <- texts[segix] %>% matrix(byrow = T, ncol = 2)
-  g <- edges %>% igraph::graph_from_edgelist(directed = F)
-
-  nghmap <- lapply(1:4, function(k) {
-    txt <- texts[k]
-    ngh <- igraph::neighbors(g, txt)
-    vals <- names(ngh) %>% str_remove_all("(s|t)") %>% as.numeric()
-    c(sort(vals[1:2]), sort(vals[3:4]))
-  }) %>% abind::abind(along = 2) %>% t() %>% `[`(TRUE,c(1,3,2,4))
-
-
   cuboctahedron <- list(
     verts = verts,
-    nghmap = nghmap,
     texts = texts,
     segments = segments,
     cu_faces = cu_faces,
@@ -99,8 +87,6 @@ get_cuboctahedron <- function() {
 ##' @details A cuboctahedron data structure.
 ##' \itemize{
 ##'  \item{"verts"}{The vertex coordinates}
-##'  \item{"nghmap"}{A map from the edges of a contained tetrahedron to
-#' the edges of its dual}
 ##'  \item{"texts"}{The vertex labels}
 ##'  \item{"segments"}{The edges of the cuboctahedron}
 ##'  \item{"cu_faces"}{The quadrilateral faces}

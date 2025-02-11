@@ -25,9 +25,14 @@ Suggests:
     rmarkdown,
     rgl (>= 1.3.0),
     permutations,
-    sets
+    sets,
+    digest
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
 LazyData: true
+Collate: 
+    'cuboctahedron.R'
+    'sto_helpers.R'
+    'rhombic_dodecahedron.R'

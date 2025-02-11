@@ -5,7 +5,7 @@
 \alias{cuboctahedron}
 \title{Title Cuboctahedron}
 \format{
-An object of class \code{list} of length 6.
+An object of class \code{list} of length 5.
 }
 \usage{
 cuboctahedron
@@ -17,8 +17,6 @@ Title Cuboctahedron
 A cuboctahedron data structure.
 \itemize{
 \item{"verts"}{The vertex coordinates}
-\item{"nghmap"}{A map from the edges of a contained tetrahedron to
-the edges of its dual}
 \item{"texts"}{The vertex labels}
 \item{"segments"}{The edges of the cuboctahedron}
 \item{"cu_faces"}{The quadrilateral faces}
