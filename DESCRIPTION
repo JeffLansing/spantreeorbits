@@ -33,6 +33,7 @@ Depends:
     R (>= 2.10)
 LazyData: true
 Collate: 
-    'cuboctahedron.R'
     'sto_helpers.R'
+    'cuboctahedron.R'
     'rhombic_dodecahedron.R'
+    'tetrahedron.R'

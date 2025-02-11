@@ -21,12 +21,8 @@ NULL
 #' co <- get_cuboctahedron()
 #' stopifnot(nrow(co$vertices) == 12)
 #'
+#' @include sto_helpers.R
 get_cuboctahedron <- function() {
-
-  get_set <- function(info) {
-    sel <- apply(info,1,function(r) {sets::set(sets::as.set(r))})
-    Reduce(sets::set_union, sel)
-  }
 
   data <- readLines("http://dmccooey.com/polyhedra/Cuboctahedron.txt")
   code <- c()
