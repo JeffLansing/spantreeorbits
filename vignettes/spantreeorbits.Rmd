@@ -6,6 +6,12 @@ output:
     self_contained: no
 ---
 
+```{css}
+.caption {
+  margin: auto;
+  text-align: center;
+}
+```
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -162,7 +168,7 @@ dual <- map_trees_to_poly(verts2, 1, elist2, sts2, sts1) %>%
 ```
 
 
-```{r display1, fig.cap=c("Figure 1. A tetrahedron and its dual, with spanning trees."), fig.height=3, fig.width=5}
+```{r display1, fig.align='center', fig.cap=c("Figure 1. A tetrahedron and its dual, with spanning trees."), fig.height=3.5, fig.width=6}
 display_pairs(tet, dual, 1)
 
 ```
