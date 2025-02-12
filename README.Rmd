@@ -34,4 +34,3 @@ devtools::install_github("JeffLansing/spantreeorbits")
 A simple example is presented on the [Get Started](articles/spantreeorbits) page.
 
 
-
