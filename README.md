@@ -21,5 +21,5 @@ devtools::install_github("JeffLansing/spantreeorbits")
 ## Example
 
 A simple example is presented on the [Get
-Started](https://jefflansing.github.io/spantreeorbits/articles/spantreeorbits.html)
+Started](https://jefflansing.github.io/spantreeorbits/articles/spantreeorbits.html#example)
 page.
