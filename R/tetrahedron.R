@@ -90,21 +90,17 @@ get_dual <- function(tetrahedron) {
 tetrahedron <- get_tetrahedron()
 save(tetrahedron, file = "data/tetrahedron.rda")
 
-dual_tetrahedron <- get_dual(tetrahedron)
-save(dual_tetrahedron, file = "data/dual_tetrahedron.rda")
-
-
-##'  Title Cuboctahedron
-##' @details A cuboctahedron data structure.
+##'  Title Dual Tetrahedron
+##' @details A tetrahedron data structure, transformed by an inversion matrix.
 ##' \itemize{
 ##'  \item{"verts"}{The vertex coordinates}
 ##'  \item{"texts"}{The vertex labels}
-##'  \item{"segments"}{The edges of the cuboctahedron}
-##'  \item{"cu_faces"}{The quadrilateral faces}
-##'  \item{"oct_faces"}{The triangular faces}
+##'  \item{"segments"}{The edges of the tetrahedron}
+##'  \item{"faces"}{The faces}
 ##' }
 ##'
-cuboctahedron <- get_cuboctahedron()
-save(cuboctahedron, file = "data/cuboctahedron.rda")
+dual_tetrahedron <- get_dual(tetrahedron)
+save(dual_tetrahedron, file = "data/dual_tetrahedron.rda")
+
 
 

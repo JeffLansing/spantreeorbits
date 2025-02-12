@@ -172,5 +172,5 @@ dual <- map_trees_to_poly(verts2, 1, elist2, sts2, sts1) %>%
 display_pairs(tet, dual, 1)
 
 ```
-```
+
 

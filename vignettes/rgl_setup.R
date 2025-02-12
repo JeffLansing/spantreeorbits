@@ -106,6 +106,7 @@ display_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10,
 #' @param scale = 1 A scale factor for any contained polygons
 #' @param labels = TRUE Whether to displayed the vertex labels of the contained
 #' polygons.
+#' @param zoom = 0,8 An initial value  fro the zoom factor
 #' @param theta = 20 An initial value for the theta display angle
 #' @param phi = 10 An initial value for the phi display angle
 #' @param umx = NULL A 3d rotation matrix. If present overrides theta and phi.
@@ -116,13 +117,13 @@ display_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10,
 #' @examples
 #'
 display_poly <- function(poly, dual = NULL, codual = NULL,
-                         scale = 1, labels = TRUE,
+                         scale = 1, labels = TRUE, zoom = 0.8,
                          theta = 20, phi = 10, umx = NULL) {
   open3d(windowRect = c(50, 50, 750, 700))
   if(is.null(umx)) {
-    view3d(theta, phi, zoom = 0.85)
+    view3d(theta, phi, zoom = zoom)
   } else {
-    view3d(userMatrix = umx, zoom = 0.85)
+    view3d(userMatrix = umx, zoom = zoom)
   }
   par3d(font = 2, FOV = 10) #0 is isomorphic view
   material3d(color = 'white', alpha = 0.1)

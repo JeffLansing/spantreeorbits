@@ -16,12 +16,34 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{css}
+.caption {
+  margin: auto;
+  text-align: center;
+}
 
 ```{r setup, echo = FALSE, warning=FALSE}
+library(stringr)
 library(spantreeorbits)
 source("./rgl_setup.R")
 rgl::setupKnitr(autoprint = TRUE)
 ```
 
 ## Introduction
+
+The goal of this vignette is to use the common expansion of a polyhedron $\pi$ and its dual $\delta$ as a way to align $\pi$ with $\delta$. (For now we assume without proof that the two expansions are equal. But we can see an illustration for [eT](https://levskaya.github.io/polyhedronisme/?recipe=eT) and for [edT](https://levskaya.github.io/polyhedronisme/?recipe=edT), which is the case for the tetrahedron and its dual).
+
+```{r get_polys, echo=FALSE}
+data(tetrahedron, package = "spantreeorbits")
+data(dual_tetrahedron, package = "spantreeorbits")
+data(rhombic_dodecahedron, package = "spantreeorbits")
+```
+
+```{r display1, fig.align='center', fig.cap=c("Figure 1. A rhombic dodecahedron containing tetrahedra"), fig.height=4, fig.width=6}
+rad <- rhombic_dodecahedron
+tet <- tetrahedron
+dtet <- dual_tetrahedron
+rad$texts <- NULL
+display_poly(rad, dual = tet, codual = dtet, scale = 1.5, theta = 103, phi = 7, zoom = 0.65)
+```
 
