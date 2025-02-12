@@ -90,8 +90,8 @@ get_dual <- function(tetrahedron) {
 tetrahedron <- get_tetrahedron()
 save(tetrahedron, file = "data/tetrahedron.rda")
 
-dual <- get_dual(tetrahedron)
-save(dual, file = "data/dual_tetrahedron.rda")
+dual_tetrahedron <- get_dual(tetrahedron)
+save(dual_tetrahedron, file = "data/dual_tetrahedron.rda")
 
 
 ##'  Title Cuboctahedron
