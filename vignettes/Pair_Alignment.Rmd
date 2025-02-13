@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{css}
+```{css, echo=FALSE}
 .caption {
   margin: auto;
   text-align: center;
@@ -31,19 +31,61 @@ rgl::setupKnitr(autoprint = TRUE)
 
 ## Introduction
 
-The goal of this vignette is to use the common expansion of a polyhedron $\pi$ and its dual $\delta$ as a way to align $\pi$ with $\delta$. (For now we assume without proof that the two expansions are equal. But we can see an illustration for [eT](https://levskaya.github.io/polyhedronisme/?recipe=eT) and for [edT](https://levskaya.github.io/polyhedronisme/?recipe=edT), which is the case for the tetrahedron and its dual).
+The goal of this vignette is to use the common expansion of a polyhedron $\pi$ and its dual $\delta$ as a way to align $\pi$ with $\delta$. (For now we assume without proof that the two expansions are equal. We can see an illustration of this idea for the expansion of the tetrahedron [eT](https://levskaya.github.io/polyhedronisme/?recipe=eT) and for the expansion of the dual of the tetrahedron [edT](https://levskaya.github.io/polyhedronisme/?recipe=edT), at these links).
+
+## Aligning the tetrahedron and its dual
 
 ```{r get_polys, echo=FALSE}
 data(tetrahedron, package = "spantreeorbits")
+data(octahedron, package = "spantreeorbits")
 data(dual_tetrahedron, package = "spantreeorbits")
 data(rhombic_dodecahedron, package = "spantreeorbits")
 ```
-
-```{r display1, fig.align='center', fig.cap=c("Figure 1. A rhombic dodecahedron containing tetrahedra"), fig.height=4, fig.width=6}
+```{r}
 rad <- rhombic_dodecahedron
 tet <- tetrahedron
 dtet <- dual_tetrahedron
-rad$texts <- NULL
-display_poly(rad, dual = tet, codual = dtet, scale = 1.5, theta = 103, phi = 7, zoom = 0.65)
+oct <- octahedron
+rad$texts <- rep("", 14)
 ```
+
+:::: {style="display: flex;"}
+::: {}
+
+```{r fig.cap=c("Figure 1a. A rhombic dodecahedron \\\n containing an octahedron")}
+display_poly(rad, dual = oct, 
+             scale = 1.5, zoom = 0.65)
+```
+:::
+::: {}
+
+```{r fig.cap=c("Figure 1b. A rhombic dodecahedron \\\n containing tetrahedra")}
+display_poly(rad, dual = tet, codual = dtet, 
+             scale = 1.5, zoom = 0.65)
+```
+:::
+::::
+<br>
+The octahedron _aligns_ the two tetrahedra in the following sense. Call the vertices where the rhombic dodecahedron intersects the octahedron _f-vertices_, and where it intersects the tetrahedra _t-vertices_ and _s-vertices_, respectively. Observe in Figures 1a and 1b above that each _f-vertex_ has 2 _t-vertices_ and 2 _s-vertices_ as neighbors. Then that _f-vertex_ **_aligns_** the edge of the tetrahedron between the 2 _t-vertices_ with the edge of the dual tetrahedron between the 2 _s-vertices_.
+
+We easily get the following alignment table mapping the edges of the tetrahedron to the edges of its dual:
+\[
+\begin{array}{|oct|tet|dual|}
+  \hline
+  f_1 & t_1t_3 & s_2s_4 \\
+  \hline
+  f_2 & t_2t_4 & s_1s_3 \\
+  \hline 
+  f_3 & t_1t_2 & s_1s_2 \\
+  \hline
+  f_4 & t_3t_4 & s_3s_4 \\
+  \hline 
+  f_5 & t_2t_3 & s_2s_3 \\
+  \hline
+  f_6 & t_1t_4 & s_1s_4 \\
+  \hline 
+\end{array}
+\]
+
+## Aligning the cube and the octahedron
 
