@@ -29,6 +29,12 @@ source("./rgl_setup.R")
 rgl::setupKnitr(autoprint = TRUE)
 ```
 
+```{=html}
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+```
+
 ## Introduction
 
 The goal of this vignette is to use the common expansion of a polyhedron $\pi$ and its dual $\delta$ as a way to align $\pi$ with $\delta$. (For now we assume without proof that the two expansions are equal. We can see an illustration of this idea for the expansion of the tetrahedron [eT](https://levskaya.github.io/polyhedronisme/?recipe=eT) and for the expansion of the dual of the tetrahedron [edT](https://levskaya.github.io/polyhedronisme/?recipe=edT), at these links).
