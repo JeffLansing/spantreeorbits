@@ -3,6 +3,7 @@ title: "Pair_Alignment"
 author: "Jeff Lansing"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+has_toc: false
 vignette: >
   %\VignetteIndexEntry{Pair_Alignment}
   %\VignetteEngine{knitr::rmarkdown}
@@ -54,7 +55,7 @@ dtet <- dual_tetrahedron
 oct <- octahedron
 rad$texts <- rep("", 14)
 ```
-
+<div>
 :::: {style="display: flex; width: 80%;"}
 ::: {}
 
@@ -71,6 +72,7 @@ display_poly(rad, dual = tet, codual = dtet,
 ```
 :::
 ::::
+</div>
 <br>
 The octahedron **_aligns_** the two tetrahedra in the following sense. Call the vertices where the rhombic dodecahedron intersects the octahedron _f-vertices_, and where it intersects the tetrahedra _t-vertices_ and _s-vertices_, respectively. Observe in Figures 1a and 1b above that each _f-vertex_ has 2 _t-vertices_ and 2 _s-vertices_ as neighbors. Then that _f-vertex_ _aligns_ the edge of the tetrahedron between the 2 _t-vertices_ with the edge of the dual tetrahedron between the 2 _s-vertices_.
 
