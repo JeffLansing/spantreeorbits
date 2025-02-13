@@ -73,7 +73,7 @@ get_deltoidal_icositetrahedron <- function() {
   deltoidal_icositetrahedron
 }
 
-##'  Title Deltoidal Icositetrahedron
+##'  Deltoidal Icositetrahedron
 ##' @details A deltoidal_icositetrahedron data structure.
 ##' \itemize{
 ##'  \item{"verts"}{The vertex coordinates}
