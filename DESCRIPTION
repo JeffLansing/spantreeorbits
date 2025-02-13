@@ -36,6 +36,7 @@ Collate:
     'sto_helpers.R'
     'cube.R'
     'cuboctahedron.R'
+    'deltoidal_icositetrahedron.R'
     'octahedron.R'
     'rhombic_dodecahedron.R'
     'tetrahedron.R'

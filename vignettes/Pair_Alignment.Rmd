@@ -46,6 +46,7 @@ data(tetrahedron, package = "spantreeorbits")
 data(octahedron, package = "spantreeorbits")
 data(dual_tetrahedron, package = "spantreeorbits")
 data(rhombic_dodecahedron, package = "spantreeorbits")
+data(deltoidal_icositetrahedron, package = "spantreeorbits")
 ```
 ```{r}
 rad <- rhombic_dodecahedron
@@ -54,7 +55,7 @@ dtet <- dual_tetrahedron
 oct <- octahedron
 rad$texts <- rep("", 14)
 ```
-
+<div>
 :::: {style="display: flex; width: 80%;"}
 ::: {}
 
@@ -71,6 +72,7 @@ display_poly(rad, dual = tet, codual = dtet,
 ```
 :::
 ::::
+</div>
 <br>
 The octahedron **_aligns_** the two tetrahedra in the following sense. Call the vertices where the rhombic dodecahedron intersects the octahedron _f-vertices_, and where it intersects the tetrahedra _t-vertices_ and _s-vertices_, respectively. Observe in Figures 1a and 1b above that each _f-vertex_ has 2 _t-vertices_ and 2 _s-vertices_ as neighbors. Then that _f-vertex_ _aligns_ the edge of the tetrahedron between the 2 _t-vertices_ with the edge of the dual tetrahedron between the 2 _s-vertices_.
 
@@ -95,3 +97,29 @@ We easily get the following alignment table mapping the edges of the tetrahedron
 
 ## Aligning the cube and the octahedron
 
+```{r}
+dic <- deltoidal_icositetrahedron
+cu <- cube
+oct <- octahedron
+co <- cuboctahedron
+dic$texts <- rep("", 26)
+```
+<div>
+:::: {style="display: flex; width: 80%;"}
+::: {}
+
+```{r fig.cap=c("Figure 2a. A deltoidal_icositetrahedron \\\n containing a cuboctahedron")}
+display_poly(dic, dual = co, 
+             scale = 1.5, zoom = 0.65)
+```
+:::
+::: {}
+
+```{r fig.cap=c("Figure 1b. A rhombic deltoidal_icositetrahedron \\\n containing a cube and \\\n an octahedron")}
+display_poly(dic, dual = cu, codual = oct, 
+             scale = 1.5, zoom = 0.65)
+```
+:::
+::::
+</div>
+<br>
