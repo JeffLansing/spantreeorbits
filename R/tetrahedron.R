@@ -84,11 +84,7 @@ get_dual <- function(tetrahedron) {
 #'  \item{verts}{The vertex coordinates}
 #'  \item{texts}{The vertex labels}
 #'  \item{segments}{The edges of the tetrahedron}
-<<<<<<< HEAD
 #'  \item{faces}{The faces}
-=======
-#'  \item"faces}{The faces}
->>>>>>> 30c740844fd2569c64098164cb7f18c2e0359359
 #' }
 #'
 tetrahedron <- get_tetrahedron()
