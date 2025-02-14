@@ -81,17 +81,17 @@ get_rhombic_dodecahedron <- function() {
   rhombic_dodecahedron
 }
 
-##'  Title Rhombic_Dodecahedron
-##' @details A rhombic_dodecahedron data structure.
-##' \itemize{
-##'  \item{"verts"}{The vertex coordinates}
-##'  \item{"nghmap"}{A map from the edges of a contained tetrahedron to
+#'  Rhombic_Dodecahedron
+#' @details A rhombic_dodecahedron data structure.
+#' \describe{
+#'  \item{verts}{The vertex coordinates}
+#'  \item{nghmap}{A map from the edges of a contained tetrahedron to
 #' the edges of its dual}
-##'  \item{"texts"}{The vertex labels}
-##'  \item{"segments"}{The edges of the rhombic_dodecahedron}
-##'  \item{"faces"}{The faces}
-##' }
-##'
+#'  \item{texts}{The vertex labels}
+#'  \item{segments}{The edges of the rhombic_dodecahedron}
+#'  \item{faces}{The faces}
+#' }
+#'
 rhombic_dodecahedron <- get_rhombic_dodecahedron()
 save(rhombic_dodecahedron, file = "data/rhombic_dodecahedron.rda")
 

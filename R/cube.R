@@ -62,15 +62,15 @@ get_cube <- function() {
   cube
 }
 
-##'  Title Cube
-##' @details A cube data structure.
-##' \itemize{
-##'  \item{"verts"}{The vertex coordinates}
-##'  \item{"texts"}{The vertex labels}
-##'  \item{"segments"}{The edges of the cube}
-##'  \item{"faces"}{The faces}
-##' }
-##'
+#'  Title Cube
+#' @details A cube data structure.
+#' \describe{
+#'  \item{verts}{The vertex coordinates}
+#'  \item{texts}{The vertex labels}
+#'  \item{segments}{The edges of the cube}
+#'  \item{faces}{The faces}
+#' }
+#'
 cube <- get_cube()
 save(cube, file = "data/cube.rda")
 

@@ -13,7 +13,7 @@ NULL
 #' Title Get a Deltoidal Tetracontaoctahedron
 #' Translate the expanded_cuboctahedron into its dual polyhedron
 #'
-#' @return a list describing an expanded_cuboctahedron
+#' @return a list describing a deltoidal_tetracontaoctahedron
 #' @export
 #'
 #' @examples
@@ -140,16 +140,16 @@ get_deltoidal_tetracontaoctahedron <- function() {
   deltoidal_tetracontaoctahedron
 }
 
-##'  Deltoidal Tetracontaoctahedron
-##' @details A deltoidal_tetracontaoctahedron data structure.
-##' \itemize{
-##'  \item{"verts"}{The vertex coordinates}
-##'  \item{"nghmap"}{A map from the edges of a contained rhombic_dodecahedron to
+#'  Deltoidal Tetracontaoctahedron
+#' @details A deltoidal_tetracontaoctahedron data structure.
+#' \idescribe{
+#'  \item{verts}{The vertex coordinates}
+#'  \item{nghmap}{A map from the edges of a contained rhombic_dodecahedron to
 #' the edges of a contained cuboctahedron}
-##'  \item{"texts"}{The vertex labels}
-##'  \item{"segments"}{The edges of the deltoidal_tetracontaoctahedron}
-##'  \item{"faces"}{The faces}
-##' }
-##'
+#'  \item{texts}{The vertex labels}
+#'  \item{segments}{The edges of the deltoidal_tetracontaoctahedron}
+#'  \item{faces}{The faces}
+#' }
+#'
 deltoidal_tetracontaoctahedron <- get_deltoidal_tetracontaoctahedron()
 save(deltoidal_tetracontaoctahedron, file = "data/deltoidal_tetracontaoctahedron.rda")
