@@ -37,6 +37,8 @@ Collate:
     'cube.R'
     'cuboctahedron.R'
     'deltoidal_icositetrahedron.R'
+    'expanded_cuboctahedron.R'
+    'deltoidal_tetracontaoctahedron.R'
     'octahedron.R'
     'rhombic_dodecahedron.R'
     'tetrahedron.R'
