@@ -17,8 +17,7 @@ Deltoidal Tetracontaoctahedron
 A deltoidal_tetracontaoctahedron data structure.
 \idescribe{
 \item{verts}{The vertex coordinates}
-\item{nghmap}{A map from the edges of a contained rhombic_dodecahedron to
-the edges of a contained cuboctahedron}
+\item{nghmap}{A map from the edges of a contained rhombic_dodecahedron to the edges of a contained cuboctahedron}
 \item{texts}{The vertex labels}
 \item{segments}{The edges of the deltoidal_tetracontaoctahedron}
 \item{faces}{The faces}
