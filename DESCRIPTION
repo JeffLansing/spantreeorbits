@@ -41,4 +41,5 @@ Collate:
     'deltoidal_tetracontaoctahedron.R'
     'octahedron.R'
     'rhombic_dodecahedron.R'
+    'rhombicuboctahedron.R'
     'tetrahedron.R'

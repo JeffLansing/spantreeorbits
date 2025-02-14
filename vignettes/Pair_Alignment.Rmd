@@ -47,6 +47,7 @@ data(octahedron, package = "spantreeorbits")
 data(dual_tetrahedron, package = "spantreeorbits")
 data(rhombic_dodecahedron, package = "spantreeorbits")
 data(deltoidal_icositetrahedron, package = "spantreeorbits")
+data(deltoidal_tetracontaoctahedron, package = "spantreeorbits")
 ```
 ```{r}
 rad <- rhombic_dodecahedron
@@ -155,3 +156,12 @@ display_poly(dic, dual = cu, codual = oct,
 
 ## Aligning the rhombic dodecahedron and the cuboctahedron
 
+```{r}
+ditco <- deltoidal_tetracontaoctahedron
+
+ditco$info
+rad$info
+co$info
+
+display_poly(ditco)
+```
