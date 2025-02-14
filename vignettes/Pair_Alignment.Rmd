@@ -55,8 +55,7 @@ dtet <- dual_tetrahedron
 oct <- octahedron
 rad$texts <- rep("", 14)
 ```
-<div>
-:::: {style="display: flex; width: 80%;"}
+:::: {style="display: flex; align-content: flex-start;"}
 ::: {}
 
 ```{r fig.cap=c("Figure 1a. A rhombic dodecahedron \\\n containing an octahedron")}
@@ -72,7 +71,6 @@ display_poly(rad, dual = tet, codual = dtet,
 ```
 :::
 ::::
-</div>
 <br>
 The octahedron **_aligns_** the two tetrahedra in the following sense. Call the vertices where the rhombic dodecahedron intersects the octahedron _f-vertices_, and where it intersects the tetrahedra _t-vertices_ and _s-vertices_, respectively. Observe in Figures 1a and 1b above that each _f-vertex_ has 2 _t-vertices_ and 2 _s-vertices_ as neighbors. Then that _f-vertex_ _aligns_ the edge of the tetrahedron between the 2 _t-vertices_ with the edge of the dual tetrahedron between the 2 _s-vertices_.
 
@@ -95,6 +93,36 @@ We easily get the following alignment table mapping the edges of the tetrahedron
 \end{array}
 \]
 
+We can also produce this table autonatically. If we apply the vertex labels to the outer polygon in the order shown, and make a graph of the skeleton of that polygon, then we can manipulate the names of the neighbors of the _f-vertices_, as follows.
+```{r}
+rad$texts <- c(str_c('f',1:6), str_c('s',1:4), str_c('t',1:4))[c(1:6,8,12,11,7,13,9,10,14)]
+rad$texts
+
+edges <- rad$texts[rad$segments %>% rownames() %>% as.integer()] %>% 
+  matrix(byrow = T, ncol = 2)
+
+g <- edges %>% igraph::graph_from_edgelist(directed = F) 
+
+igraph::E(g)
+
+nghmap <- lapply(1:6, function(k) {
+  txt <- rad$texts[k]
+  ngh <- igraph::neighbors(g, txt)
+  vals <- names(ngh) %>% sort() %>% str_remove_all("(s|t)") %>% as.numeric()
+  c(sort(vals[1:2]), sort(vals[3:4]))
+}) %>% abind::abind(along = 2) %>% t() %>% `[`(TRUE,c(3,4,1,2))
+
+nghmap
+
+```
+
+Actually, the work that was just illustrated here was already done when the rhombic dodecahedron was cunstructed.
+
+```{r}
+identical(nghmap, rhombic_dodecahedron$nghmap)
+```
+
+
 ## Aligning the cube and the octahedron
 
 ```{r}
@@ -102,24 +130,28 @@ dic <- deltoidal_icositetrahedron
 cu <- cube
 oct <- octahedron
 co <- cuboctahedron
+co$texts <- str_c('o', 1:12)
 dic$texts <- rep("", 26)
 ```
 <div>
-:::: {style="display: flex; width: 80%;"}
+:::: {style="display: flex; align-content: flex-start;"}
 ::: {}
 
-```{r fig.cap=c("Figure 2a. A deltoidal_icositetrahedron \\\n containing a cuboctahedron")}
+```{r fig.cap=c("Figure 2a. A deltoidal icositetrahedron \\\n containing a cuboctahedron")}
 display_poly(dic, dual = co, 
-             scale = 1.5, zoom = 0.65)
+             scale = 1.414, zoom = 0.65)
 ```
 :::
 ::: {}
 
-```{r fig.cap=c("Figure 1b. A rhombic deltoidal_icositetrahedron \\\n containing a cube and \\\n an octahedron")}
+```{r fig.cap=c("Figure 1b. A deltoidal icositetrahedron \\\n containing a cube and an octahedron")}
 display_poly(dic, dual = cu, codual = oct, 
-             scale = 1.5, zoom = 0.65)
+             scale = 1.53, coscale = 2, zoom = 0.65)
 ```
 :::
 ::::
 </div>
 <br>
+
+## Aligning the rhombic dodecahedron and the cuboctahedron
+

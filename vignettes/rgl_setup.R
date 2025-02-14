@@ -104,6 +104,7 @@ display_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10,
 #' @param dual = NULL The dual of the polygon, or optionally a contained polygon
 #' @param codual = NULL Used for the dual of the contained polygon
 #' @param scale = 1 A scale factor for any contained polygons
+#' @param coscale = scale A scale factor for the second contained polygon
 #' @param labels = TRUE Whether to displayed the vertex labels of the contained
 #' polygons.
 #' @param zoom = 0,8 An initial value  fro the zoom factor
@@ -117,7 +118,8 @@ display_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10,
 #' @examples
 #'
 display_poly <- function(poly, dual = NULL, codual = NULL,
-                         scale = 1, labels = TRUE, zoom = 0.8,
+                         scale = 1, coscale = scale,
+                         labels = TRUE, zoom = 0.8,
                          theta = 20, phi = 10, umx = NULL) {
   open3d(windowRect = c(50, 50, 750, 700))
   if(is.null(umx)) {
@@ -141,9 +143,9 @@ display_poly <- function(poly, dual = NULL, codual = NULL,
     }
   }
   if(!is.null(codual)) {
-    segments3d(codual$segments * scale, col="forestgreen", lwd=1)
+    segments3d(codual$segments * coscale, col="forestgreen", lwd=1)
     if(labels) {
-      text3d(codual$verts * scale, texts = codual$texts, col="forestgreen", adj = 1.1)
+      text3d(codual$verts * coscale, texts = codual$texts, col="forestgreen", adj = 1.1)
     }
   }
   highlevel(integer()) # To trigger display as rglwidget

@@ -36,7 +36,7 @@ get_rhombic_dodecahedron <- function() {
   code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("faces <- rbind(", ., ")"))
   eval(parse(text=code))
 
-  texts <- c(str_c('r', 1:6), c('t1','s1','s2','t2','s3','t3','t4','s4'))
+  texts <- c(str_c('f',1:6), str_c('s',1:4), str_c('t',1:4))[c(1:6,8,12,11,7,13,9,10,14)]
 
   segs <- list()
   for(i in 1:nrow(faces)) {
@@ -52,6 +52,7 @@ get_rhombic_dodecahedron <- function() {
   segx <- Reduce(rbind, segs)
   segix <- get_set(segx) %>% as.list() %>% unlist()
   segments <- verts[segix,]
+  rownames(segments) <- segix
 
   edges <- texts[segix] %>% matrix(byrow = T, ncol = 2)
   g <- edges %>% igraph::graph_from_edgelist(directed = F)

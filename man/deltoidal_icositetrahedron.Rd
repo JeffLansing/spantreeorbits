@@ -3,7 +3,7 @@
 \docType{data}
 \name{deltoidal_icositetrahedron}
 \alias{deltoidal_icositetrahedron}
-\title{Title Deltoidal Icositetrahedron}
+\title{Deltoidal Icositetrahedron}
 \format{
 An object of class \code{list} of length 6.
 }
@@ -11,7 +11,7 @@ An object of class \code{list} of length 6.
 deltoidal_icositetrahedron
 }
 \description{
-Title Deltoidal Icositetrahedron
+Deltoidal Icositetrahedron
 }
 \details{
 A deltoidal_icositetrahedron data structure.
