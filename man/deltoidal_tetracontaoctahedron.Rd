@@ -15,13 +15,13 @@ Deltoidal Tetracontaoctahedron
 }
 \details{
 A deltoidal_tetracontaoctahedron data structure.
-\itemize{
-\item{"verts"}{The vertex coordinates}
-\item{"nghmap"}{A map from the edges of a contained rhombic_dodecahedron to
+\idescribe{
+\item{verts}{The vertex coordinates}
+\item{nghmap}{A map from the edges of a contained rhombic_dodecahedron to
 the edges of a contained cuboctahedron}
-\item{"texts"}{The vertex labels}
-\item{"segments"}{The edges of the deltoidal_tetracontaoctahedron}
-\item{"faces"}{The faces}
+\item{texts}{The vertex labels}
+\item{segments}{The edges of the deltoidal_tetracontaoctahedron}
+\item{faces}{The faces}
 }
 }
 \keyword{datasets}

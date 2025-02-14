@@ -3,7 +3,7 @@
 \docType{data}
 \name{cuboctahedron}
 \alias{cuboctahedron}
-\title{Title Cuboctahedron}
+\title{Cuboctahedron}
 \format{
 An object of class \code{list} of length 5.
 }
@@ -11,16 +11,16 @@ An object of class \code{list} of length 5.
 cuboctahedron
 }
 \description{
-Title Cuboctahedron
+Cuboctahedron
 }
 \details{
 A cuboctahedron data structure.
-\itemize{
-\item{"verts"}{The vertex coordinates}
-\item{"texts"}{The vertex labels}
-\item{"segments"}{The edges of the cuboctahedron}
-\item{"cu_faces"}{The quadrilateral faces}
-\item{"oct_faces"}{The triangular faces}
+\describe{
+\item{verts}{The vertex coordinates}
+\item{texts}{The vertex labels}
+\item{segments}{The edges of the cuboctahedron}
+\item{cu_faces}{The quadrilateral faces}
+\item{oct_faces}{The triangular faces}
 }
 }
 \keyword{datasets}

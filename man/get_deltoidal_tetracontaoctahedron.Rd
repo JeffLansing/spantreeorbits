@@ -8,7 +8,7 @@ Translate the expanded_cuboctahedron into its dual polyhedron}
 get_deltoidal_tetracontaoctahedron()
 }
 \value{
-a list describing an expanded_cuboctahedron
+a list describing a deltoidal_tetracontaoctahedron
 }
 \description{
 Title Get a Deltoidal Tetracontaoctahedron

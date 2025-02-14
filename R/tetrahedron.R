@@ -78,27 +78,27 @@ get_dual <- function(tetrahedron) {
   dual
 }
 
-##'  Title Tetrahedron
-##' @details A tetrahedron data structure.
-##' \itemize{
-##'  \item{"verts"}{The vertex coordinates}
-##'  \item{"texts"}{The vertex labels}
-##'  \item{"segments"}{The edges of the tetrahedron}
-##'  \item{"faces"}{The faces}
-##' }
-##'
+#'  Tetrahedron
+#' @details A tetrahedron data structure.
+#' \describe{
+#'  \item{verts}{The vertex coordinates}
+#'  \item{texts}{The vertex labels}
+#'  \item{segments}{The edges of the tetrahedron}
+#'  \item{faces}{The faces}
+#' }
+#'
 tetrahedron <- get_tetrahedron()
 save(tetrahedron, file = "data/tetrahedron.rda")
 
-##'  Title Dual Tetrahedron
-##' @details A tetrahedron data structure, transformed by an inversion matrix.
-##' \itemize{
-##'  \item{"verts"}{The vertex coordinates}
-##'  \item{"texts"}{The vertex labels}
-##'  \item{"segments"}{The edges of the tetrahedron}
-##'  \item{"faces"}{The faces}
-##' }
-##'
+#'  Dual Tetrahedron
+#' @details A tetrahedron data structure, transformed by an inversion matrix.
+#' \describe{
+#'  \item{verts}{The vertex coordinates}
+#'  \item{texts}{The vertex labels}
+#'  \item{segments}{The edges of the tetrahedron}
+#'  \item{faces}{The faces}
+#' }
+#'
 dual_tetrahedron <- get_dual(tetrahedron)
 save(dual_tetrahedron, file = "data/dual_tetrahedron.rda")
 

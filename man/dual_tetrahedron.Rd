@@ -3,7 +3,7 @@
 \docType{data}
 \name{dual_tetrahedron}
 \alias{dual_tetrahedron}
-\title{Title Dual Tetrahedron}
+\title{Dual Tetrahedron}
 \format{
 An object of class \code{list} of length 4.
 }
@@ -11,15 +11,15 @@ An object of class \code{list} of length 4.
 dual_tetrahedron
 }
 \description{
-Title Dual Tetrahedron
+Dual Tetrahedron
 }
 \details{
 A tetrahedron data structure, transformed by an inversion matrix.
-\itemize{
-\item{"verts"}{The vertex coordinates}
-\item{"texts"}{The vertex labels}
-\item{"segments"}{The edges of the tetrahedron}
-\item{"faces"}{The faces}
+\describe{
+\item{verts}{The vertex coordinates}
+\item{texts}{The vertex labels}
+\item{segments}{The edges of the tetrahedron}
+\item{faces}{The faces}
 }
 }
 \keyword{datasets}

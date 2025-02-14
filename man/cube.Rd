@@ -15,11 +15,11 @@ Title Cube
 }
 \details{
 A cube data structure.
-\itemize{
-\item{"verts"}{The vertex coordinates}
-\item{"texts"}{The vertex labels}
-\item{"segments"}{The edges of the cube}
-\item{"faces"}{The faces}
+\describe{
+\item{verts}{The vertex coordinates}
+\item{texts}{The vertex labels}
+\item{segments}{The edges of the cube}
+\item{faces}{The faces}
 }
 }
 \keyword{datasets}

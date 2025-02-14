@@ -3,7 +3,7 @@
 \docType{data}
 \name{tetrahedron}
 \alias{tetrahedron}
-\title{Title Tetrahedron}
+\title{Tetrahedron}
 \format{
 An object of class \code{list} of length 4.
 }
@@ -11,15 +11,15 @@ An object of class \code{list} of length 4.
 tetrahedron
 }
 \description{
-Title Tetrahedron
+Tetrahedron
 }
 \details{
 A tetrahedron data structure.
-\itemize{
-\item{"verts"}{The vertex coordinates}
-\item{"texts"}{The vertex labels}
-\item{"segments"}{The edges of the tetrahedron}
-\item{"faces"}{The faces}
+\describe{
+\item{verts}{The vertex coordinates}
+\item{texts}{The vertex labels}
+\item{segments}{The edges of the tetrahedron}
+\item{faces}{The faces}
 }
 }
 \keyword{datasets}

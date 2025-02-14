@@ -73,16 +73,16 @@ get_deltoidal_icositetrahedron <- function() {
   deltoidal_icositetrahedron
 }
 
-##'  Deltoidal Icositetrahedron
-##' @details A deltoidal_icositetrahedron data structure.
-##' \itemize{
-##'  \item{"verts"}{The vertex coordinates}
-##'  \item{"nghmap"}{A map from the edges of a contained rhombic_dodecahedron to
+#'  Deltoidal Icositetrahedron
+#' @details A deltoidal_icositetrahedron data structure.
+#' \describe{
+#'  \item{verts}{The vertex coordinates}
+#'  \item{nghmap}{A map from the edges of a contained rhombic_dodecahedron to
 #' the edges of its dual cuboctahedron}
-##'  \item{"texts"}{The vertex labels}
-##'  \item{"segments"}{The edges of the deltoidal_icositetrahedron}
-##'  \item{"faces"}{The faces}
-##' }
-##'
+#'  \item{texts}{The vertex labels}
+#'  \item{egments}{The edges of the deltoidal_icositetrahedron}
+#'  \item{"faces}{The faces}
+#' }
+#'
 deltoidal_icositetrahedron <- get_deltoidal_icositetrahedron()
 save(deltoidal_icositetrahedron, file = "data/deltoidal_icositetrahedron.rda")

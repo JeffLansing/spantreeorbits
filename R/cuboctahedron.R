@@ -79,16 +79,16 @@ get_cuboctahedron <- function() {
   cuboctahedron
 }
 
-##'  Title Cuboctahedron
-##' @details A cuboctahedron data structure.
-##' \itemize{
-##'  \item{"verts"}{The vertex coordinates}
-##'  \item{"texts"}{The vertex labels}
-##'  \item{"segments"}{The edges of the cuboctahedron}
-##'  \item{"cu_faces"}{The quadrilateral faces}
-##'  \item{"oct_faces"}{The triangular faces}
-##' }
-##'
+#'  Cuboctahedron
+#' @details A cuboctahedron data structure.
+#' \describe{
+#'  \item{verts}{The vertex coordinates}
+#'  \item{texts}{The vertex labels}
+#'  \item{segments}{The edges of the cuboctahedron}
+#'  \item{cu_faces}{The quadrilateral faces}
+#'  \item{oct_faces}{The triangular faces}
+#' }
+#'
 cuboctahedron <- get_cuboctahedron()
 save(cuboctahedron, file = "data/cuboctahedron.rda")
 

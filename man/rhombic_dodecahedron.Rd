@@ -3,7 +3,7 @@
 \docType{data}
 \name{rhombic_dodecahedron}
 \alias{rhombic_dodecahedron}
-\title{Title Rhombic_Dodecahedron}
+\title{Rhombic_Dodecahedron}
 \format{
 An object of class \code{list} of length 6.
 }
@@ -11,17 +11,17 @@ An object of class \code{list} of length 6.
 rhombic_dodecahedron
 }
 \description{
-Title Rhombic_Dodecahedron
+Rhombic_Dodecahedron
 }
 \details{
 A rhombic_dodecahedron data structure.
-\itemize{
-\item{"verts"}{The vertex coordinates}
-\item{"nghmap"}{A map from the edges of a contained tetrahedron to
+\describe{
+\item{verts}{The vertex coordinates}
+\item{nghmap}{A map from the edges of a contained tetrahedron to
 the edges of its dual}
-\item{"texts"}{The vertex labels}
-\item{"segments"}{The edges of the rhombic_dodecahedron}
-\item{"faces"}{The faces}
+\item{texts}{The vertex labels}
+\item{segments}{The edges of the rhombic_dodecahedron}
+\item{faces}{The faces}
 }
 }
 \keyword{datasets}

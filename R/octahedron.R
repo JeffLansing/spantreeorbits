@@ -65,14 +65,14 @@ get_octahedron <- function() {
   octahedron
 }
 
-##'  Title Octahedron
-##' @details An octahedron data structure.
-##' \itemize{
-##'  \item{"verts"}{The vertex coordinates}
-##'  \item{"texts"}{The vertex labels}
-##'  \item{"segments"}{The edges of the octahedron}
-##'  \item{"faces"}{The faces}
-##' }
-##'
+#'  Octahedron
+#' @details An octahedron data structure.
+#' \describe{
+#'  \item{verts}{The vertex coordinates}
+#'  \item{texts}{The vertex labels}
+#'  \item{segments}{The edges of the octahedron}
+#'  \item{faces}{The faces}
+#' }
+#'
 octahedron <- get_octahedron()
 save(octahedron, file = "data/octahedron.rda")

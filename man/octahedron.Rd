@@ -3,7 +3,7 @@
 \docType{data}
 \name{octahedron}
 \alias{octahedron}
-\title{Title Octahedron}
+\title{Octahedron}
 \format{
 An object of class \code{list} of length 4.
 }
@@ -11,15 +11,15 @@ An object of class \code{list} of length 4.
 octahedron
 }
 \description{
-Title Octahedron
+Octahedron
 }
 \details{
 An octahedron data structure.
-\itemize{
-\item{"verts"}{The vertex coordinates}
-\item{"texts"}{The vertex labels}
-\item{"segments"}{The edges of the octahedron}
-\item{"faces"}{The faces}
+\describe{
+\item{verts}{The vertex coordinates}
+\item{texts}{The vertex labels}
+\item{segments}{The edges of the octahedron}
+\item{faces}{The faces}
 }
 }
 \keyword{datasets}
