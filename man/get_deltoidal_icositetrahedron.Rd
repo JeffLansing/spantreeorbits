@@ -3,7 +3,7 @@
 \name{get_deltoidal_icositetrahedron}
 \alias{get_deltoidal_icositetrahedron}
 \title{Title Get a Deltoidal Icositetrahedron
-Translate the deltoidal_icositetrahedron coordinates from the dmcooey library into
+Translate the deltoidal_icositetrahedron coordinates from the polyhedronisme OBJ output into
 R code}
 \usage{
 get_deltoidal_icositetrahedron()
@@ -13,7 +13,7 @@ a list describing a deltoidal_icositetrahedron
 }
 \description{
 Title Get a Deltoidal Icositetrahedron
-Translate the deltoidal_icositetrahedron coordinates from the dmcooey library into
+Translate the deltoidal_icositetrahedron coordinates from the polyhedronisme OBJ output into
 R code
 }
 \examples{

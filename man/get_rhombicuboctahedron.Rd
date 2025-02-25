@@ -3,8 +3,8 @@
 \name{get_rhombicuboctahedron}
 \alias{get_rhombicuboctahedron}
 \title{Title Get a Rhombicuboctahedron
-Translate the rhombicuboctahedron coordinates from the dmcooey library into
-R code}
+Translate the rhombicuboctahedron coordinates from the polyhedronisme OBJ
+output into R code}
 \usage{
 get_rhombicuboctahedron()
 }
@@ -13,8 +13,8 @@ a list describing a rhombicuboctahedron
 }
 \description{
 Title Get a Rhombicuboctahedron
-Translate the rhombicuboctahedron coordinates from the dmcooey library into
-R code
+Translate the rhombicuboctahedron coordinates from the polyhedronisme OBJ
+output into R code
 }
 \examples{
 co <- get_rhombicuboctahedron()

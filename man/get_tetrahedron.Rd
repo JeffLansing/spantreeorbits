@@ -3,7 +3,7 @@
 \name{get_tetrahedron}
 \alias{get_tetrahedron}
 \title{Title Get a Tetrahedron
-Translate the tetrahedron coordinates from the dmcooey library into
+Translate the tetrahedron coordinates from the polyhedronisme OBJ output into
 R code}
 \usage{
 get_tetrahedron()
@@ -13,7 +13,7 @@ a list describing a tetrahedron
 }
 \description{
 Title Get a Tetrahedron
-Translate the tetrahedron coordinates from the dmcooey library into
+Translate the tetrahedron coordinates from the polyhedronisme OBJ output into
 R code
 }
 \examples{

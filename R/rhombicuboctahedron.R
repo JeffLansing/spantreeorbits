@@ -11,8 +11,8 @@ NULL
 NULL
 
 #' Title Get a Rhombicuboctahedron
-#' Translate the rhombicuboctahedron coordinates from the dmcooey library into
-#' R code
+#' Translate the rhombicuboctahedron coordinates from the polyhedronisme OBJ
+#' output into R code
 #'
 #' @return a list describing a rhombicuboctahedron
 #' @export
@@ -23,47 +23,51 @@ NULL
 #'
 #' @include sto_helpers.R
 get_rhombicuboctahedron <- function() {
-
-  data <- readLines("http://dmccooey.com/polyhedra/Rhombicuboctahedron.txt")
-
-  code <- data[3] %>% str_replace("=.+=", '=') %>% str_c(';')
+  path <- system.file("extdata", "polyhedronisme-eC.obj", package = "spantreeorbits", mustWork = TRUE)
+  data <- readLines(con = path)
+  code <- c()
   tmp <- c()
-  for(i in 5:28) tmp <- c(tmp, data[i] %>% str_replace("V.+= ", "c"))
+  for(i in 4:27) tmp <- c(tmp, data[i] %>% str_replace("v ", "c(") %>%
+                            str_replace_all(" ", ", ") %>% str_c(., ')'))
   code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("verts <- rbind(", ., ");"))
   tmp <- c()
-  for(i in 31:48) tmp <- c(tmp, data[i] %>% str_replace("\\{", "c(") %>%
-                             str_replace("\\}", ") + 1"))
-  code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("cu_faces <- rbind(", ., ")"))
-  tmp <- c()
-  for(i in 49:56) tmp <- c(tmp, data[i] %>% str_replace("\\{", "c(") %>%
-                             str_replace("\\}", ") + 1"))
-  code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("oct_faces <- rbind(", ., ")"))
+  for(i in 56:81) tmp <- c(tmp, data[i] %>% str_extract_all("( \\d+)") %>% unlist() %>%
+                             str_c(collapse = ", ") %>% str_c("c(", ., ")"))
+  cnt <- str_count(tmp, ',') + 1
+  code <- c(code, tmp[which(cnt == 4)] %>% str_c(collapse = ", ") %>%
+              str_c("cu_faces <- rbind(", ., ")"))
+  code <- c(code, tmp[which(cnt == 3)] %>% str_c(collapse = ", ") %>%
+              str_c("oct_faces <- rbind(", ., ")"))
+
   eval(parse(text=code))
 
-  texts <- c(str_c('p', 1:8), str_c('q', 1:8), str_c('r', 1:8))
+  verts <- verts %>% zapsmall()
+
+  texts <- str_c('r', 1:24)
 
   segs <- list()
+  nc <- 4
   for(i in 1:nrow(cu_faces)) {
     face <- cu_faces[i,]
-    for(j in 1:4) {
+    for(j in 1:nc) {
       b <- j
-      e <- ifelse(j < 4, j+1, 1)
+      e <- ifelse(j < nc, j+1, 1)
       seg <- c(face[b], face[e])
       segs[[1+length(segs)]] <- seg
-      if(j == 4) break
+      if(j == nc) break
     }
   }
+  nc <- 3
   for(i in 1:nrow(oct_faces)) {
     face <- oct_faces[i,]
-    for(j in 1:3) {
+    for(j in 1:nc) {
       b <- j
-      e <- ifelse(j < 3, j+1, 1)
+      e <- ifelse(j < nc, j+1, 1)
       seg <- c(face[b], face[e])
       segs[[1+length(segs)]] <- seg
-      if(j == 3) break
+      if(j == nc) break
     }
   }
-
   segx <- Reduce(rbind, segs)
   segix <- get_set(segx) %>% as.list() %>% unlist()
   segments <- verts[segix,]
@@ -71,10 +75,10 @@ get_rhombicuboctahedron <- function() {
   rhombicuboctahedron <- list(
     info = c(26,48,24) %>% `names<-`(c('facces', 'edges', 'vertices')),
     verts = verts,
-    texts = texts,
-    segments = segments,
     cu_faces = cu_faces,
-    oct_faces = oct_faces
+    oct_faces = oct_faces,
+    texts = texts,
+    segments = segments
   )
   rhombicuboctahedron
 }

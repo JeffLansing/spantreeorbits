@@ -11,7 +11,7 @@ NULL
 NULL
 
 #' Title Get a Deltoidal Icositetrahedron
-#' Translate the deltoidal_icositetrahedron coordinates from the dmcooey library into
+#' Translate the deltoidal_icositetrahedron coordinates from the polyhedronisme OBJ output into
 #' R code
 #'
 #' @return a list describing a deltoidal_icositetrahedron
@@ -23,30 +23,36 @@ NULL
 #'
 #' @include sto_helpers.R
 get_deltoidal_icositetrahedron <- function() {
-  data <- readLines("http://dmccooey.com/polyhedra/DeltoidalIcositetrahedron.txt")
+  path <- system.file("extdata", "polyhedronisme-deC.obj", package = "spantreeorbits", mustWork = TRUE)
+  data <- readLines(con = path)
   code <- c()
-  for(i in 3:4) code <- c(code, data[i] %>% str_replace("=.+=", '=') %>%
-                            str_c(';'))
   tmp <- c()
-  for(i in 6:31) tmp <- c(tmp, data[i] %>% str_replace("V.+= ", "c"))
+  for(i in 4:29) tmp <- c(tmp, data[i] %>% str_replace("v ", "c(") %>%
+                            str_replace_all(" ", ", ") %>% str_c(., ')'))
   code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("verts <- rbind(", ., ");"))
   tmp <- c()
-  for(i in 34:57) tmp <- c(tmp, data[i] %>% str_replace("\\{", "c(") %>%
-                             str_replace("\\}", ") + 1"))
+  for(i in 56:79) tmp <- c(tmp, data[i] %>% str_extract_all("( \\d+)") %>% unlist() %>%
+                             str_c(collapse = ", ") %>% str_c("c(", ., ")"))
   code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("faces <- rbind(", ., ")"))
   eval(parse(text=code))
+
+  vorder <- c(1,14,20,23,25,26,2,3,5,4,9,15,11,19,13,22,7,17,10,12,6,8,16,18,21,24)
+
+  verts <- verts %>% zapsmall() %>% `[`(vorder, TRUE)
+  faces <- faces %>% apply(1, function(rw) order(vorder)[rw]) %>% t()
 
   texts <- c(str_c('f', 1:6), str_c('o', 1:12), str_c('v', 1:8))
 
   segs <- list()
+  nc <- 4
   for(i in 1:nrow(faces)) {
     face <- faces[i,]
-    for(j in 1:4) {
+    for(j in 1:nc) {
       b <- j
-      e <- ifelse(j < 4, j+1, 1)
+      e <- ifelse(j < nc, j+1, 1)
       seg <- c(face[b], face[e])
       segs[[1+length(segs)]] <- seg
-      if(j == 4) break
+      if(j == nc) break
     }
   }
   segx <- Reduce(rbind, segs)
@@ -59,16 +65,17 @@ get_deltoidal_icositetrahedron <- function() {
   nghmap <- lapply(7:18, function(k) {
     txt <- texts[k]
     ngh <- igraph::neighbors(g, txt)
-    names(ngh) %>% sort() %>% str_remove_all("(f|v)") %>% as.numeric()
+    vals <- names(ngh) %>% sort() %>% str_remove_all("(f|v)") %>% as.numeric()
+    c(sort(vals[1:2]), sort(vals[3:4]))
   }) %>% abind::abind(along = 2) %>% t() %>% `[`(TRUE,c(3,4,1,2))
 
   deltoidal_icositetrahedron <- list(
     info = c(24,48,26) %>% `names<-`(c('facces', 'edges', 'vertices')),
     verts = verts,
     nghmap = nghmap,
+    faces = faces,
     texts = texts,
-    segments = segments,
-    faces = faces
+    segments = segments
   )
   deltoidal_icositetrahedron
 }

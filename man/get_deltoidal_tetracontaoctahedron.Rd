@@ -3,7 +3,8 @@
 \name{get_deltoidal_tetracontaoctahedron}
 \alias{get_deltoidal_tetracontaoctahedron}
 \title{Title Get a Deltoidal Tetracontaoctahedron
-Translate the expanded_cuboctahedron into its dual polyhedron}
+Translate the deltoidal_tetracontaoctahedron coordinates from the
+polyhedronisme OBJ output into R code}
 \usage{
 get_deltoidal_tetracontaoctahedron()
 }
@@ -12,7 +13,8 @@ a list describing a deltoidal_tetracontaoctahedron
 }
 \description{
 Title Get a Deltoidal Tetracontaoctahedron
-Translate the expanded_cuboctahedron into its dual polyhedron
+Translate the deltoidal_tetracontaoctahedron coordinates from the
+polyhedronisme OBJ output into R code
 }
 \examples{
 dtc <- get_deltoidal_tetracontaoctahedron()

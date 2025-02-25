@@ -3,15 +3,15 @@
 \docType{data}
 \name{cube}
 \alias{cube}
-\title{Title Cube}
+\title{Cube}
 \format{
-An object of class \code{list} of length 4.
+An object of class \code{list} of length 5.
 }
 \usage{
 cube
 }
 \description{
-Title Cube
+Cube
 }
 \details{
 A cube data structure.

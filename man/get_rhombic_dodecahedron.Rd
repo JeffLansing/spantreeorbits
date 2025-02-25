@@ -3,7 +3,7 @@
 \name{get_rhombic_dodecahedron}
 \alias{get_rhombic_dodecahedron}
 \title{Title Get a Cuboctrahedron
-Translate the cuboctahedron coordinates from the dmcooey library into
+Translate the cuboctahedron coordinates from the polyhedronisme OBJ output into
 R code}
 \usage{
 get_rhombic_dodecahedron()
@@ -13,7 +13,7 @@ a list describing a cuboctahedron
 }
 \description{
 Title Get a Cuboctrahedron
-Translate the cuboctahedron coordinates from the dmcooey library into
+Translate the cuboctahedron coordinates from the polyhedronisme OBJ output into
 R code
 }
 \examples{

@@ -11,7 +11,8 @@ NULL
 NULL
 
 #' Title Get a Deltoidal Tetracontaoctahedron
-#' Translate the expanded_cuboctahedron into its dual polyhedron
+#' Translate the deltoidal_tetracontaoctahedron coordinates from the
+#' polyhedronisme OBJ output into R code
 #'
 #' @return a list describing a deltoidal_tetracontaoctahedron
 #' @export
@@ -20,79 +21,27 @@ NULL
 #' dtc <- get_deltoidal_tetracontaoctahedron()
 #' stopifnot(nrow(dtc$vertices) == 50)
 #'
-#' @include expanded_cuboctahedron.R
+#' @include sto_helpers.R
 get_deltoidal_tetracontaoctahedron <- function() {
+  path <- system.file("extdata", "polyhedronisme-deaC.obj", package = "spantreeorbits", mustWork = TRUE)
+  data <- readLines(con = path)
+  vorder <- c(6,9,15,12,23,35,27,42,31,46,19,39,3,4,8,11,5,14,2,17,28,13,25,24,37,32,
+              16,29,43,20,7,33,40,10,21,36,1,34,44,47,49,50,26,38,45,18,41,30,22,48)
+  code <- c()
+  tmp <- c()
+  for(i in 4:53) tmp <- c(tmp, data[i] %>% str_replace("v ", "c(") %>%
+                            str_replace_all(" ", ", ") %>% str_c(., ')'))
+  code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("verts <- rbind(", ., ");"))
+  tmp <- c()
+  for(i in 104:151) tmp <- c(tmp, data[i] %>% str_extract_all("( \\d+)") %>% unlist() %>%
+                               str_c(collapse = ", ") %>% str_c("c(", ., ")"))
+  code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("faces <- rbind(", ., ")"))
+  eval(parse(text=code))
 
-  xc <- spantreeorbits:::expanded_cuboctahedron
+  verts <- verts %>% zapsmall() %>% `[`(vorder, TRUE)
+  faces <- faces %>% apply(1, function(rw) order(vorder)[rw]) %>% t()
 
-  co_texts <- str_c('o', 1:12)
-  rad_texts <- c(str_c('f', 1:6), str_c('v', 1:8))
-
-  verts <- rbind(
-    xc$cu_faces %>% apply(1, function(rw) {
-      xc$verts[rw,] %>% colMeans()
-    }) %>% t(),
-    xc$oct_faces %>% apply(1, function(rw) {
-      xc$verts[rw,] %>% colMeans()
-    }) %>% t()
-  )
-
-  faces <- rbind(
-    c(1, 20, 15, 23),
-    c(1, 23, 9, 24),
-    c(1, 24, 17, 19),
-    c(1, 19, 7, 20),
-    c(2, 25, 10, 26),
-    c(2, 26, 16, 21),
-    c(2, 21, 8, 22),
-    c(2, 22, 18, 25),
-    c(3, 30, 8, 27),
-    c(3, 27, 11, 28),
-    c(3, 28, 7, 29),
-    c(3, 29, 12, 30),
-    c(4, 33, 14, 34),
-    c(4, 34, 9, 31),
-    c(4, 31, 13, 32),
-    c(4, 32, 10, 33),
-    c(5, 38, 13, 35),
-    c(5, 35, 15, 36),
-    c(5, 36, 11, 37),
-    c(5, 37, 16, 38),
-    c(6, 41, 18, 42),
-    c(6, 42, 12, 39),
-    c(6, 39, 17, 40),
-    c(6, 40, 14, 41),
-    c(7, 19, 45, 29),
-    c(7, 29, 3, 28),
-    c(7, 28, 43, 20),
-    c(7, 20, 1, 19),
-    c(8, 30, 46, 22),
-    c(8, 22, 2, 21),
-    c(8, 21, 44, 27),
-    c(8, 27, 3, 30),
-    c(9, 34, 49, 24),
-    c(9, 24, 1, 23),
-    c(9, 23, 47, 31),
-    c(9, 31, 4, 34),
-    c(10, 25, 50, 33),
-    c(10, 33, 4, 32),
-    c(10, 32, 48, 26),
-    c(10, 26, 2, 25),
-    c(11, 36, 43, 28),
-    c(11, 28, 3, 27),
-    c(11, 27, 44, 37),
-    c(11, 37, 5, 36),
-    c(12, 29, 45, 39),
-    c(12, 39, 6, 42),
-    c(12, 42, 46, 30),
-    c(12, 30, 3, 29),
-    c(15, 35, 47, 23), #4 semi-redundant faces here
-    c(16, 26, 48, 38),
-    c(17, 40, 49, 24),
-    c(18, 41, 50, 25)
-  )
-
-  texts <- c(str_c('f', 1:6), str_c('o', 1:12), str_c('d', 1:24), str_c('v', 1:8))
+  texts <- c(str_c('o', 1:12), str_c('r', 1:24), str_c('f', 1:6), str_c('v', 1:8))
 
   segs <- list()
   for(i in 1:nrow(faces)) {
@@ -108,31 +57,31 @@ get_deltoidal_tetracontaoctahedron <- function() {
   segx <- Reduce(rbind, segs)
   segix <- get_set(segx) %>% as.list() %>% unlist()
   segments <- verts[segix,] #192 of these
-  rownames(segments) <- segix
 
   edges <- texts[segix] %>% matrix(byrow = T, ncol = 2)
   g <- edges %>% igraph::graph_from_edgelist(directed = F)
 
-  nghmap1 <- lapply(19:42, function(k) {
+  radnames <- lapply(1:14, function(k) {
+    ch <- ifelse(k < 7, 'f', 'v')
+    j <- ifelse(k < 7, k, k-6)
+    str_c(ch, j)
+  }) %>% unlist() %>% c(str_c('o', 1:12))
+  radmap <- lapply(1:26, function(k) {
+    if(k < 15) str_c('p', k) else str_c('o', k - 14)
+  }) %>% `names<-`(radnames)
+
+  nghmap <- lapply(13:36, function(k) {
     txt <- texts[k]
     ngh <- igraph::neighbors(g, txt)
-    names(ngh)
-  }) %>% abind::abind(along = 2) %>% t() %>% `[`(TRUE,c(2,3,1,4))
+    vals <- radmap[names(ngh)] %>% unlist() %>% sort() %>% str_remove_all("(o|p)") %>% as.numeric()
+    c(sort(vals[1:2]), sort(vals[3:4]))
+  }) %>% abind::abind(along = 2) %>% t() %>% `[`(TRUE,c(3,4,1,2))
 
-  nghmap2 <- cbind(
-    nghmap1[,1:2] %>% apply(c(1,2), function(x) {
-      which(co_texts == x)
-    }),
-    nghmap1[,3:4] %>% apply(c(1,2), function(x) {
-      which(rad_texts == x)
-    })
-  )
-
-  # In Conway's operators, this is aaaC or aaaO (See Polyhedralisme )
+  # In Conway's operators, this is aaaC or aaaO (See Polyhedralisme . Also note e = aa)
   deltoidal_tetracontaoctahedron <- list(
     info = c(48,96,50) %>% `names<-`(c('facces', 'edges', 'vertices')),
     verts = verts,
-    nghmap = nghmap2,
+    nghmap = nghmap,
     faces = faces,
     texts = texts,
     segments = segments
@@ -142,7 +91,7 @@ get_deltoidal_tetracontaoctahedron <- function() {
 
 #'  Deltoidal Tetracontaoctahedron
 #' @details A deltoidal_tetracontaoctahedron data structure.
-#' \idescribe{
+#' \describe{
 #'  \item{verts}{The vertex coordinates}
 #'  \item{nghmap}{A map from the edges of a contained rhombic_dodecahedron to the edges of a contained cuboctahedron}
 #'  \item{texts}{The vertex labels}

@@ -3,7 +3,7 @@
 \name{get_cuboctahedron}
 \alias{get_cuboctahedron}
 \title{Title Get a Cuboctrahedron
-Translate the cuboctahedron coordinates from the dmcooey library into
+Translate the cuboctahedron coordinates from the polyhedronisme OBJ output into
 R code}
 \usage{
 get_cuboctahedron()
@@ -13,7 +13,7 @@ a list describing a cuboctahedron
 }
 \description{
 Title Get a Cuboctrahedron
-Translate the cuboctahedron coordinates from the dmcooey library into
+Translate the cuboctahedron coordinates from the polyhedronisme OBJ output into
 R code
 }
 \examples{

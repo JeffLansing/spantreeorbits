@@ -3,7 +3,7 @@
 \name{get_octahedron}
 \alias{get_octahedron}
 \title{Title Get an Octahedron
-Translate the octahedron coordinates from the dmcooey library into
+Translate the octahedron coordinates from the polyhedronisme OBJ output into
 R code}
 \usage{
 get_octahedron()
@@ -13,7 +13,7 @@ a list describing an octahedron
 }
 \description{
 Title Get an Octahedron
-Translate the octahedron coordinates from the dmcooey library into
+Translate the octahedron coordinates from the polyhedronisme OBJ output into
 R code
 }
 \examples{

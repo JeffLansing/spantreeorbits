@@ -47,6 +47,7 @@ data(octahedron, package = "spantreeorbits")
 data(dual_tetrahedron, package = "spantreeorbits")
 data(rhombic_dodecahedron, package = "spantreeorbits")
 data(deltoidal_icositetrahedron, package = "spantreeorbits")
+data(rhombicuboctahedron, package = "spantreeorbits")
 data(deltoidal_tetracontaoctahedron, package = "spantreeorbits")
 ```
 ```{r}
@@ -61,14 +62,14 @@ rad$texts <- rep("", 14)
 
 ```{r fig.cap=c("Figure 1a. A rhombic dodecahedron \\\n containing an octahedron")}
 display_poly(rad, dual = oct, 
-             scale = 1.5, zoom = 0.65)
+             scale = 0.8660254, zoom = 0.65)
 ```
 :::
 ::: {}
 
 ```{r fig.cap=c("Figure 1b. A rhombic dodecahedron \\\n containing tetrahedra")}
 display_poly(rad, dual = tet, codual = dtet, 
-             scale = 1.5, zoom = 0.65)
+             scale = 1, zoom = 0.65)
 ```
 :::
 ::::
@@ -94,34 +95,34 @@ We easily get the following alignment table mapping the edges of the tetrahedron
 \end{array}
 \]
 
-We can also produce this table autonatically. If we apply the vertex labels to the outer polygon in the order shown, and make a graph of the skeleton of that polygon, then we can manipulate the names of the neighbors of the _f-vertices_, as follows.
-```{r}
-rad$texts <- c(str_c('f',1:6), str_c('s',1:4), str_c('t',1:4))[c(1:6,8,12,11,7,13,9,10,14)]
-rad$texts
+<!-- We can also produce this table autonatically. If we apply the vertex labels to the outer polygon in the order shown, and make a graph of the skeleton of that polygon, then we can manipulate the names of the neighbors of the _f-vertices_, as follows. -->
+<!-- ```{r} -->
+<!-- rad$texts <- c(str_c('f',1:6), str_c('s',1:4), str_c('t',1:4))[c(1:6,8,12,11,7,13,9,10,14)] -->
+<!-- rad$texts -->
 
-edges <- rad$texts[rad$segments %>% rownames() %>% as.integer()] %>% 
-  matrix(byrow = T, ncol = 2)
+<!-- edges <- rad$texts[rad$segments %>% rownames() %>% as.integer()] %>%  -->
+<!--   matrix(byrow = T, ncol = 2) -->
 
-g <- edges %>% igraph::graph_from_edgelist(directed = F) 
+<!-- g <- edges %>% igraph::graph_from_edgelist(directed = F)  -->
 
-igraph::E(g)
+<!-- igraph::E(g) -->
 
-nghmap <- lapply(1:6, function(k) {
-  txt <- rad$texts[k]
-  ngh <- igraph::neighbors(g, txt)
-  vals <- names(ngh) %>% sort() %>% str_remove_all("(s|t)") %>% as.numeric()
-  c(sort(vals[1:2]), sort(vals[3:4]))
-}) %>% abind::abind(along = 2) %>% t() %>% `[`(TRUE,c(3,4,1,2))
+<!-- nghmap <- lapply(1:6, function(k) { -->
+<!--   txt <- rad$texts[k] -->
+<!--   ngh <- igraph::neighbors(g, txt) -->
+<!--   vals <- names(ngh) %>% sort() %>% str_remove_all("(s|t)") %>% as.numeric() -->
+<!--   c(sort(vals[1:2]), sort(vals[3:4])) -->
+<!-- }) %>% abind::abind(along = 2) %>% t() %>% `[`(TRUE,c(3,4,1,2)) -->
 
-nghmap
+<!-- nghmap -->
 
-```
+<!-- ``` -->
 
-Actually, the work that was just illustrated here was already done when the rhombic dodecahedron was cunstructed.
+<!-- Actually, the work that was just illustrated here was already done when the rhombic dodecahedron was constructed. -->
 
-```{r}
-identical(nghmap, rhombic_dodecahedron$nghmap)
-```
+<!-- ```{r} -->
+<!-- identical(nghmap, rhombic_dodecahedron$nghmap) -->
+<!-- ``` -->
 
 
 ## Aligning the cube and the octahedron
@@ -140,14 +141,14 @@ dic$texts <- rep("", 26)
 
 ```{r fig.cap=c("Figure 2a. A deltoidal icositetrahedron \\\n containing a cuboctahedron")}
 display_poly(dic, dual = co, 
-             scale = 1.414, zoom = 0.65)
+             scale = 0.9185587, zoom = 0.65)
 ```
 :::
 ::: {}
 
-```{r fig.cap=c("Figure 1b. A deltoidal icositetrahedron \\\n containing a cube and an octahedron")}
+```{r fig.cap=c("Figure 2b. A deltoidal icositetrahedron \\\n containing a cube and an octahedron")}
 display_poly(dic, dual = cu, codual = oct, 
-             scale = 1.53, coscale = 2, zoom = 0.65)
+              coscale = 0.8660254, zoom = 0.65)
 ```
 :::
 ::::
@@ -157,11 +158,33 @@ display_poly(dic, dual = cu, codual = oct,
 ## Aligning the rhombic dodecahedron and the cuboctahedron
 
 ```{r}
-ditco <- deltoidal_tetracontaoctahedron
-
-ditco$info
-rad$info
-co$info
-
-display_poly(ditco)
+dtco <- deltoidal_tetracontaoctahedron
+dtco$texts <- rep("", 50)
+rco <- rhombicuboctahedron
 ```
+<div>
+:::: {style="display: flex; align-content: flex-start;"}
+::: {}
+
+```{r fig.cap=c("Figure 3a. A deltoidal tetracontaoctahedron \\\n containing a deltoidal_icositetrahedron")}
+display_poly(dtco, dual = rco, 
+             scale = 0.9280776, zoom = 0.65)
+```
+:::
+::: {}
+
+```{r fig.cap=c("Figure 3b. A deltoidal tetracontaoctahedron containing \\\n a rhombic dodecahedron and a cuboctahedron")}
+display_poly(dtco, dual = co, codual = rhombic_dodecahedron, 
+             scale = 0.9185587, coscale = 1, zoom = 0.65)
+```
+:::
+::::
+</div>
+<br>
+
+
+```{r}
+dtco$info
+```
+
+

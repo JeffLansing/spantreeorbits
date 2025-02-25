@@ -11,7 +11,7 @@ NULL
 NULL
 
 #' Title Get a Cuboctrahedron
-#' Translate the cuboctahedron coordinates from the dmcooey library into
+#' Translate the cuboctahedron coordinates from the polyhedronisme OBJ output into
 #' R code
 #'
 #' @return a list describing a cuboctahedron
@@ -23,48 +23,51 @@ NULL
 #'
 #' @include sto_helpers.R
 get_cuboctahedron <- function() {
-
-  data <- readLines("http://dmccooey.com/polyhedra/Cuboctahedron.txt")
+  path <- system.file("extdata", "polyhedronisme-aC.obj", package = "spantreeorbits", mustWork = TRUE)
+  data <- readLines(con = path)
   code <- c()
-  for(i in 3:3) code <- c(code, data[i] %>% str_replace("=.+=", '=') %>%
-                            str_c(';'))
   tmp <- c()
-  for(i in 5:16) tmp <- c(tmp, data[i] %>% str_replace("V.+= ", "c"))
+  for(i in 4:15) tmp <- c(tmp, data[i] %>% str_replace("v ", "c(") %>%
+                            str_replace_all(" ", ", ") %>% str_c(., ')'))
   code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("verts <- rbind(", ., ");"))
   tmp <- c()
-  for(i in 19:24) tmp <- c(tmp, data[i] %>% str_replace("\\{", "c(") %>%
-                             str_replace("\\}", ") + 1"))
-  code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("cu_faces <- rbind(", ., ")"))
-  tmp <- c()
-  for(i in 25:32) tmp <- c(tmp, data[i] %>% str_replace("\\{", "c(") %>%
-                             str_replace("\\}", ") + 1"))
-  code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("oct_faces <- rbind(", ., ")"))
+  for(i in 32:45) tmp <- c(tmp, data[i] %>% str_extract_all("( \\d+)") %>% unlist() %>%
+                             str_c(collapse = ", ") %>% str_c("c(", ., ")"))
+  cnt <- str_count(tmp, ',') + 1
+  code <- c(code, tmp[which(cnt == 4)] %>% str_c(collapse = ", ") %>%
+              str_c("cu_faces <- rbind(", ., ")"))
+  code <- c(code, tmp[which(cnt == 3)] %>% str_c(collapse = ", ") %>%
+              str_c("oct_faces <- rbind(", ., ")"))
+
   eval(parse(text=code))
 
-  texts <- c(str_c('o', 1:4),c('t1','s1','t2','s2','s3','s4','t3','t4'))
+  verts <- verts %>% zapsmall()
+
+  texts <- str_c('o', 1:12)
 
   segs <- list()
+  nc <- 4
   for(i in 1:nrow(cu_faces)) {
     face <- cu_faces[i,]
-    for(j in 1:4) {
+    for(j in 1:nc) {
       b <- j
-      e <- ifelse(j < 4, j+1, 1)
+      e <- ifelse(j < nc, j+1, 1)
       seg <- c(face[b], face[e])
       segs[[1+length(segs)]] <- seg
-      if(j == 4) break
+      if(j == nc) break
     }
   }
+  nc <- 3
   for(i in 1:nrow(oct_faces)) {
     face <- oct_faces[i,]
-    for(j in 1:3) {
+    for(j in 1:nc) {
       b <- j
-      e <- ifelse(j < 3, j+1, 1)
+      e <- ifelse(j < nc, j+1, 1)
       seg <- c(face[b], face[e])
       segs[[1+length(segs)]] <- seg
-      if(j == 3) break
+      if(j == nc) break
     }
   }
-
   segx <- Reduce(rbind, segs)
   segix <- get_set(segx) %>% as.list() %>% unlist()
   segments <- verts[segix,]
@@ -72,10 +75,10 @@ get_cuboctahedron <- function() {
   cuboctahedron <- list(
     info = c(14,24,12) %>% `names<-`(c('facces', 'edges', 'vertices')),
     verts = verts,
-    texts = texts,
-    segments = segments,
     cu_faces = cu_faces,
-    oct_faces = oct_faces
+    oct_faces = oct_faces,
+    texts = texts,
+    segments = segments
   )
   cuboctahedron
 }

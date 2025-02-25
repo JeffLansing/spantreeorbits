@@ -10,41 +10,38 @@ NULL
 #' @importFrom stringr str_replace
 NULL
 
-#' Title Get a Cube
-#' Translate the cube coordinates from the polyhedronisme OBJ output into
+#' Title Get a Dual Tetrahedron
+#' Translate the dual tetrahedron coordinates from the polyhedronisme OBJ output into
 #' R code
 #'
-#' @return a list describing a cube
+#' @return a list describing a dual_tetrahedron
 #' @export
 #'
 #' @examples
-#' cu <- get_cube()
-#' stopifnot(nrow(cu$vertices) == 8)
+#' dtet <- get_dual_tetrahedron()
+#' stopifnot(nrow(dtet$vertices) == 4)
 #'
 #' @include sto_helpers.R
-get_cube <- function() {
-  path <- system.file("extdata", "polyhedronisme-C.obj", package = "spantreeorbits", mustWork = TRUE)
+get_dual_tetrahedron <- function() {
+  path <- system.file("extdata", "polyhedronisme-dT.obj", package = "spantreeorbits", mustWork = TRUE)
   data <- readLines(con = path)
   code <- c()
   tmp <- c()
-  for(i in 4:11) tmp <- c(tmp, data[i] %>% str_replace("v ", "c(") %>%
-                            str_replace_all(" ", ", ") %>% str_c(., ')'))
+  for(i in 4:7) tmp <- c(tmp, data[i] %>% str_replace("v ", "c(") %>%
+                           str_replace_all(" ", ", ") %>% str_c(., ')'))
   code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("verts <- rbind(", ., ");"))
   tmp <- c()
-  for(i in 20:24) tmp <- c(tmp, data[i] %>% str_extract_all("( \\d+)") %>% unlist() %>%
+  for(i in 14:17) tmp <- c(tmp, data[i] %>% str_extract_all("( \\d+)") %>% unlist() %>%
                              str_c(collapse = ", ") %>% str_c("c(", ., ")"))
   code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("faces <- rbind(", ., ")"))
   eval(parse(text=code))
 
-  vorder <- c(1,5,7,3,6,2,4,8)
+  verts <- verts %>% zapsmall()
 
-  verts <- verts %>% zapsmall() %>% `[`(vorder, TRUE)
-  faces <- faces %>% apply(1, function(rw) order(vorder)[rw]) %>% t()
-
-  texts <- str_c('v', 1:8)
+  texts <- str_c('t', 1:4)
 
   segs <- list()
-  nc <- 4
+  nc <- 3
   for(i in 1:nrow(faces)) {
     face <- faces[i,]
     for(j in 1:nc) {
@@ -59,27 +56,27 @@ get_cube <- function() {
   segix <- get_set(segx) %>% as.list() %>% unlist()
   segments <- verts[segix,]
 
-  cube <- list(
-    info = c(6,12,8) %>% `names<-`(c('facces', 'edges', 'vertices')),
+  dual_tetrahedron <- list(
+    info = c(4,6,4) %>% `names<-`(c('facces', 'edges', 'vertices')),
     verts = verts,
     faces = faces,
     texts = texts,
     segments = segments
   )
-  cube
+  dual_tetrahedron
 }
 
-#'  Cube
-#' @details A cube data structure.
+#'  Dual Tetrahedron
+#' @details A dual tetrahedron data structure.
 #' \describe{
 #'  \item{verts}{The vertex coordinates}
 #'  \item{texts}{The vertex labels}
-#'  \item{segments}{The edges of the cube}
+#'  \item{segments}{The edges of the dual tetrahedron}
 #'  \item{faces}{The faces}
 #' }
 #'
-cube <- get_cube()
-save(cube, file = "data/cube.rda")
+dual_tetrahedron <- get_dual_tetrahedron()
+save(dual_tetrahedron, file = "data/dual_tetrahedron.rda")
 
 
 

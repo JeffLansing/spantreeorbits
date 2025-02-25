@@ -3,7 +3,7 @@
 \name{get_cube}
 \alias{get_cube}
 \title{Title Get a Cube
-Translate the cube coordinates from the dmcooey library into
+Translate the cube coordinates from the polyhedronisme OBJ output into
 R code}
 \usage{
 get_cube()
@@ -13,7 +13,7 @@ a list describing a cube
 }
 \description{
 Title Get a Cube
-Translate the cube coordinates from the dmcooey library into
+Translate the cube coordinates from the polyhedronisme OBJ output into
 R code
 }
 \examples{
