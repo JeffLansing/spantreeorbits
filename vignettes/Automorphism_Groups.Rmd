@@ -22,7 +22,155 @@ knitr::opts_chunk$set(
   text-align: center;
 }
 ```
+```{r setup, echo = FALSE, warning=FALSE}
+library(stringr)
+library(magrittr)
+library(spantreeorbits)
+source("./rgl_setup.R")
+rgl::setupKnitr(autoprint = TRUE)
+```
+
+```{=html}
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+```
 
 ## Introduction
 
 The goal of this vignette is to create automorphism groups that correspond to the alignments described in the [Pair_Alignment](Pair_Alignment.html) vignette.
+
+## Alignment of the Tetrahedron and the Dual Tetrahedron
+
+```{r get_polys, echo=FALSE}
+data(tetrahedron, package = "spantreeorbits")
+data(cube, package = "spantreeorbits")
+data(octahedron, package = "spantreeorbits")
+data(dual_tetrahedron, package = "spantreeorbits")
+data(rhombic_dodecahedron, package = "spantreeorbits")
+data(deltoidal_icositetrahedron, package = "spantreeorbits")
+data(rhombicuboctahedron, package = "spantreeorbits")
+data(deltoidal_tetracontaoctahedron, package = "spantreeorbits")
+```
+
+The tetrahedron and the dual tetrahedron are aligned by the neighbor map from the rhombic dodecahedron, which maps the vertices of the tetrahedron to the vertices of the dual tetrahedron based on the connection of their edges,  which is identifed by the octahedron.
+
+```{r}
+rhombic_dodecahedron$nghmap
+```
+
+Each of these 3 aspects of the neighbor map has an associated automorphism group.
+
+
+```{r}
+rhombic_dodecahedron$nghmap[,1:2] %>% edgelist_to_adjmat()
+```
+```{=html}
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
+<div id="cell2">
+<script type="text/x-sage">
+A := [[0,1,1,1],[1,0,1,1],[1,1,0,1],[1,1,1,0]];;
+gamma := Graph( Group(()), [1..4], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+lag := AutGroupGraph( gamma );
+Display(StructureDescription(lag));
+sg :=StrongGeneratorsStabChain(StabChain(lag));
+oh := Group(sg);;
+Display(oh);
+aa := ConjugacyClasses(oh);;
+els := [];;
+for a in aa do
+for x in a do
+Add(els, x);
+od; od;
+for i in [1..Length(sg)] do Print(Position(els, sg[i]), " "); od;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell2',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+```
+
+```{r}
+rhombic_dodecahedron$nghmap[,3:4] %>% edgelist_to_adjmat()
+```
+
+```{=html}
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
+<div id="cell3">
+<script type="text/x-sage">
+A := [[0,1,1,1],[1,0,1,1],[1,1,0,1],[1,1,1,0]];;
+gamma := Graph( Group(()), [1..4], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+rag := AutGroupGraph( gamma );
+Display(StructureDescription(rag));
+sg :=StrongGeneratorsStabChain(StabChain(rag));
+oh := Group(sg);;
+Display(oh);
+aa := ConjugacyClasses(oh);;
+els := [];;
+for a in aa do
+for x in a do
+Add(els, x);
+od; od;
+for i in [1..Length(sg)] do Print(Position(els, sg[i]), " "); od;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell3',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell3').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+```
+
+```{r}
+octahedron$faces %>% apply(1, function(rw) {
+      rw[c(1,2,2,3,3,1)]
+    }) %>% as.integer() %>% matrix(byrow = T, ncol = 2) %>% get_set() %>% 
+    as.list() %>% unlist() %>% 
+  matrix(byrow = T, ncol = 2) %>% edgelist_to_adjmat()
+  
+
+```
+```{=html}
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
+<div id="cell4">
+<script type="text/x-sage">
+A := [[0,1,1,1,1,0],[1,0,1,0,1,1],[1,1,0,1,0,1],[1,0,1,0,1,1],[1,1,0,1,0,1],[0,1,1,1,1,0]];;
+gamma := Graph( Group(()), [1..6], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+ag := AutGroupGraph( gamma );
+Display(StructureDescription(ag));
+sg :=StrongGeneratorsStabChain(StabChain(ag));
+oh := Group(sg);;
+Display(oh);
+aa := ConjugacyClasses(oh);;
+els := [];;
+for a in aa do
+for x in a do
+Add(els, x);
+od; od;
+for i in [1..Length(sg)] do Print(Position(els, sg[i]), " "); od;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell4',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell4').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+```
+
