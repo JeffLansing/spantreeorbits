@@ -2,9 +2,10 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
+  Automorphism_Groups: Automorphism_Groups.html
   Pair_Alignment: Pair_Alignment.html
   spantreeorbits: spantreeorbits.html
-last_built: 2025-02-25T20:22Z
+last_built: 2025-02-26T17:11Z
 urls:
   reference: https://jefflansing.github.io/spantreeorbits/reference
   article: https://jefflansing.github.io/spantreeorbits/articles
