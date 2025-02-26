@@ -295,6 +295,167 @@ callback: function() {$('#cell6').find(".CodeMirror").get(0).CodeMirror.focus();
 </div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="va">cuboctahedron</span><span class="op">$</span><span class="va">cu_faces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="va">rw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span></span>
+<span>    <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    <span class="va">cuboctahedron</span><span class="op">$</span><span class="va">oct_faces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="va">rw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span></span>
+<span>    <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>byrow <span class="op">=</span> <span class="cn">T</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/get_set.html">get_set</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>byrow <span class="op">=</span> <span class="cn">T</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]</span></span>
+<span><span class="co">#&gt;  [1,]    0    1    1    0    0    0    0    0    1     0     1     0</span></span>
+<span><span class="co">#&gt;  [2,]    1    0    0    1    1    0    0    0    0     0     1     0</span></span>
+<span><span class="co">#&gt;  [3,]    1    0    0    1    0    0    1    0    1     0     0     0</span></span>
+<span><span class="co">#&gt;  [4,]    0    1    1    0    1    0    1    0    0     0     0     0</span></span>
+<span><span class="co">#&gt;  [5,]    0    1    0    1    0    1    0    0    0     0     0     1</span></span>
+<span><span class="co">#&gt;  [6,]    0    0    0    0    1    0    1    1    0     0     0     1</span></span>
+<span><span class="co">#&gt;  [7,]    0    0    1    1    0    1    0    1    0     0     0     0</span></span>
+<span><span class="co">#&gt;  [8,]    0    0    0    0    0    1    1    0    1     1     0     0</span></span>
+<span><span class="co">#&gt;  [9,]    1    0    1    0    0    0    0    1    0     1     0     0</span></span>
+<span><span class="co">#&gt; [10,]    0    0    0    0    0    0    0    1    1     0     1     1</span></span>
+<span><span class="co">#&gt; [11,]    1    1    0    0    0    0    0    0    0     1     0     1</span></span>
+<span><span class="co">#&gt; [12,]    0    0    0    0    1    1    0    0    0     1     1     0</span></span></code></pre></div>
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell7">
+<script type="text/x-sage">
+A := [[0,1,1,0,0,0,0,0,1,0,1,0],[1,0,0,1,1,0,0,0,0,0,1,0],[1,0,0,1,0,0,1,0,1,0,0,0],[0,1,1,0,1,0,1,0,0,0,0,0],[0,1,0,1,0,1,0,0,0,0,0,1],[0,0,0,0,1,0,1,1,0,0,0,1],[0,0,1,1,0,1,0,1,0,0,0,0],[0,0,0,0,0,1,1,0,1,1,0,0],[1,0,1,0,0,0,0,1,0,1,0,0],[0,0,0,0,0,0,0,1,1,0,1,1],[1,1,0,0,0,0,0,0,0,1,0,1],[0,0,0,0,1,1,0,0,0,1,1,0]];;
+gamma := Graph( Group(()), [1..12], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+ag := AutGroupGraph( gamma );
+Display(StructureDescription(ag));
+sg :=StrongGeneratorsStabChain(StabChain(ag));
+oh := Group(sg);;
+Display(oh);
+aa := ConjugacyClasses(oh);;
+els := [];;
+for a in aa do
+for x in a do
+Add(els, x);
+od; od;
+for i in [1..Length(sg)] do Print(Position(els, sg[i]), " "); od;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell7',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell7').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+</div>
+<div class="section level2">
+<h2 id="alignment-of-the-rhonbic-dodecahedron-and-the-cuboctahedron">Alignment of the Rhonbic Dodecahedron and the Cuboctahedron<a class="anchor" aria-label="anchor" href="#alignment-of-the-rhonbic-dodecahedron-and-the-cuboctahedron"></a>
+</h2>
+<p>Again, each of the 3 aspects of the neighbor map has an associated
+automorphism group.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">deltoidal_tetracontaoctahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]</span></span>
+<span><span class="co">#&gt;  [1,]    0    0    0    0    0    0    1    0    0     1     0     1     1</span></span>
+<span><span class="co">#&gt;  [2,]    0    0    0    0    0    0    1    1    0     0     1     0     1</span></span>
+<span><span class="co">#&gt;  [3,]    0    0    0    0    0    0    1    0    1     0     1     1     0</span></span>
+<span><span class="co">#&gt;  [4,]    0    0    0    0    0    0    0    0    1     1     0     1     0</span></span>
+<span><span class="co">#&gt;  [5,]    0    0    0    0    0    0    0    1    0     1     0     0     1</span></span>
+<span><span class="co">#&gt;  [6,]    0    0    0    0    0    0    0    1    1     0     1     0     0</span></span>
+<span><span class="co">#&gt;  [7,]    1    1    1    0    0    0    0    0    0     0     0     0     0</span></span>
+<span><span class="co">#&gt;  [8,]    0    1    0    0    1    1    0    0    0     0     0     0     0</span></span>
+<span><span class="co">#&gt;  [9,]    0    0    1    1    0    1    0    0    0     0     0     0     0</span></span>
+<span><span class="co">#&gt; [10,]    1    0    0    1    1    0    0    0    0     0     0     0     0</span></span>
+<span><span class="co">#&gt; [11,]    0    1    1    0    0    1    0    0    0     0     0     0     0</span></span>
+<span><span class="co">#&gt; [12,]    1    0    1    1    0    0    0    0    0     0     0     0     0</span></span>
+<span><span class="co">#&gt; [13,]    1    1    0    0    1    0    0    0    0     0     0     0     0</span></span>
+<span><span class="co">#&gt; [14,]    0    0    0    1    1    1    0    0    0     0     0     0     0</span></span>
+<span><span class="co">#&gt;       [,14]</span></span>
+<span><span class="co">#&gt;  [1,]     0</span></span>
+<span><span class="co">#&gt;  [2,]     0</span></span>
+<span><span class="co">#&gt;  [3,]     0</span></span>
+<span><span class="co">#&gt;  [4,]     1</span></span>
+<span><span class="co">#&gt;  [5,]     1</span></span>
+<span><span class="co">#&gt;  [6,]     1</span></span>
+<span><span class="co">#&gt;  [7,]     0</span></span>
+<span><span class="co">#&gt;  [8,]     0</span></span>
+<span><span class="co">#&gt;  [9,]     0</span></span>
+<span><span class="co">#&gt; [10,]     0</span></span>
+<span><span class="co">#&gt; [11,]     0</span></span>
+<span><span class="co">#&gt; [12,]     0</span></span>
+<span><span class="co">#&gt; [13,]     0</span></span>
+<span><span class="co">#&gt; [14,]     0</span></span></code></pre></div>
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell8">
+<script type="text/x-sage">
+A := [[0,0,0,0,0,0,1,0,0,1,0,1,1,0],[0,0,0,0,0,0,1,1,0,0,1,0,1,0],[0,0,0,0,0,0,1,0,1,0,1,1,0,0],[0,0,0,0,0,0,0,0,1,1,0,1,0,1],[0,0,0,0,0,0,0,1,0,1,0,0,1,1],[0,0,0,0,0,0,0,1,1,0,1,0,0,1],[1,1,1,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,0,0,0,0,0,0],[0,0,1,1,0,1,0,0,0,0,0,0,0,0],[1,0,0,1,1,0,0,0,0,0,0,0,0,0],[0,1,1,0,0,1,0,0,0,0,0,0,0,0],[1,0,1,1,0,0,0,0,0,0,0,0,0,0],[1,1,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,1,1,1,0,0,0,0,0,0,0,0]];;
+gamma := Graph( Group(()), [1..14], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+lag := AutGroupGraph( gamma );
+Display(StructureDescription(lag));
+sg :=StrongGeneratorsStabChain(StabChain(lag));
+oh := Group(sg);;
+Display(oh);
+aa := ConjugacyClasses(oh);;
+els := [];;
+for a in aa do
+for x in a do
+Add(els, x);
+od; od;
+for i in [1..Length(sg)] do Print(Position(els, sg[i]), " "); od;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell8',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell8').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">deltoidal_tetracontaoctahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]</span></span>
+<span><span class="co">#&gt;  [1,]    0    1    1    0    0    0    0    0    1     0     1     0</span></span>
+<span><span class="co">#&gt;  [2,]    1    0    0    1    1    0    0    0    0     0     1     0</span></span>
+<span><span class="co">#&gt;  [3,]    1    0    0    1    0    0    1    0    1     0     0     0</span></span>
+<span><span class="co">#&gt;  [4,]    0    1    1    0    1    0    1    0    0     0     0     0</span></span>
+<span><span class="co">#&gt;  [5,]    0    1    0    1    0    1    0    0    0     0     0     1</span></span>
+<span><span class="co">#&gt;  [6,]    0    0    0    0    1    0    1    1    0     0     0     1</span></span>
+<span><span class="co">#&gt;  [7,]    0    0    1    1    0    1    0    1    0     0     0     0</span></span>
+<span><span class="co">#&gt;  [8,]    0    0    0    0    0    1    1    0    1     1     0     0</span></span>
+<span><span class="co">#&gt;  [9,]    1    0    1    0    0    0    0    1    0     1     0     0</span></span>
+<span><span class="co">#&gt; [10,]    0    0    0    0    0    0    0    1    1     0     1     1</span></span>
+<span><span class="co">#&gt; [11,]    1    1    0    0    0    0    0    0    0     1     0     1</span></span>
+<span><span class="co">#&gt; [12,]    0    0    0    0    1    1    0    0    0     1     1     0</span></span></code></pre></div>
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell9">
+<script type="text/x-sage">
+A := [[0,1,1,0,0,0,0,0,1,0,1,0],[1,0,0,1,1,0,0,0,0,0,1,0],[1,0,0,1,0,0,1,0,1,0,0,0],[0,1,1,0,1,0,1,0,0,0,0,0],[0,1,0,1,0,1,0,0,0,0,0,1],[0,0,0,0,1,0,1,1,0,0,0,1],[0,0,1,1,0,1,0,1,0,0,0,0],[0,0,0,0,0,1,1,0,1,1,0,0],[1,0,1,0,0,0,0,1,0,1,0,0],[0,0,0,0,0,0,0,1,1,0,1,1],[1,1,0,0,0,0,0,0,0,1,0,1],[0,0,0,0,1,1,0,0,0,1,1,0]];;
+gamma := Graph( Group(()), [1..12], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+rag := AutGroupGraph( gamma );
+Display(StructureDescription(rag));
+sg :=StrongGeneratorsStabChain(StabChain(rag));
+oh := Group(sg);;
+Display(oh);
+aa := ConjugacyClasses(oh);;
+els := [];;
+for a in aa do
+for x in a do
+Add(els, x);
+od; od;
+for i in [1..Length(sg)] do Print(Position(els, sg[i]), " "); od;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell9',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell9').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="va">rhombicuboctahedron</span><span class="op">$</span><span class="va">cu_faces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">rw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span></span>
 <span>  <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -355,7 +516,7 @@ callback: function() {$('#cell6').find(".CodeMirror").get(0).CodeMirror.focus();
 <span><span class="co">#&gt; [23,]     0     0     0     0     1     0     0     1     1     0     0</span></span>
 <span><span class="co">#&gt; [24,]     0     0     0     0     0     0     0     1     0     0     0</span></span></code></pre></div>
 <div>
-<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell7">
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell10">
 <script type="text/x-sage">
 A := [[0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],[1,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0],[0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0],[0,1,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0],[0,1,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,1,0,0,0,0],[0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,0,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0],[0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1],[1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0]];;
 gamma := Graph( Group(()), [1..24], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
@@ -375,17 +536,13 @@ for i in [1..Length(sg)] do Print(Position(els, sg[i]), " "); od;
 </div>
 <script>
 sagecell.makeSagecell({
-inputLocation: '#cell7',
+inputLocation: '#cell10',
 languages: ['gap'],
 //Focus the editor
-callback: function() {$('#cell7').find(".CodeMirror").get(0).CodeMirror.focus();}
+callback: function() {$('#cell10').find(".CodeMirror").get(0).CodeMirror.focus();}
 });
 </script>
 </div>
-</div>
-<div class="section level2">
-<h2 id="alignment-of-the-rhonbic-dodecahedron-and-the-cuboctahedron">Alignment of the Rhonbic Dodecahedron and the Cuboctahedron<a class="anchor" aria-label="anchor" href="#alignment-of-the-rhonbic-dodecahedron-and-the-cuboctahedron"></a>
-</h2>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
