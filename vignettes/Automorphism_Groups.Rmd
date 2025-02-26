@@ -252,14 +252,14 @@ callback: function() {$('#cell6').find(".CodeMirror").get(0).CodeMirror.focus();
 
 ```{r}
 c(
-  rhombicuboctahedron$cu_faces %>% apply(1, function(rw) {
-    rw[c(1,2,2,3,3,4,4,1)]
-  }) %>% as.integer(),
-  rhombicuboctahedron$oct_faces %>% apply(1, function(rw) {
-    rw[c(1,2,2,3,3,1)]
-  }) %>% as.integer()
-) %>% matrix(byrow = T, ncol = 2) %>% get_set() %>%
-as.list() %>% unlist() %>%
+    cuboctahedron$cu_faces %>% apply(1, function(rw) {
+      rw[c(1,2,2,3,3,4,4,1)]
+    }) %>% as.integer(),
+    cuboctahedron$oct_faces %>% apply(1, function(rw) {
+      rw[c(1,2,2,3,3,1)]
+    }) %>% as.integer()
+  ) %>% matrix(byrow = T, ncol = 2) %>% get_set() %>% 
+    as.list() %>% unlist() %>% 
 matrix(byrow = T, ncol = 2) %>% edgelist_to_adjmat()
 
 ```
@@ -268,8 +268,8 @@ matrix(byrow = T, ncol = 2) %>% edgelist_to_adjmat()
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
 <div id="cell7">
 <script type="text/x-sage">
-A := [[0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],[1,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0],[0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0],[0,1,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0],[0,1,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,1,0,0,0,0],[0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,0,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0],[0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1],[1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0]];;
-gamma := Graph( Group(()), [1..24], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+A := [[0,1,1,0,0,0,0,0,1,0,1,0],[1,0,0,1,1,0,0,0,0,0,1,0],[1,0,0,1,0,0,1,0,1,0,0,0],[0,1,1,0,1,0,1,0,0,0,0,0],[0,1,0,1,0,1,0,0,0,0,0,1],[0,0,0,0,1,0,1,1,0,0,0,1],[0,0,1,1,0,1,0,1,0,0,0,0],[0,0,0,0,0,1,1,0,1,1,0,0],[1,0,1,0,0,0,0,1,0,1,0,0],[0,0,0,0,0,0,0,1,1,0,1,1],[1,1,0,0,0,0,0,0,0,1,0,1],[0,0,0,0,1,1,0,0,0,1,1,0]];;
+gamma := Graph( Group(()), [1..12], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
 ag := AutGroupGraph( gamma );
 Display(StructureDescription(ag));
 sg :=StrongGeneratorsStabChain(StabChain(ag));
@@ -296,3 +296,122 @@ callback: function() {$('#cell7').find(".CodeMirror").get(0).CodeMirror.focus();
 ```
 
 ## Alignment of the Rhonbic Dodecahedron and the Cuboctahedron
+
+Again, each of the 3 aspects of the neighbor map has an associated automorphism group.
+
+
+```{r}
+deltoidal_tetracontaoctahedron$nghmap[,1:2] %>% edgelist_to_adjmat()
+```
+```{=html}
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
+<div id="cell8">
+<script type="text/x-sage">
+A := [[0,0,0,0,0,0,1,0,0,1,0,1,1,0],[0,0,0,0,0,0,1,1,0,0,1,0,1,0],[0,0,0,0,0,0,1,0,1,0,1,1,0,0],[0,0,0,0,0,0,0,0,1,1,0,1,0,1],[0,0,0,0,0,0,0,1,0,1,0,0,1,1],[0,0,0,0,0,0,0,1,1,0,1,0,0,1],[1,1,1,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,0,0,0,0,0,0],[0,0,1,1,0,1,0,0,0,0,0,0,0,0],[1,0,0,1,1,0,0,0,0,0,0,0,0,0],[0,1,1,0,0,1,0,0,0,0,0,0,0,0],[1,0,1,1,0,0,0,0,0,0,0,0,0,0],[1,1,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,1,1,1,0,0,0,0,0,0,0,0]];;
+gamma := Graph( Group(()), [1..14], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+lag := AutGroupGraph( gamma );
+Display(StructureDescription(lag));
+sg :=StrongGeneratorsStabChain(StabChain(lag));
+oh := Group(sg);;
+Display(oh);
+aa := ConjugacyClasses(oh);;
+els := [];;
+for a in aa do
+for x in a do
+Add(els, x);
+od; od;
+for i in [1..Length(sg)] do Print(Position(els, sg[i]), " "); od;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell8',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell8').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+```
+
+```{r}
+deltoidal_tetracontaoctahedron$nghmap[,3:4] %>% edgelist_to_adjmat()
+```
+
+```{=html}
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
+<div id="cell9">
+<script type="text/x-sage">
+A := [[0,1,1,0,0,0,0,0,1,0,1,0],[1,0,0,1,1,0,0,0,0,0,1,0],[1,0,0,1,0,0,1,0,1,0,0,0],[0,1,1,0,1,0,1,0,0,0,0,0],[0,1,0,1,0,1,0,0,0,0,0,1],[0,0,0,0,1,0,1,1,0,0,0,1],[0,0,1,1,0,1,0,1,0,0,0,0],[0,0,0,0,0,1,1,0,1,1,0,0],[1,0,1,0,0,0,0,1,0,1,0,0],[0,0,0,0,0,0,0,1,1,0,1,1],[1,1,0,0,0,0,0,0,0,1,0,1],[0,0,0,0,1,1,0,0,0,1,1,0]];;
+gamma := Graph( Group(()), [1..12], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+rag := AutGroupGraph( gamma );
+Display(StructureDescription(rag));
+sg :=StrongGeneratorsStabChain(StabChain(rag));
+oh := Group(sg);;
+Display(oh);
+aa := ConjugacyClasses(oh);;
+els := [];;
+for a in aa do
+for x in a do
+Add(els, x);
+od; od;
+for i in [1..Length(sg)] do Print(Position(els, sg[i]), " "); od;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell9',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell9').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+```
+
+```{r}
+c(
+  rhombicuboctahedron$cu_faces %>% apply(1, function(rw) {
+    rw[c(1,2,2,3,3,4,4,1)]
+  }) %>% as.integer(),
+  rhombicuboctahedron$oct_faces %>% apply(1, function(rw) {
+    rw[c(1,2,2,3,3,1)]
+  }) %>% as.integer()
+) %>% matrix(byrow = T, ncol = 2) %>% get_set() %>%
+as.list() %>% unlist() %>%
+matrix(byrow = T, ncol = 2) %>% edgelist_to_adjmat()
+
+```
+```{=html}
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
+<div id="cell10">
+<script type="text/x-sage">
+A := [[0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],[1,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0],[0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0],[0,1,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0],[0,1,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,1,0,0,0,0],[0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,0,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0],[0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1],[1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0]];;
+gamma := Graph( Group(()), [1..24], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+ag := AutGroupGraph( gamma );
+Display(StructureDescription(ag));
+sg :=StrongGeneratorsStabChain(StabChain(ag));
+oh := Group(sg);;
+Display(oh);
+aa := ConjugacyClasses(oh);;
+els := [];;
+for a in aa do
+for x in a do
+Add(els, x);
+od; od;
+for i in [1..Length(sg)] do Print(Position(els, sg[i]), " "); od;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell10',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell10').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+```
