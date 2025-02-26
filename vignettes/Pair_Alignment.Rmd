@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
   margin: auto;
   text-align: center;
 }
+```
 
 ```{r setup, echo = FALSE, warning=FALSE}
 library(stringr)
@@ -43,6 +44,7 @@ The goal of this vignette is to use the common expansion of a polyhedron $\pi$ a
 
 ```{r get_polys, echo=FALSE}
 data(tetrahedron, package = "spantreeorbits")
+data(cube, package = "spantreeorbits")
 data(octahedron, package = "spantreeorbits")
 data(dual_tetrahedron, package = "spantreeorbits")
 data(rhombic_dodecahedron, package = "spantreeorbits")
@@ -50,141 +52,113 @@ data(deltoidal_icositetrahedron, package = "spantreeorbits")
 data(rhombicuboctahedron, package = "spantreeorbits")
 data(deltoidal_tetracontaoctahedron, package = "spantreeorbits")
 ```
-```{r}
-rad <- rhombic_dodecahedron
-tet <- tetrahedron
-dtet <- dual_tetrahedron
-oct <- octahedron
-rad$texts <- rep("", 14)
-```
-:::: {style="display: flex; align-content: flex-start;"}
-::: {}
 
-```{r fig.cap=c("Figure 1a. A rhombic dodecahedron \\\n containing an octahedron")}
-display_poly(rad, dual = oct, 
-             scale = 0.8660254, zoom = 0.65)
-```
-:::
-::: {}
+```{r fig.align = 'center', fig.cap=c("Figure 1a. A cube containing a tetrahedron (red) \\\n and a dual tetrahedron (green).")}
+display_poly(cube, dual = tetrahedron, codual = dual_tetrahedron, jitter = T, zoom = 0.95)
 
-```{r fig.cap=c("Figure 1b. A rhombic dodecahedron \\\n containing tetrahedra")}
-display_poly(rad, dual = tet, codual = dtet, 
-             scale = 1, zoom = 0.65)
+
+rbind(cube$texts, c(tetrahedron$texts, dual_tetrahedron$texts)) %>% 
+  apply(1, function(rw) {str_c(rw, collapse = ',')}) %>% matrix(ncol = 1)
+
 ```
-:::
-::::
+
+```{r fig.align = 'center', fig.cap=c("Figure 1b. A rhombic_dodecahedron containing a cube (red) \\\n and an octahedron (green).")}
+display_poly(rhombic_dodecahedron, dual = cube, 
+             codual = octahedron, coscale = 0.8660254, jitter = T)
+
+rbind(rhombic_dodecahedron$texts, 
+      c(octahedron$texts, cube$texts),
+      c(rep("__",6), tetrahedron$texts, dual_tetrahedron$texts)) %>% 
+  apply(1, function(rw) {str_c(rw, collapse = ',')}) %>% matrix(ncol = 1)
+
+```
+```{r fig.align = 'center', fig.cap=c("Figure 1c. A rhombic_dodecahedron containing a tetrahedron (red) \\\n and a dual tetrahedron (green).")}
+display_poly(rhombic_dodecahedron, dual = tetrahedron, codual = dual_tetrahedron, jitter = T)
+
+```
 <br>
-The octahedron **_aligns_** the two tetrahedra in the following sense. Call the vertices where the rhombic dodecahedron intersects the octahedron _f-vertices_, and where it intersects the tetrahedra _t-vertices_ and _s-vertices_, respectively. Observe in Figures 1a and 1b above that each _f-vertex_ has 2 _t-vertices_ and 2 _s-vertices_ as neighbors. Then that _f-vertex_ _aligns_ the edge of the tetrahedron between the 2 _t-vertices_ with the edge of the dual tetrahedron between the 2 _s-vertices_.
+The octahedron **_aligns_** the two tetrahedra in the following sense. Call the vertices where the rhombic dodecahedron intersects the octahedron _f-vertices_, and where it intersects the tetrahedra _t-vertices_ and _s-vertices_, respectively. Observe in Figure 1c above that each _f-vertex_ has 2 _t-vertices_ and 2 _s-vertices_ as neighbors. Then that _f-vertex_ _aligns_ the edge of the tetrahedron between the 2 _t-vertices_ with the edge of the dual tetrahedron between the 2 _s-vertices_.
 
-We easily get the following alignment table mapping the edges of the tetrahedron to the edges of its dual:
+We easily get the following alignment table showing the mapping the edges of the tetrahedron to the edges of its dual The rows of the table correspond to the _f-vertices_, in order.
 \[
 \begin{array}{|oct|tet|dual|}
   \hline
-  f_1 & t_1t_3 & s_2s_4 \\
+  f_1 & t_1t_4 & s_2s_3 \\
   \hline
-  f_2 & t_2t_4 & s_1s_3 \\
+  f_2 & t_1t_2 & s_1s_3 \\
   \hline 
-  f_3 & t_1t_2 & s_1s_2 \\
+  f_3 & t_1t_3 & s_1s_2 \\
   \hline
-  f_4 & t_3t_4 & s_3s_4 \\
+  f_4 & t_3t_4 & s_2s_4 \\
   \hline 
-  f_5 & t_2t_3 & s_2s_3 \\
+  f_5 & t_2t_4 & s_3s_4 \\
   \hline
-  f_6 & t_1t_4 & s_1s_4 \\
+  f_6 & t_2t_3 & s_1s_4 \\
   \hline 
 \end{array}
 \]
 
-<!-- We can also produce this table autonatically. If we apply the vertex labels to the outer polygon in the order shown, and make a graph of the skeleton of that polygon, then we can manipulate the names of the neighbors of the _f-vertices_, as follows. -->
-<!-- ```{r} -->
-<!-- rad$texts <- c(str_c('f',1:6), str_c('s',1:4), str_c('t',1:4))[c(1:6,8,12,11,7,13,9,10,14)] -->
-<!-- rad$texts -->
 
-<!-- edges <- rad$texts[rad$segments %>% rownames() %>% as.integer()] %>%  -->
-<!--   matrix(byrow = T, ncol = 2) -->
+Actually, the mapping that was just illustrated was already done when the rhombic dodecahedron was constructed.
 
-<!-- g <- edges %>% igraph::graph_from_edgelist(directed = F)  -->
-
-<!-- igraph::E(g) -->
-
-<!-- nghmap <- lapply(1:6, function(k) { -->
-<!--   txt <- rad$texts[k] -->
-<!--   ngh <- igraph::neighbors(g, txt) -->
-<!--   vals <- names(ngh) %>% sort() %>% str_remove_all("(s|t)") %>% as.numeric() -->
-<!--   c(sort(vals[1:2]), sort(vals[3:4])) -->
-<!-- }) %>% abind::abind(along = 2) %>% t() %>% `[`(TRUE,c(3,4,1,2)) -->
-
-<!-- nghmap -->
-
-<!-- ``` -->
-
-<!-- Actually, the work that was just illustrated here was already done when the rhombic dodecahedron was constructed. -->
-
-<!-- ```{r} -->
-<!-- identical(nghmap, rhombic_dodecahedron$nghmap) -->
-<!-- ``` -->
+```{r}
+rhombic_dodecahedron$nghmap
+```
 
 
 ## Aligning the cube and the octahedron
 
-```{r}
-dic <- deltoidal_icositetrahedron
-cu <- cube
-oct <- octahedron
-co <- cuboctahedron
-co$texts <- str_c('o', 1:12)
-dic$texts <- rep("", 26)
+```{r fig.align = 'center', fig.cap=c("Figure 2a. A rhombic_dodecahedron containing a cube (red) \\\n and an octahedron (green).")}
+display_poly(rhombic_dodecahedron, dual = cube, 
+             codual = octahedron, coscale = 0.8660254, jitter = T)
 ```
-<div>
-:::: {style="display: flex; align-content: flex-start;"}
-::: {}
 
-```{r fig.cap=c("Figure 2a. A deltoidal icositetrahedron \\\n containing a cuboctahedron")}
-display_poly(dic, dual = co, 
-             scale = 0.9185587, zoom = 0.65)
-```
-:::
-::: {}
+```{r fig.align = 'center', fig.cap=c("Figure 2b. A deltoidal icositetrahedron containing a rhombic_dodecahedron (red) \\\n and a cuboctahedron (green).")}
+display_poly(deltoidal_icositetrahedron, dual = rhombic_dodecahedron, scale = 1.01, 
+             codual = cuboctahedron, coscale = 0.9185587, jitter = T)
 
-```{r fig.cap=c("Figure 2b. A deltoidal icositetrahedron \\\n containing a cube and an octahedron")}
-display_poly(dic, dual = cu, codual = oct, 
-              coscale = 0.8660254, zoom = 0.65)
+rbind(deltoidal_icositetrahedron$texts, 
+      c(rhombic_dodecahedron$texts[1:6], cuboctahedron$texts, rhombic_dodecahedron$texts[7:14]),
+      c(octahedron$texts, rep("__",9), rep("___",3), cube$texts),
+      c(rep("__",15), rep("___",3), tetrahedron$texts, dual_tetrahedron$texts)
+      ) %>% 
+  apply(1, function(rw) {str_c(rw, collapse = ',')}) %>% matrix(ncol = 1)
+
 ```
-:::
-::::
-</div>
+```{r fig.align = 'center', fig.cap=c("Figure 2c. A deltoidal icositetrahedron containing a cub (red) \\\n and an octahedron (green).")}
+display_poly(deltoidal_icositetrahedron, dual = cube, 
+             codual = octahedron, coscale = 0.8660254, jitter = T)
+
+deltoidal_icositetrahedron$nghmap
+
+
+```
+
 <br>
 
 ## Aligning the rhombic dodecahedron and the cuboctahedron
 
-```{r}
-dtco <- deltoidal_tetracontaoctahedron
-dtco$texts <- rep("", 50)
-rco <- rhombicuboctahedron
+```{r fig.align = 'center', fig.cap=c("Figure 3a. A deltoidal icositetrahedron containing a rhombic_dodecahedron (red) \\\n and a cuboctahedron (green).")}
+display_poly(deltoidal_icositetrahedron, dual = rhombic_dodecahedron, scale = 1.01, 
+             codual = cuboctahedron, coscale = 0.9185587, jitter = T)
 ```
-<div>
-:::: {style="display: flex; align-content: flex-start;"}
-::: {}
 
-```{r fig.cap=c("Figure 3a. A deltoidal tetracontaoctahedron \\\n containing a deltoidal_icositetrahedron")}
-display_poly(dtco, dual = rco, 
-             scale = 0.9280776, zoom = 0.65)
+```{r fig.align = 'center', fig.cap=c("Figure 3b. A deltoidal tetracontaoctahedron containing a deltoidal_icositetrahedron (red) \\\n and a rhombicuboctahedron (green).")}
+display_poly(deltoidal_tetracontaoctahedron, dual = deltoidal_icositetrahedron, scale = 1, 
+             codual = rhombicuboctahedron, coscale = 0.9280776, jitter = T)
 ```
-:::
-::: {}
 
-```{r fig.cap=c("Figure 3b. A deltoidal tetracontaoctahedron containing \\\n a rhombic dodecahedron and a cuboctahedron")}
-display_poly(dtco, dual = co, codual = rhombic_dodecahedron, 
-             scale = 0.9185587, coscale = 1, zoom = 0.65)
-```
-:::
-::::
-</div>
-<br>
+```{r fig.align = 'center', fig.cap=c("Figure 3c. A deltoidal tetracontaoctahedron containing a rhombic_dodecahedron (red) \\\n and a cuboctahedron (green).")}
+display_poly(deltoidal_tetracontaoctahedron, dual = rhombic_dodecahedron, scale = 1, 
+             codual = cuboctahedron, coscale = 0.9185587, jitter = T)
 
+deltoidal_tetracontaoctahedron$nghmap
 
-```{r}
-dtco$info
+rbind(deltoidal_tetracontaoctahedron$texts, 
+      c(cuboctahedron$texts, rep("__",9), rep("___",15), rhombic_dodecahedron$texts)
+) %>% 
+  apply(1, function(rw) {str_c(rw, collapse = ',')}) %>% matrix(ncol = 1)
+
 ```
 
 

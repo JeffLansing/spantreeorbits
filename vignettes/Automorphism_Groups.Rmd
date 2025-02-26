@@ -1,0 +1,28 @@
+---
+title: "Automorphism_Groups"
+author: "Jeff Lansing"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Automorphism_Groups}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{css, echo=FALSE}
+.caption {
+  margin: auto;
+  text-align: center;
+}
+```
+
+## Introduction
+
+The goal of this vignette is to create automorphism groups that correspond to the alignments described in the [Pair_Alignment](Pair_Alignment.html) vignette.

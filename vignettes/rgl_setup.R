@@ -119,7 +119,7 @@ display_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10,
 #'
 display_poly <- function(poly, dual = NULL, codual = NULL,
                          scale = 1, coscale = scale,
-                         labels = TRUE, zoom = 0.8,
+                         labels = TRUE, jitter = FALSE, zoom = 0.8,
                          theta = 20, phi = 10, umx = NULL) {
   open3d(windowRect = c(50, 50, 750, 700))
   if(is.null(umx)) {
@@ -135,7 +135,11 @@ display_poly <- function(poly, dual = NULL, codual = NULL,
     plot.new()
   })
   segments3d(poly$segments, col="black", lwd=1)
-  text3d(poly$verts, texts = poly$texts)#, adj = 1.1)
+  if(jitter) {
+    text3d(poly$verts, texts = poly$texts, adj = -0.1)
+  } else {
+    text3d(poly$verts, texts = poly$texts)
+  }
   if(!is.null(dual)) {
     segments3d(dual$segments * scale, col="red", lwd=1)
     if(labels) {

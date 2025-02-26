@@ -38,7 +38,7 @@ get_dual_tetrahedron <- function() {
 
   verts <- verts %>% zapsmall()
 
-  texts <- str_c('t', 1:4)
+  texts <- str_c('s', 1:4)
 
   segs <- list()
   nc <- 3
