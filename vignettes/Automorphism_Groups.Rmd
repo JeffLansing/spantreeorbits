@@ -56,15 +56,26 @@ data(deltoidal_tetracontaoctahedron, package = "spantreeorbits")
 The tetrahedron and the dual tetrahedron are aligned by the neighbor map from the rhombic dodecahedron, which maps the vertices of the tetrahedron to the vertices of the dual tetrahedron based on the connection of their edges,  which is identifed by the octahedron.
 
 ```{r}
-rhombic_dodecahedron$nghmap
+rad_map <- rhombic_dodecahedron$nghmap
 ```
+```{r echo=FALSE}
+rad_map %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:4), width = "1.5em")
+```
+
+This table has 3 aspects: (i) there are the left 2 columns with the ids of the vertices of the tetrahedron, (ii) there are the right 2 columns with the ids of the vertices of the dual tetrahedron, and (iii) there are the 6 rows, which show the alignment.
 
 Each of these 3 aspects of the neighbor map has an associated automorphism group.
 
 
 ```{r}
-rhombic_dodecahedron$nghmap[,1:2] %>% edgelist_to_adjmat()
+am_left <- rhombic_dodecahedron$nghmap[,1:2] %>% edgelist_to_adjmat()
 ```
+```{r echo=FALSE}
+am_left %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:4), width = "1.5em")
+```
+
+The left 2 columns of the map are represented as an adjacency matrix, which can then be used (by the GAP GRAPE package) to create an automorphism graph.
+
 ```{=html}
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
@@ -96,52 +107,34 @@ callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();
 </script>
 </div>
 ```
+In this GAP code, we create the automorpnism group, then we arrange the elements of the group by conjugacy class, and then we identify which elements are strong generators of the group.
+
+Next we look at the right half of the neighbor map.
 
 ```{r}
-rhombic_dodecahedron$nghmap[,3:4] %>% edgelist_to_adjmat()
+am_rad <- rhombic_dodecahedron$nghmap[,3:4] %>% edgelist_to_adjmat()
 ```
+```{r echo=FALSE}
+am_rad %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:4), width = "1.5em")
+```
+Here we see that the right 2 columns of the map have the same representation as an adjacency matrix as the left 2 columns, so this technique cannot be used to get a distinct automorphism group for the dual tetrahedron. We will return to this issue below.
 
-```{=html}
-<div>
-<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
-<div id="cell3">
-<script type="text/x-sage">
-A := [[0,1,1,1],[1,0,1,1],[1,1,0,1],[1,1,1,0]];;
-gamma := Graph( Group(()), [1..4], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
-rag := AutGroupGraph( gamma );
-Display(StructureDescription(rag));
-sg :=StrongGeneratorsStabChain(StabChain(rag));
-oh := Group(sg);;
-Display(oh);
-aa := ConjugacyClasses(oh);;
-els := [];;
-for a in aa do
-for x in a do
-Add(els, x);
-od; od;
-for i in [1..Length(sg)] do Print(Position(els, sg[i]), " "); od;
-</script>
-</div>
-<script>
-sagecell.makeSagecell({
-inputLocation: '#cell3',
-languages: ['gap'],
-//Focus the editor
-callback: function() {$('#cell3').find(".CodeMirror").get(0).CodeMirror.focus();}
-});
-</script>
-</div>
-```
+First we create an automorphism group for the octahedron, using the technique as before.
 
 ```{r}
-octahedron$faces %>% apply(1, function(rw) {
-      rw[c(1,2,2,3,3,1)]
-    }) %>% as.integer() %>% matrix(byrow = T, ncol = 2) %>% get_set() %>% 
-    as.list() %>% unlist() %>% 
-  matrix(byrow = T, ncol = 2) %>% edgelist_to_adjmat()
-  
+am_oct <- octahedron$faces %>% apply(1, function(rw) {
+      rw[c(1,2,2,3,3,1)] #get the edges around each face
+    }) %>% as.integer() %>% matrix(byrow = T, ncol = 2) %>% #combine them in a matrix
+    get_set() %>% as.list() %>% unlist() %>% # remove duplicates
+  matrix(byrow = T, ncol = 2) %>% edgelist_to_adjmat() # and convert to an adjacency matrix
 
 ```
+```{r echo=FALSE}
+am_oct %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:6), width = "1.5em")
+```
+
+In this case the adjacency matrix is a $6 \times 6$ matrix. We use it to generate a group.
+
 ```{=html}
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
@@ -174,14 +167,53 @@ callback: function() {$('#cell4').find(".CodeMirror").get(0).CodeMirror.focus();
 </div>
 ```
 
+Returning to automorphism group for the dual tetrahedron, we can proceed as follows:
+
+* using the automorphism group of the octahedron just generated
+  + Copy the group definition
+  + compute the normal subgroups of that group
+  + identify which 2 normal subgroups we want to use (we already know they will be isomorphic to $S_4$)
+  + make sure they are really different groups
+  
+```{=html}
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
+<div id="cell3">
+<script type="text/x-sage">
+pr:=Group( [ (3,5), (2,3)(4,5), (1,2)(4,6) ] );;
+nsg:=NormalSubgroups(pr);;
+Display(List(nsg,StructureDescription));
+u34:=Group(Union(Elements(nsg[3]), Elements(nsg[4])));;
+i34:=Group(Intersection(Elements(nsg[3]), Elements(nsg[4])));;
+Print(StructureDescription(u34), ", ", StructureDescription(i34));
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell3',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell3').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+```
+
+We identify 2 copies of $S_4$ as the third and fourth items in the list of normal subgroups. Here it is evident that the two copies of $S_4$ are different, because their union behaves differently from their intersection. (If the 2 copies were the same, their union and their intersection would also be the same.)
+
 ## Alignment of the Cube and the Octahedron
 
 As above, each of the 3 aspects of the neighbor map has an associated automorphism group.
 
 
 ```{r}
-deltoidal_icositetrahedron$nghmap[,1:2] %>% edgelist_to_adjmat()
+am_dit_lf <- deltoidal_icositetrahedron$nghmap[,1:2] %>% edgelist_to_adjmat()
 ```
+
+```{r echo=FALSE}
+am_dit_lf %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:8), width = "1.5em")
+```
+
 ```{=html}
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
@@ -215,7 +247,11 @@ callback: function() {$('#cell5').find(".CodeMirror").get(0).CodeMirror.focus();
 ```
 
 ```{r}
-deltoidal_icositetrahedron$nghmap[,3:4] %>% edgelist_to_adjmat()
+am_dit_rt <- deltoidal_icositetrahedron$nghmap[,3:4] %>% edgelist_to_adjmat()
+```
+
+```{r echo=FALSE}
+am_dit_rt %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:6), width = "1.5em")
 ```
 
 ```{=html}
@@ -251,7 +287,7 @@ callback: function() {$('#cell6').find(".CodeMirror").get(0).CodeMirror.focus();
 ```
 
 ```{r}
-c(
+am_co <- c(
     cuboctahedron$cu_faces %>% apply(1, function(rw) {
       rw[c(1,2,2,3,3,4,4,1)]
     }) %>% as.integer(),
@@ -263,6 +299,11 @@ c(
 matrix(byrow = T, ncol = 2) %>% edgelist_to_adjmat()
 
 ```
+
+```{r echo=FALSE}
+am_co %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:12), width = "1.5em")
+```
+
 ```{=html}
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
@@ -301,8 +342,13 @@ Again, each of the 3 aspects of the neighbor map has an associated automorphism 
 
 
 ```{r}
-deltoidal_tetracontaoctahedron$nghmap[,1:2] %>% edgelist_to_adjmat()
+am_dtc_lf <- deltoidal_tetracontaoctahedron$nghmap[,1:2] %>% edgelist_to_adjmat()
 ```
+
+```{r echo=FALSE}
+am_dtc_lf %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:14), width = "1.5em")
+```
+
 ```{=html}
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
@@ -336,7 +382,11 @@ callback: function() {$('#cell8').find(".CodeMirror").get(0).CodeMirror.focus();
 ```
 
 ```{r}
-deltoidal_tetracontaoctahedron$nghmap[,3:4] %>% edgelist_to_adjmat()
+am_dtc_rt <- deltoidal_tetracontaoctahedron$nghmap[,3:4] %>% edgelist_to_adjmat()
+```
+
+```{r echo=FALSE}
+am_dtc_rt %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:12), width = "1.5em")
 ```
 
 ```{=html}
@@ -372,7 +422,7 @@ callback: function() {$('#cell9').find(".CodeMirror").get(0).CodeMirror.focus();
 ```
 
 ```{r}
-c(
+am_rco <- c(
   rhombicuboctahedron$cu_faces %>% apply(1, function(rw) {
     rw[c(1,2,2,3,3,4,4,1)]
   }) %>% as.integer(),
@@ -384,6 +434,11 @@ as.list() %>% unlist() %>%
 matrix(byrow = T, ncol = 2) %>% edgelist_to_adjmat()
 
 ```
+
+```{r echo=FALSE}
+am_rco %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:24), width = "1.5em")
+```
+
 ```{=html}
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
