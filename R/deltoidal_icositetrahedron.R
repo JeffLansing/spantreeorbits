@@ -19,7 +19,7 @@ NULL
 #'
 #' @examples
 #' dit <- get_deltoidal_icositetrahedron()
-#' stopifnot(nrow(diy$vertices) == 6)
+#' stopifnot(nrow(dit$vertices) == 26)
 #'
 #' @include sto_helpers.R
 get_deltoidal_icositetrahedron <- function() {

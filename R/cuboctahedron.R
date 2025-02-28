@@ -9,6 +9,8 @@ NULL
 NULL
 #' @importFrom stringr str_replace
 NULL
+#' @importFrom stringr str_count
+NULL
 
 #' Title Get a Cuboctrahedron
 #' Translate the cuboctahedron coordinates from the polyhedronisme OBJ output into

@@ -9,6 +9,8 @@ NULL
 NULL
 #' @importFrom stringr str_replace
 NULL
+#' @importFrom stringr str_extract_all
+NULL
 
 #' Title Get a Cube
 #' Translate the cube coordinates from the polyhedronisme OBJ output into

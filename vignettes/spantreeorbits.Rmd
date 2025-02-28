@@ -1,12 +1,16 @@
 ---
-title: Spanning Tree Orbits
+title: Spanning_Tree_Orbits
 output: 
   html_document:
     mathjax: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
     self_contained: no
+vignette: >
+  %\VignetteIndexEntry{Spanning_Tree_Orbits}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{css}
+```{css echo=FALSE}
 .caption {
   margin: auto;
   text-align: center;

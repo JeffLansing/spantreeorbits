@@ -1,6 +1,9 @@
 require(magrittr)
 require(stringr)
 
+#' @importFrom utils capture.output
+NULL
+
 #' Title Find the index of a row in a matrix
 #'
 #' @param mx a 2d array of values

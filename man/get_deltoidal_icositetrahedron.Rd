@@ -18,6 +18,6 @@ R code
 }
 \examples{
 dit <- get_deltoidal_icositetrahedron()
-stopifnot(nrow(diy$vertices) == 6)
+stopifnot(nrow(dit$vertices) == 26)
 
 }
