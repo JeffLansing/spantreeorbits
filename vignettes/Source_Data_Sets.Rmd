@@ -1,0 +1,56 @@
+---
+title: "Source_Data_Sets"
+author: "Jeff Lansing"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Source_Data_Sets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+require(magrittr)
+require(stringr)
+require(knitr)
+require(kableExtra)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{css, echo=FALSE}
+.caption {
+  margin: auto;
+  text-align: center;
+}
+```
+```{r setup, echo = FALSE, warning=FALSE}
+library(stringr)
+library(magrittr)
+library(spantreeorbits)
+source("./rgl_setup.R")
+rgl::setupKnitr(autoprint = TRUE)
+```
+
+```{=html}
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+```
+
+## Introduction
+
+The goal of this vignette is to describe the process for the source data sets. These sets constitute the "raw material" from which the spanning trees are "extracted", as explained below.
+
+* The following assumptions will be in effect:
+  + spanning trees come in pairs,
+  + the pairs correspond to pairs of polyhedra.
+  
+## Source Data for the Tetrahedron and the Dual Tetrahedron Spanning Trees
+
+## Source Data for the Cube and the Octahedron Spanning Trees
+
+## Source Data for Rhonbic Dodecahedron and the Cuboctahedron Spanning Trees
+
