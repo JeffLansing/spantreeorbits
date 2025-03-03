@@ -250,7 +250,7 @@ for(i in 1:48) {
 
 knitr::kable(
   matrix(vals,6,8),
-  caption = "C2xS4 with normal subgroups: green C2xS4, red A4, blue S4 left, beige S4 right. Identifiers are based on conjugacy classes.",
+  caption = "C2xS4 with normal subgroups: green C2xA4, red A4, blue S4 left, beige S4 right. Identifiers are based on conjugacy classes.",
   format = "html",
   escape = FALSE,
   align = 'c',
@@ -337,7 +337,7 @@ knitr::kable(
   format = "html",
   align = "c"
 ) %>% kableExtra::kable_styling(
-  bootstrap_options = c("striped","bordered","hover"), 
+  bootstrap_options = c("striped","bordered"), 
   full_width = F, position = "left") %>% 
   kableExtra::column_spec(c(1:10), width = "3em")
 ```
