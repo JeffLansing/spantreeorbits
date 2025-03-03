@@ -4,8 +4,9 @@ pkgdown_sha: ~
 articles:
   Automorphism_Groups: Automorphism_Groups.html
   Pair_Alignment: Pair_Alignment.html
+  Source_Data_Sets: Source_Data_Sets.html
   spantreeorbits: spantreeorbits.html
-last_built: 2025-03-03T16:49Z
+last_built: 2025-03-03T17:03Z
 urls:
   reference: https://jefflansing.github.io/spantreeorbits/reference
   article: https://jefflansing.github.io/spantreeorbits/articles
