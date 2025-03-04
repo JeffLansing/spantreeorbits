@@ -63,7 +63,7 @@ The computed cosets will be the source data for this case.
 
 There are 2 candidates for the source data for the spanning trees of the tetrahedron and the dual tetrahedron.
 
-As shown in the [Pair_Alignment](Pair_Alignment.html) vignette, the symmetric group $S_6$ is appropriate for this case, and the subgroup will be $S_3 \times S_3$.Actually we find 2 such subgroups; we list the corresponding cosets side by side.
+As shown in the [Pair_Alignment](Pair_Alignment.html) vignette, the symmetric group $S_6$ is appropriate for this case, and the subgroup will be $S_3 \times S_3$. There will be $|S_{6}|/|S_3 \times S_3| = 20$ cosets. Actually we find 2 such subgroups; we list the corresponding cosets side by side.
 
 ```{=html}
 <div>
@@ -73,12 +73,13 @@ As shown in the [Pair_Alignment](Pair_Alignment.html) vignette, the symmetric gr
 s6 := SymmetricGroup(6);;
 ll6 := LowLayerSubgroups(s6,1);;
 Display(List(ll6, Order));
-s3s3c2 := ll6[6];;
+wh := Position(List(ll6, Order), 72);;
+s3s3c2 := ll6[wh];;
 ll66 := LowLayerSubgroups(s3s3c2,1);;
-Display(List(ll66, StructureDescription));
-rt2:=RightTransversal(s6, ll66[2]);;
+whs := Positions(List(ll66, Order), 36);;
+rt2:=RightTransversal(s6, ll66[whs[1]]);;
 lr2 := List(rt2, x -> ListPerm(x,6));;
-rt3:=RightTransversal(s6, ll66[3]);;
+rt3:=RightTransversal(s6, ll66[whs[2]]);;
 lr3 := List(rt3, x -> ListPerm(x,6));;
 for i in [1..Length(rt2)] do Print(lr2[i], "\t", lr3[i], "\n");; od;;
 </script>
@@ -132,11 +133,63 @@ knitr::kable(
   kableExtra::column_spec(c(3,6), border_right = T) %>% 
   kableExtra::column_spec(c(1), border_left = T)
 
-
 ```
 
 
 ## Source Data for the Cube and the Octahedron Spanning Trees
+
+As shown in the [Pair_Alignment](Pair_Alignment.html) vignette, the symmetric group $S_{12}$ is appropriate for this case, and the corresponding subgroup will be $S_7 \times S_5$. There will be $|S_{12}|/|S_7 \times S_5| = 792$ cosets.
+
+```{=html}
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
+<div id="cell3">
+<script type="text/x-sage">
+s12 := SymmetricGroup(12);;
+ord75 := Order(DirectProduct(SymmetricGroup(7),SymmetricGroup(5)));
+ll12 := LowLayerSubgroups(s12,1);;
+wh75 := Position(List(ll12, Order), ord75);;
+s7s5 := ll12[wh75];;
+Display(StructureDescription(s7s5));
+rt75:=RightTransversal(s12, s7s5);;
+Display(Length(rt75));
+lr75 := List(rt75, x -> ListPerm(x,12));;
+for i in [1..20] do Print(Random(lr75),"\n");; od;;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell3',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell3').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+```
+
+The group $S_{12}$ has (what GAP calls) $S_5 \times S_7$ as an immediate subgroup. A random sample of the cosets of this subgroup in $S_{12}$ is shown by evaluating the above GAP code, and also below. (It seems by inspection of the cosets that it would be appropriate to call the subgroup $S_7 \times S_5$.)
+
+```{r results ='asis', echo=FALSE}
+path <- system.file("extdata", "s5s7sample20.txt", package = "spantreeorbits", mustWork = TRUE)
+gaptext <- readLines(con = path) 
+t <- gaptext %>% 
+  str_replace_all('(\\[|\\])', '') %>% 
+  str_c(collapse = ',') %>% str_c('c(', ., ')')
+vals <- eval(parse(text = t)) %>% matrix(byrow = T, ncol = 12)
+
+knitr::kable(
+  vals,
+  caption = "cosets of $S_7 \\times S_5$",
+  format = "html",
+  escape = FALSE,
+  align = 'c',
+  col.names = NULL) %>% kableExtra::kable_styling(
+  full_width = F, position = "center") %>% 
+  kableExtra::column_spec(c(1:6), width = "1.1em") %>% 
+  kableExtra::column_spec(c(7,12), border_right = T) %>% 
+  kableExtra::column_spec(c(1), border_left = T)
+
 
 ## Source Data for Rhonbic Dodecahedron and the Cuboctahedron Spanning Trees
 

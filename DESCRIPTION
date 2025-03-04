@@ -27,7 +27,8 @@ Suggests:
     rgl (>= 1.3.0),
     permutations,
     sets,
-    digest
+    digest,
+    bit64
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Depends: 

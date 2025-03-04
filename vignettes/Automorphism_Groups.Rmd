@@ -78,6 +78,13 @@ am_left <- rhombic_dodecahedron$nghmap[,1:2] %>% edgelist_to_adjmat()
 am_left %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:4), width = "1.5em")
 ```
 
+```{r echo=FALSE, class.output="bg-info"}
+lf_gr <- am_left %>% igraph::graph_from_adjacency_matrix(mode = 'undirected')
+lap <- lf_gr %>% igraph::laplacian_matrix(sparse = F)
+nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
+str_c("The left polyhedron has ", nst, " spanning trees")
+```
+
 The left 2 columns of the map are represented as an adjacency matrix, which can then be used (by the GAP GRAPE package) to create an automorphism graph.
 
 ```{=html}
@@ -116,11 +123,19 @@ In this GAP code, we create the automorpnism group, then we arrange the elements
 Next we look at the right half of the neighbor map.
 
 ```{r}
-am_rad <- rhombic_dodecahedron$nghmap[,3:4] %>% edgelist_to_adjmat()
+am_rt <- rhombic_dodecahedron$nghmap[,3:4] %>% edgelist_to_adjmat()
 ```
 ```{r echo=FALSE}
-am_rad %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:4), width = "1.5em")
+am_rt %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:4), width = "1.5em")
 ```
+
+```{r echo=FALSE, class.output="bg-info"}
+rt_gr <- am_rt %>% igraph::graph_from_adjacency_matrix(mode = 'undirected')
+lap <- rt_gr %>% igraph::laplacian_matrix(sparse = F)
+nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
+str_c("The right polyhedron has ", nst, " spanning trees")
+```
+
 Here we see that the right 2 columns of the map have the same representation as an adjacency matrix as the left 2 columns, so this technique cannot be used to get a distinct automorphism group for the dual tetrahedron. We will return to this issue below.
 
 First we create an automorphism group for the octahedron, using the technique as before.
@@ -135,6 +150,13 @@ am_oct <- octahedron$faces %>% apply(1, function(rw) {
 ```
 ```{r echo=FALSE}
 am_oct %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:6), width = "1.5em")
+```
+
+```{r echo=FALSE, class.output="bg-info"}
+oct_gr <- am_oct %>% igraph::graph_from_adjacency_matrix(mode = 'undirected')
+lap <- oct_gr %>% igraph::laplacian_matrix(sparse = F)
+nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
+str_c("The octahedron has ", nst, " spanning trees")
 ```
 
 In this case the adjacency matrix is a $6 \times 6$ matrix. We use it to generate a group.
@@ -357,6 +379,13 @@ am_dit_lf <- deltoidal_icositetrahedron$nghmap[,1:2] %>% edgelist_to_adjmat()
 am_dit_lf %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:8), width = "1.5em")
 ```
 
+```{r echo=FALSE, class.output="bg-info"}
+gr <- am_dit_lf %>% igraph::graph_from_adjacency_matrix(mode = 'undirected')
+lap <- gr %>% igraph::laplacian_matrix(sparse = F)
+nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
+str_c("The left polyhedron has ", nst, " spanning trees")
+```
+
 ```{=html}
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
@@ -395,6 +424,13 @@ am_dit_rt <- deltoidal_icositetrahedron$nghmap[,3:4] %>% edgelist_to_adjmat()
 
 ```{r echo=FALSE}
 am_dit_rt %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:6), width = "1.5em")
+```
+
+```{r echo=FALSE, class.output="bg-info"}
+gr <- am_dit_rt %>% igraph::graph_from_adjacency_matrix(mode = 'undirected')
+lap <- gr %>% igraph::laplacian_matrix(sparse = F)
+nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
+str_c("The right polyhedron has ", nst, " spanning trees")
 ```
 
 ```{=html}
@@ -447,6 +483,13 @@ matrix(byrow = T, ncol = 2) %>% edgelist_to_adjmat()
 am_co %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:12), width = "1.5em")
 ```
 
+```{r echo=FALSE, class.output="bg-info"}
+gr <- am_co %>% igraph::graph_from_adjacency_matrix(mode = 'undirected')
+lap <- gr %>% igraph::laplacian_matrix(sparse = F)
+nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
+str_c("The cuboctahedron has ", nst, " spanning trees")
+```
+
 ```{=html}
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
@@ -492,6 +535,13 @@ am_dtc_lf <- deltoidal_tetracontaoctahedron$nghmap[,1:2] %>% edgelist_to_adjmat(
 am_dtc_lf %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:14), width = "1.5em")
 ```
 
+```{r echo=FALSE, class.output="bg-info"}
+gr <- am_dtc_lf %>% igraph::graph_from_adjacency_matrix(mode = 'undirected')
+lap <- gr %>% igraph::laplacian_matrix(sparse = F)
+nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
+str_c("The left polyhedron has ", nst, " spanning trees")
+```
+
 ```{=html}
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
@@ -530,6 +580,13 @@ am_dtc_rt <- deltoidal_tetracontaoctahedron$nghmap[,3:4] %>% edgelist_to_adjmat(
 
 ```{r echo=FALSE}
 am_dtc_rt %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:12), width = "1.5em")
+```
+
+```{r echo=FALSE, class.output="bg-info"}
+gr <- am_dtc_rt %>% igraph::graph_from_adjacency_matrix(mode = 'undirected')
+lap <- gr %>% igraph::laplacian_matrix(sparse = F)
+nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
+str_c("The right polyhedron has ", nst, " spanning trees")
 ```
 
 ```{=html}
@@ -580,6 +637,13 @@ matrix(byrow = T, ncol = 2) %>% edgelist_to_adjmat()
 
 ```{r echo=FALSE}
 am_rco %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:24), width = "1.5em")
+```
+
+```{r echo=FALSE, class.output="bg-info"}
+rco_gr <- am_rco %>% igraph::graph_from_adjacency_matrix(mode = 'undirected')
+lap <- rco_gr %>% igraph::laplacian_matrix(sparse = F)
+nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
+str_c("The rhombioctahedron has ", bit64::as.integer64(nst) + 1, " spanning trees")
 ```
 
 ```{=html}
