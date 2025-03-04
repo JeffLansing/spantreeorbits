@@ -42,13 +42,95 @@ rgl::setupKnitr(autoprint = TRUE)
 
 ## Introduction
 
-The goal of this vignette is to describe the process for the source data sets. These sets constitute the "raw material" from which the spanning trees are "extracted", as explained below.
+The goal of this vignette is to describe the process for getting the source data sets. These sets constitute the "raw material" from which the spanning trees are "extracted", as explained below.
 
 * The following assumptions will be in effect:
   + spanning trees come in pairs,
-  + the pairs correspond to pairs of polyhedra.
+  + the pairs correspond to pairs of polyhedra,
+  + the disjoint union of the edges of a spanning tree pair forms the edges of a spanning tree of the polyhedron that aligns the corresponding polyhedron pair,
+  + the source data ultimately derives from a symmetric group with order equal to the vertex count of the aligning polyhedron.
+  
+In this vignette we look at 3 cases.
+
+* For each case, the process is the following:
+  + get the symmetric group of the appropriate order,
+  + find a subgroup that is the direct product of symmetric groups that correspond to the appropriate pair of polyhedra,
+  + compute the cosets of the subgroup in the initial symmetric group.
+  
+The computed cosets will be the source data for this case.
   
 ## Source Data for the Tetrahedron and the Dual Tetrahedron Spanning Trees
+
+There are 2 candidates for the source data for the spanning trees of the tetrahedron and the dual tetrahedron.
+
+As shown in the [Pair_Alignment](Pair_Alignment.html) vignette, the symmetric group $S_6$ is appropriate for this case, and the subgroup will be $S_3 \times S_3$.Actually we find 2 such subgroups; we list the corresponding cosets side by side.
+
+```{=html}
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
+<div id="cell2">
+<script type="text/x-sage">
+s6 := SymmetricGroup(6);;
+ll6 := LowLayerSubgroups(s6,1);;
+Display(List(ll6, Order));
+s3s3c2 := ll6[6];;
+ll66 := LowLayerSubgroups(s3s3c2,1);;
+Display(List(ll66, StructureDescription));
+rt2:=RightTransversal(s6, ll66[2]);;
+lr2 := List(rt2, x -> ListPerm(x,6));;
+rt3:=RightTransversal(s6, ll66[3]);;
+lr3 := List(rt3, x -> ListPerm(x,6));;
+for i in [1..Length(rt2)] do Print(lr2[i], "\t", lr3[i], "\n");; od;;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell2',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+```
+
+The group $S_6$ has $S_3^2 \rtimes C_2$ as an immediate subgroup. In turn, $S_3^2 \rtimes C_2$ has 2 copies of $S_3 \times S_3$ as immediate subgroups. The cosets of these 2 copies in $S_6$ are shown by evaluating the above GAP code, and also below. (The whole subgroup lattice of $S_3^2 \rtimes C_2$ is shown at [GroupNames](https://people.maths.bris.ac.uk/~matyd/GroupNames/61/S3wrC2.html).)
+
+Note that these two tables illustrate the third assumption; a center dividing line helps to show this.
+
+```{r results ='asis', echo=FALSE}
+path <- system.file("extdata", "s3s3c2.txt", package = "spantreeorbits", mustWork = TRUE)
+gaptext <- readLines(con = path) 
+t <- gaptext %>% 
+  str_replace_all(' \\.\\. ', ', 2, 3, 4, 5,') %>% 
+  str_replace_all('\\]\\s+\\[', ', ') %>% 
+  str_replace_all('(\\[|\\])', '') %>% 
+  str_c(collapse = ',') %>% str_c('c(', ., ')')
+vals <- eval(parse(text = t)) %>% `dim<-`(c(6,2,20))
+
+knitr::kable(
+  vals[,1,] %>% t(),
+  caption = "cosets of $S_3 \\times S_3$ left",
+  format = "html",
+  escape = FALSE,
+  align = 'c',
+  col.names = NULL) %>% kableExtra::kable_styling(
+  full_width = F, position = "float_left") %>% 
+  kableExtra::column_spec(c(1:6), width = "1.1em") %>% 
+  kableExtra::column_spec(c(3), border_right = T)
+
+knitr::kable(
+  vals[,2,] %>% t(),
+  caption = "cosets of $S_3 \\times S_3$ right",
+  format = "html",
+  escape = FALSE,
+  align = 'c',
+  col.names = NULL) %>% kableExtra::kable_styling(
+  full_width = F, position = "left") %>% 
+  kableExtra::column_spec(c(1:6), width = "1.1em") %>% 
+  kableExtra::column_spec(c(3), border_right = T)
+```
+
 
 ## Source Data for the Cube and the Octahedron Spanning Trees
 
