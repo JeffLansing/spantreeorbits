@@ -117,7 +117,8 @@ knitr::kable(
   col.names = NULL) %>% kableExtra::kable_styling(
   full_width = F, position = "float_left") %>% 
   kableExtra::column_spec(c(1:6), width = "1.1em") %>% 
-  kableExtra::column_spec(c(3), border_right = T)
+  kableExtra::column_spec(c(3,6), border_right = T) %>% 
+  kableExtra::column_spec(c(1), border_left = T)
 
 knitr::kable(
   vals[,2,] %>% t(),
@@ -128,7 +129,10 @@ knitr::kable(
   col.names = NULL) %>% kableExtra::kable_styling(
   full_width = F, position = "left") %>% 
   kableExtra::column_spec(c(1:6), width = "1.1em") %>% 
-  kableExtra::column_spec(c(3), border_right = T)
+  kableExtra::column_spec(c(3,6), border_right = T) %>% 
+  kableExtra::column_spec(c(1), border_left = T)
+
+
 ```
 
 
