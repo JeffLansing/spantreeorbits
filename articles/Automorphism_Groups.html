@@ -244,6 +244,7 @@ automorphism group.</p>
 </td>
 </tr>
 </tbody></table>
+<pre><code><span><span class="co">#&gt; [1] "The left polyhedron has 16 spanning trees"</span></span></code></pre>
 <p>The left 2 columns of the map are represented as an adjacency matrix,
 which can then be used (by the GAP GRAPE package) to create an
 automorphism graph.</p>
@@ -279,8 +280,8 @@ callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();
 the elements of the group by conjugacy class, and then we identify which
 elements are strong generators of the group.</p>
 <p>Next we look at the right half of the neighbor map.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">am_rad</span> <span class="op">&lt;-</span> <span class="va">rhombic_dodecahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">am_rt</span> <span class="op">&lt;-</span> <span class="va">rhombic_dodecahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table"><tbody>
 <tr>
 <td style="text-align:right;">
@@ -339,13 +340,14 @@ elements are strong generators of the group.</p>
 </td>
 </tr>
 </tbody></table>
+<pre><code><span><span class="co">#&gt; [1] "The right polyhedron has 16 spanning trees"</span></span></code></pre>
 <p>Here we see that the right 2 columns of the map have the same
 representation as an adjacency matrix as the left 2 columns, so this
 technique cannot be used to get a distinct automorphism group for the
 dual tetrahedron. We will return to this issue below.</p>
 <p>First we create an automorphism group for the octahedron, using the
 technique as before.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_oct</span> <span class="op">&lt;-</span> <span class="va">octahedron</span><span class="op">$</span><span class="va">faces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="va">rw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="co">#get the edges around each face</span></span>
 <span>    <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>byrow <span class="op">=</span> <span class="cn">T</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co">#combine them in a matrix</span></span>
@@ -473,6 +475,7 @@ technique as before.</p>
 </td>
 </tr>
 </tbody></table>
+<pre><code><span><span class="co">#&gt; [1] "The octahedron has 384 spanning trees"</span></span></code></pre>
 <p>In this case the adjacency matrix is a
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>×</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">6 \times 6</annotation></semantics></math>
 matrix. We use it to generate a group.</p>
@@ -990,7 +993,7 @@ subgroups is interesting, as will be seen in another vignette.</p>
 </h2>
 <p>As above, each of the 3 aspects of the neighbor map has an associated
 automorphism group.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_dit_lf</span> <span class="op">&lt;-</span> <span class="va">deltoidal_icositetrahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table"><tbody>
 <tr>
@@ -1202,6 +1205,7 @@ automorphism group.</p>
 </td>
 </tr>
 </tbody></table>
+<pre><code><span><span class="co">#&gt; [1] "The left polyhedron has 384 spanning trees"</span></span></code></pre>
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell5">
 <script type="text/x-sage">
@@ -1230,7 +1234,7 @@ callback: function() {$('#cell5').find(".CodeMirror").get(0).CodeMirror.focus();
 });
 </script>
 </div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_dit_rt</span> <span class="op">&lt;-</span> <span class="va">deltoidal_icositetrahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table"><tbody>
 <tr>
@@ -1354,6 +1358,7 @@ callback: function() {$('#cell5').find(".CodeMirror").get(0).CodeMirror.focus();
 </td>
 </tr>
 </tbody></table>
+<pre><code><span><span class="co">#&gt; [1] "The right polyhedron has 384 spanning trees"</span></span></code></pre>
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell6">
 <script type="text/x-sage">
@@ -1382,7 +1387,7 @@ callback: function() {$('#cell6').find(".CodeMirror").get(0).CodeMirror.focus();
 });
 </script>
 </div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_co</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="va">cuboctahedron</span><span class="op">$</span><span class="va">cu_faces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="va">rw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span></span>
@@ -1851,6 +1856,7 @@ callback: function() {$('#cell6').find(".CodeMirror").get(0).CodeMirror.focus();
 </td>
 </tr>
 </tbody></table>
+<pre><code><span><span class="co">#&gt; [1] "The cuboctahedron has 331776 spanning trees"</span></span></code></pre>
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell7">
 <script type="text/x-sage">
@@ -1885,7 +1891,7 @@ callback: function() {$('#cell7').find(".CodeMirror").get(0).CodeMirror.focus();
 </h2>
 <p>Again, each of the 3 aspects of the neighbor map has an associated
 automorphism group.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_dtc_lf</span> <span class="op">&lt;-</span> <span class="va">deltoidal_tetracontaoctahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table"><tbody>
 <tr>
@@ -2505,6 +2511,7 @@ automorphism group.</p>
 </td>
 </tr>
 </tbody></table>
+<pre><code><span><span class="co">#&gt; [1] "The left polyhedron has 331776 spanning trees"</span></span></code></pre>
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell8">
 <script type="text/x-sage">
@@ -2533,7 +2540,7 @@ callback: function() {$('#cell8').find(".CodeMirror").get(0).CodeMirror.focus();
 });
 </script>
 </div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_dtc_rt</span> <span class="op">&lt;-</span> <span class="va">deltoidal_tetracontaoctahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table"><tbody>
 <tr>
@@ -2993,6 +3000,7 @@ callback: function() {$('#cell8').find(".CodeMirror").get(0).CodeMirror.focus();
 </td>
 </tr>
 </tbody></table>
+<pre><code><span><span class="co">#&gt; [1] "The right polyhedron has 331776 spanning trees"</span></span></code></pre>
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell9">
 <script type="text/x-sage">
@@ -3021,7 +3029,7 @@ callback: function() {$('#cell9').find(".CodeMirror").get(0).CodeMirror.focus();
 });
 </script>
 </div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_rco</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="va">rhombicuboctahedron</span><span class="op">$</span><span class="va">cu_faces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">rw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span></span>
@@ -4810,6 +4818,7 @@ callback: function() {$('#cell9').find(".CodeMirror").get(0).CodeMirror.focus();
 </td>
 </tr>
 </tbody></table>
+<pre><code><span><span class="co">#&gt; [1] "The rhombioctahedron has 301056000000 spanning trees"</span></span></code></pre>
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell10">
 <script type="text/x-sage">
