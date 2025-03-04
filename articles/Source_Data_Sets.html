@@ -54,7 +54,7 @@
 
 
 
-
+<script src="Source_Data_Sets_files/kePrint-0.0.1/kePrint.js"></script><link href="Source_Data_Sets_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
@@ -62,7 +62,7 @@
                         <h4 data-toc-skip class="author">Jeff
 Lansing</h4>
             
-            <h4 data-toc-skip class="date">2025-03-03</h4>
+            <h4 data-toc-skip class="date">2025-03-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/JeffLansing/spantreeorbits/blob/master/vignettes/Source_Data_Sets.Rmd" class="external-link"><code>vignettes/Source_Data_Sets.Rmd</code></a></small>
       <div class="d-none name"><code>Source_Data_Sets.Rmd</code></div>
@@ -80,22 +80,908 @@ Lansing</h4>
 </script><div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The goal of this vignette is to describe the process for the source
-data sets. These sets constitute the “raw material” from which the
-spanning trees are “extracted”, as explained below.</p>
+<p>The goal of this vignette is to describe the process for getting the
+source data sets. These sets constitute the “raw material” from which
+the spanning trees are “extracted”, as explained below.</p>
 <ul>
 <li>The following assumptions will be in effect:
 <ul>
 <li>spanning trees come in pairs,</li>
-<li>the pairs correspond to pairs of polyhedra.</li>
+<li>the pairs correspond to pairs of polyhedra,</li>
+<li>the disjoint union of the edges of a spanning tree pair forms the
+edges of a spanning tree of the polyhedron that aligns the corresponding
+polyhedron pair,</li>
+<li>the source data ultimately derives from a symmetric group with order
+equal to the vertex count of the aligning polyhedron.</li>
 </ul>
 </li>
 </ul>
+<p>In this vignette we look at 3 cases.</p>
+<ul>
+<li>For each case, the process is the following:
+<ul>
+<li>get the symmetric group of the appropriate order,</li>
+<li>find a subgroup that is the direct product of symmetric groups that
+correspond to the appropriate pair of polyhedra,</li>
+<li>compute the cosets of the subgroup in the initial symmetric
+group.</li>
+</ul>
+</li>
+</ul>
+<p>The computed cosets will be the source data for this case.</p>
 </div>
 <div class="section level2">
 <h2 id="source-data-for-the-tetrahedron-and-the-dual-tetrahedron-spanning-trees">Source Data for the Tetrahedron and the Dual Tetrahedron Spanning
 Trees<a class="anchor" aria-label="anchor" href="#source-data-for-the-tetrahedron-and-the-dual-tetrahedron-spanning-trees"></a>
 </h2>
+<p>There are 2 candidates for the source data for the spanning trees of
+the tetrahedron and the dual tetrahedron.</p>
+<p>As shown in the <a href="Pair_Alignment.html">Pair_Alignment</a>
+vignette, the symmetric group
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mn>6</mn></msub><annotation encoding="application/x-tex">S_6</annotation></semantics></math>
+is appropriate for this case, and the subgroup will be
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mn>3</mn></msub><mo>×</mo><msub><mi>S</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">S_3 \times S_3</annotation></semantics></math>.Actually
+we find 2 such subgroups; we list the corresponding cosets side by
+side.</p>
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell2">
+<script type="text/x-sage">
+s6 := SymmetricGroup(6);;
+ll6 := LowLayerSubgroups(s6,1);;
+Display(List(ll6, Order));
+s3s3c2 := ll6[6];;
+ll66 := LowLayerSubgroups(s3s3c2,1);;
+Display(List(ll66, StructureDescription));
+rt2:=RightTransversal(s6, ll66[2]);;
+lr2 := List(rt2, x -> ListPerm(x,6));;
+rt3:=RightTransversal(s6, ll66[3]);;
+lr3 := List(rt3, x -> ListPerm(x,6));;
+for i in [1..Length(rt2)] do Print(lr2[i], "\t", lr3[i], "\n");; od;;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell2',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+<p>The group
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mn>6</mn></msub><annotation encoding="application/x-tex">S_6</annotation></semantics></math>
+has
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mn>3</mn><mn>2</mn></msubsup><mo>⋊</mo><msub><mi>C</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">S_3^2 \rtimes C_2</annotation></semantics></math>
+as an immediate subgroup. In turn,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mn>3</mn><mn>2</mn></msubsup><mo>⋊</mo><msub><mi>C</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">S_3^2 \rtimes C_2</annotation></semantics></math>
+has 2 copies of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mn>3</mn></msub><mo>×</mo><msub><mi>S</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">S_3 \times S_3</annotation></semantics></math>
+as immediate subgroups. The cosets of these 2 copies in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>S</mi><mn>6</mn></msub><annotation encoding="application/x-tex">S_6</annotation></semantics></math>
+are shown by evaluating the above GAP code, and also below. (The whole
+subgroup lattice of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>S</mi><mn>3</mn><mn>2</mn></msubsup><mo>⋊</mo><msub><mi>C</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">S_3^2 \rtimes C_2</annotation></semantics></math>
+is shown at <a href="https://people.maths.bris.ac.uk/~matyd/GroupNames/61/S3wrC2.html" class="external-link">GroupNames</a>.)</p>
+<p>Note that these two tables illustrate the third assumption; a center
+dividing line helps to show this.</p>
+<table class="table table" style="width: auto !important; float: left; margin-right: 10px;">
+<caption>
+cosets of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mn>3</mn></msub><mo>×</mo><msub><mi>S</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">S_3 \times S_3</annotation></semantics></math>
+left
+</caption>
+<tbody>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table table" style="width: auto !important; ">
+<caption>
+cosets of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mn>3</mn></msub><mo>×</mo><msub><mi>S</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">S_3 \times S_3</annotation></semantics></math>
+right
+</caption>
+<tbody>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+5
+</td>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 1.1em; ">
+4
+</td>
+<td style="text-align:center;width: 1.1em; ">
+5
+</td>
+<td style="text-align:center;width: 1.1em; border-right:1px solid;">
+6
+</td>
+<td style="text-align:center;width: 1.1em; ">
+1
+</td>
+<td style="text-align:center;width: 1.1em; ">
+2
+</td>
+<td style="text-align:center;width: 1.1em; ">
+3
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level2">
 <h2 id="source-data-for-the-cube-and-the-octahedron-spanning-trees">Source Data for the Cube and the Octahedron Spanning Trees<a class="anchor" aria-label="anchor" href="#source-data-for-the-cube-and-the-octahedron-spanning-trees"></a>
