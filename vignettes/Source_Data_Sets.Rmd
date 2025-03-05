@@ -186,10 +186,63 @@ knitr::kable(
   align = 'c',
   col.names = NULL) %>% kableExtra::kable_styling(
   full_width = F, position = "center") %>% 
-  kableExtra::column_spec(c(1:6), width = "1.1em") %>% 
+  kableExtra::column_spec(c(1:12), width = "1.1em") %>% 
   kableExtra::column_spec(c(7,12), border_right = T) %>% 
   kableExtra::column_spec(c(1), border_left = T)
-
+```
 
 ## Source Data for Rhonbic Dodecahedron and the Cuboctahedron Spanning Trees
+
+As shown in the [Pair_Alignment](Pair_Alignment.html) vignette, the symmetric group $S_{24}$ is appropriate for this case, and the corresponding subgroup will be $S_{13} \times S_{11}$. There will be $|S_{24}|/|S_{13} \times S_{11}| = 2496144$ cosets.
+
+
+```{=html}
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
+<div id="cell4">
+<script type="text/x-sage">
+s24 := SymmetricGroup(24);;
+ll24 := LowLayerSubgroups(s24,1);;
+o1311 := Order(DirectProduct(SymmetricGroup(13), SymmetricGroup(11)));
+wh := Position( List(ll24, Order), o1311);
+Display(StructureDescription(ll24[wh]));
+Warning("The following code will timeout.");
+rt:=RightTransversal(s24, ll24[wh]);;
+lrc := List(rt, x -> ListPerm(x,24));;
+for i in [1..20] do Print(Random(lrc),"\n");; od;;
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell4',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell4').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+```
+
+The group $S_{24}$ has (what GAP calls) $S_{11} \times S_{13}$ as an immediate subgroup. A random sample of the cosets of this subgroup in $S_{24}$ is shown  below. (It seems by inspection of the cosets that it would be appropriate to call the subgroup $S_{13} \times S_{11}$.)
+
+```{r results ='asis', echo=FALSE}
+path <- system.file("extdata", "s11s13sample20.txt", package = "spantreeorbits", mustWork = TRUE)
+gaptext <- readLines(con = path) 
+t <- gaptext %>% 
+  str_replace_all('(\\[|\\])', '') %>% 
+  str_c(collapse = ',') %>% str_c('c(', ., ')')
+vals <- eval(parse(text = t)) %>% matrix(byrow = T, ncol = 24)
+
+knitr::kable(
+  vals,
+  caption = "cosets of $S_{13} \\times S_{11}$",
+  format = "html",
+  escape = FALSE,
+  align = 'c',
+  col.names = NULL) %>% kableExtra::kable_styling(
+  full_width = F, position = "center") %>% 
+  kableExtra::column_spec(c(1:24), width = "1.1em") %>% 
+  kableExtra::column_spec(c(13,24), border_right = T) %>% 
+  kableExtra::column_spec(c(1), border_left = T)
+```
 
