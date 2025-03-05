@@ -107,10 +107,10 @@ t <- gaptext %>%
   str_replace_all('\\]\\s+\\[', ', ') %>% 
   str_replace_all('(\\[|\\])', '') %>% 
   str_c(collapse = ',') %>% str_c('c(', ., ')')
-vals <- eval(parse(text = t)) %>% `dim<-`(c(6,2,20))
+vals <- eval(parse(text = t)) %>% `dim<-`(c(6,2,20)) %>% aperm(c(3,1,2))
 
 knitr::kable(
-  vals[,1,] %>% t(),
+  vals[,,1],
   caption = "cosets of $S_3 \\times S_3$ left",
   format = "html",
   escape = FALSE,
@@ -122,7 +122,7 @@ knitr::kable(
   kableExtra::column_spec(c(1), border_left = T)
 
 knitr::kable(
-  vals[,2,] %>% t(),
+  vals[,,2],
   caption = "cosets of $S_3 \\times S_3$ right",
   format = "html",
   escape = FALSE,
