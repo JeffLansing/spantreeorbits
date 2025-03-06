@@ -42,7 +42,7 @@ rgl::setupKnitr(autoprint = TRUE)
 
 ## Introduction
 
-The goal of this vignette is to create automorphism groups that correspond to the alignments described in the [Pair_Alignment](Pair_Alignment.html) vignette.
+The goal of this vignette is to generate automorphism groups that correspond to the alignments described in the [Pair_Alignment](Pair_Alignment.html) vignette.
 
 ## Alignment of the Tetrahedron and the Dual Tetrahedron
 
@@ -136,7 +136,7 @@ nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
 str_c("The right polyhedron has ", nst, " spanning trees")
 ```
 
-Here we see that the right 2 columns of the map have the same representation as an adjacency matrix as the left 2 columns, so this technique cannot be used to get a distinct automorphism group for the dual tetrahedron. We will return to this issue below.
+Here we see that the right 2 columns of the map have the same adjacency matrix representation as the left 2 columns, so this technique cannot be used to get a distinct automorphism group for the dual tetrahedron. We will return to this issue below.
 
 First we create an automorphism group for the octahedron, using the technique as before.
 
@@ -643,7 +643,7 @@ am_rco %>% kableExtra::kbl() %>% kableExtra::column_spec(c(2:24), width = "1.5em
 rco_gr <- am_rco %>% igraph::graph_from_adjacency_matrix(mode = 'undirected')
 lap <- rco_gr %>% igraph::laplacian_matrix(sparse = F)
 nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
-str_c("The rhombioctahedron has ", bit64::as.integer64(nst) + 1, " spanning trees")
+str_c("The rhombicuboctahedron has ", bit64::as.integer64(nst) + 1, " spanning trees")
 ```
 
 ```{=html}
@@ -676,4 +676,135 @@ callback: function() {$('#cell10').find(".CodeMirror").get(0).CodeMirror.focus()
 });
 </script>
 </div>
+```
+
+## Finally
+
+The following GAP code was used to save information about the groups to a local directory.
+
+```{verbatim}
+ElsByConjClass:=function(G)
+  local els,cc,c,x,gens;
+  gens := GeneratorsOfGroup(G);
+  cc := ConjugacyClasses(G);
+  els := [];
+  for c in cc do
+    for x in c do
+      Add(els, x);
+    od;
+  od;
+  return rec(names := ClassNames(CharacterTable(G)), sizes := List(cc, Size), 
+  gens :=  List(gens, x -> Position(els, x)), elements := els);
+end;;
+
+SaveGroup := function(G, path, pts) 
+  local els, e;
+  els := ElsByConjClass(G);
+  LogTo(path);
+  Print("# ", StructureDescription(G), "\n# ", els.gens, "\n");
+  Print("# ", els.names, "\n# ", els.sizes, "\n");
+  for e in els.elements do
+  Print(ListPerm(e, pts),"\n");
+  od;
+  LogTo();
+  return [];
+end;;
+
+pr:=Group( [ (3,5), (2,3)(4,5), (1,2)(4,6) ] );;
+nsg:=NormalSubgroups(pr);;
+path := Filename(DirectoryCurrent(), "r-projects/spantreeorbits/inst/extdata/")
+
+SaveGroup(nsg[1], Concatenation(path, "oct_nsg1.txt"), 6);
+SaveGroup(nsg[2], Concatenation(path, "oct_nsg2.txt"), 6);
+SaveGroup(nsg[3], Concatenation(path, "oct_nsg3.txt"), 6);
+SaveGroup(nsg[4], Concatenation(path, "oct_nsg4.txt"), 6);
+SaveGroup(nsg[6], Concatenation(path, "oct_nsg6.txt"), 6);
+
+ps := Group( [ (3,7)(4,6), (2,4)(5,7), (1,2)(3,4)(5,8)(6,7) ] );
+SaveGroup(ps, Concatenation(path, "dic_lf.txt"), 8);
+
+pt := Group( [ (3,5), (2,3)(4,5), (1,2)(4,6) ] );
+SaveGroup(pt, Concatenation(path, "dic_rt.txt"), 6);
+
+pu := Group( [ ( 2, 3)( 5, 7)( 8,12)( 9,11), ( 2, 9)( 3,11)( 4,10)( 5, 8)( 7,12), 
+  ( 1, 2)( 3, 4)( 5, 9)( 6, 8)(10,12) ] );
+SaveGroup(pu, Concatenation(path, "co.txt"), 12);
+
+pv := Group( [ ( 2, 3)( 4, 5)( 8, 9)(12,13), ( 1, 2)( 4, 6)( 8,10)(11,12), 
+  ( 1, 5, 4)( 2, 6, 3)( 7, 8, 9)(12,13,14), 
+  ( 1, 6)( 2, 3)( 4, 5)( 7,11)( 8,12)( 9,13)(10,14) ] );
+SaveGroup(pv, Concatenation(path, "dtc_lf.txt"), 14);
+
+pw := Group( [ ( 2, 3)( 5, 7)( 8,12)( 9,11), ( 2, 9)( 3,11)( 4,10)( 5, 8)( 7,12), 
+  ( 1, 2)( 3, 4)( 5, 9)( 6, 8)(10,12) ] );
+SaveGroup(pw, Concatenation(path, "dtc_rt.txt"), 12);
+
+px := Group( [ ( 2, 7)( 3,22)( 4,19)( 6,15)( 8,10)( 9,16)(11,14)(12,20)(17,24)
+    (18,23), ( 1, 2, 5, 7)( 3, 4, 6, 8)( 9,14,18,12)(10,15,19,22)(11,16,20,23)
+    (13,17,21,24), ( 1, 3,22)( 2,19,23)( 4, 7,18)( 5,20,12)( 6,14,24)
+    ( 8,21,10)( 9,16,13)(11,15,17) ] );
+SaveGroup(px, Concatenation(path, "dtc_rt.txt"), 24);
+
+```
+
+Then the following R code was used to create R objects from the save GAP output.
+
+```{r eval=FALSE}
+convert_gap_to_r <- function(infile, pts) {
+  gaptext <- readLines(infile) 
+  desc <- gaptext[1] %>% str_sub(3);
+  gens <- eval(parse(text = str_c(gaptext[2],collapse = '') %>% 
+                       str_replace("# \\[", "c(") %>% 
+                       str_replace("\\]", ")")))
+  cn <-  eval(parse(text = str_c(gaptext[3],collapse = '') %>% 
+                      str_replace("# \\[", "c(") %>% 
+                      str_replace("\\]", ")")))
+  ci <-  eval(parse(text = gaptext[4] %>% str_replace("# \\[", "c(") %>% 
+                      str_replace("\\]", ")")))
+  names <- c()
+  for(j in 1:length(ci)) {
+    names <- c(names, str_c(cn[j],'.',1:ci[j]))
+  }
+  
+  mx <- gaptext[5:length(gaptext)] %>% 
+    str_replace_all('(\\[|\\])', '') %>%
+    str_replace_all(' ', '') %>% 
+    str_c(collapse = ',') %>% str_split_1(',') %>% 
+    as.integer() %>% matrix(byrow = T, ncol = pts)
+  
+ list(description = desc,
+      generators = gens,
+      ids = names,
+      elements = mx
+  )
+}
+```
+
+The r objects were copied into the data folder of this package.
+
+```{r eval=FALSE}
+fnames <- rbind(
+  c("oct_nsg1.txt","c2xs4_aut_oct"),
+  c("oct_nsg2.txt","c2xa4_oct"),
+  c("oct_nsg3.txt","s4lf_oct"),
+  c("oct_nsg4.txt","s4rt_oct"),
+  c("oct_nsg6.txt","as4_oct"),
+  c("dic_lf.txt","c2xs4_cu"),
+  c("dic_rt.txt","c2xs4_oct"),
+  c("co.txt","c2xs4_co"),
+  c("dtc_lf.txt","c2xs4_rad"),
+  c("dtc_rt.txt","c2xs4_aut_co"),
+  c("rco.txt","c2xs4_rco")
+)
+pts <- c(6,6,6,6,6,8,6,12,14,12,24)
+
+indir <- "./subtrees/"
+outdir <- "../spantreeorbits/data/"
+
+for(i in 1:nrow(fnames)) {
+  obj <- convert_gap_to_r(str_c(indir, fnames[i,1]), pts[i])
+  assign(fnames[i,2], obj)
+  save(list = fnames[i,2], file = str_c(outdir, fnames[i,2], ".rda"))
+}
+
 ```

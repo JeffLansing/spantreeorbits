@@ -246,3 +246,29 @@ knitr::kable(
   kableExtra::column_spec(c(1), border_left = T)
 ```
 
+## Finally
+
+The three source sets were generated locally using the GAP code shown, and then saved to disk locally by GAP, as rows in GAP List format. Using a text editor capable of handling files with millions of lines, the brackets were removed to produce a file in csv format. This file was then converted to rda format outside of this package, using the code shown below,and then copied into the source for this package.
+
+```{r eval=FALSE}
+
+path <- system.file("extdata", "s3s3c2.txt", package = "spantreeorbits", mustWork = TRUE)
+gaptext <- readLines(con = path) 
+t <- gaptext %>% 
+  str_replace_all(' \\.\\. ', ', 2, 3, 4, 5,') %>% 
+  str_replace_all('\\]\\s+\\[', ', ') %>% 
+  str_replace_all('(\\[|\\])', '') %>% 
+  str_c(collapse = ',') %>% str_c('c(', ., ')')
+oct_source_data <- eval(parse(text = t)) %>%
+  as.integer() %>% `dim<-`(c(6,2,20)) %>% aperm(c(3,1,2))
+save(oct_source_data, file = "./extdata/oct_source_data.rda")
+
+vals <- read.csv(file = "./subtrees/s7s5reps.csv", header = F)
+cuboct_source_data <- vals %>% data.matrix() %>% `colnames<-`(NULL)
+save(cuboct_source_data, file = "./extdata/cuboct_source_data.rda")
+
+vals <- read.csv(file = "./subtrees/s13s11reps.csv", header = F)
+rhombicuboct_source_data <- vals %>% data.matrix() %>% `colnames<-`(NULL)
+save(rhombicuboct_source_data, file = "./extdata/rhombicuboct_source_data.rda")
+
+```
