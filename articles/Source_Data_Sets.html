@@ -62,7 +62,7 @@
                         <h4 data-toc-skip class="author">Jeff
 Lansing</h4>
             
-            <h4 data-toc-skip class="date">2025-03-05</h4>
+            <h4 data-toc-skip class="date">2025-03-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/JeffLansing/spantreeorbits/blob/master/vignettes/Source_Data_Sets.Rmd" class="external-link"><code>vignettes/Source_Data_Sets.Rmd</code></a></small>
       <div class="d-none name"><code>Source_Data_Sets.Rmd</code></div>
@@ -3334,6 +3334,36 @@ cosets of
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section level2">
+<h2 id="finally">Finally<a class="anchor" aria-label="anchor" href="#finally"></a>
+</h2>
+<p>The three source sets were generated locally using the GAP code
+shown, and then saved to disk locally by GAP, as rows in GAP List
+format. Using a text editor capable of handling files with millions of
+lines, the brackets were removed to produce a file in csv format. This
+file was then converted to rda format outside of this package, using the
+code shown below,and then copied into the source for this package.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"s3s3c2.txt"</span>, package <span class="op">=</span> <span class="st">"spantreeorbits"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">gaptext</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span>con <span class="op">=</span> <span class="va">path</span><span class="op">)</span> </span>
+<span><span class="va">t</span> <span class="op">&lt;-</span> <span class="va">gaptext</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">str_replace_all</span><span class="op">(</span><span class="st">' \\.\\. '</span>, <span class="st">', 2, 3, 4, 5,'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">str_replace_all</span><span class="op">(</span><span class="st">'\\]\\s+\\['</span>, <span class="st">', '</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">str_replace_all</span><span class="op">(</span><span class="st">'(\\[|\\])'</span>, <span class="st">''</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">str_c</span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">','</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_c</span><span class="op">(</span><span class="st">'c('</span>, <span class="va">.</span>, <span class="st">')'</span><span class="op">)</span></span>
+<span><span class="va">oct_source_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="va">t</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">`dim&lt;-`</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">2</span>,<span class="fl">20</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/aperm.html" class="external-link">aperm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">oct_source_data</span>, file <span class="op">=</span> <span class="st">"./extdata/oct_source_data.rda"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"./subtrees/s7s5reps.csv"</span>, header <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="va">cuboct_source_data</span> <span class="op">&lt;-</span> <span class="va">vals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/data.matrix.html" class="external-link">data.matrix</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">cuboct_source_data</span>, file <span class="op">=</span> <span class="st">"./extdata/cuboct_source_data.rda"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"./subtrees/s13s11reps.csv"</span>, header <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
+<span><span class="va">rhombicuboct_source_data</span> <span class="op">&lt;-</span> <span class="va">vals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/data.matrix.html" class="external-link">data.matrix</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">`colnames&lt;-`</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">rhombicuboct_source_data</span>, file <span class="op">=</span> <span class="st">"./extdata/rhombicuboct_source_data.rda"</span><span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

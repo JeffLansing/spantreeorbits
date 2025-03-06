@@ -62,7 +62,7 @@
                         <h4 data-toc-skip class="author">Jeff
 Lansing</h4>
             
-            <h4 data-toc-skip class="date">2025-03-05</h4>
+            <h4 data-toc-skip class="date">2025-03-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/JeffLansing/spantreeorbits/blob/master/vignettes/Automorphism_Groups.Rmd" class="external-link"><code>vignettes/Automorphism_Groups.Rmd</code></a></small>
       <div class="d-none name"><code>Automorphism_Groups.Rmd</code></div>
@@ -80,7 +80,7 @@ Lansing</h4>
 </script><div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The goal of this vignette is to create automorphism groups that
+<p>The goal of this vignette is to generate automorphism groups that
 correspond to the alignments described in the <a href="Pair_Alignment.html">Pair_Alignment</a> vignette.</p>
 </div>
 <div class="section level2">
@@ -342,9 +342,9 @@ elements are strong generators of the group.</p>
 </tbody></table>
 <pre><code><span><span class="co">#&gt; [1] "The right polyhedron has 16 spanning trees"</span></span></code></pre>
 <p>Here we see that the right 2 columns of the map have the same
-representation as an adjacency matrix as the left 2 columns, so this
-technique cannot be used to get a distinct automorphism group for the
-dual tetrahedron. We will return to this issue below.</p>
+adjacency matrix representation as the left 2 columns, so this technique
+cannot be used to get a distinct automorphism group for the dual
+tetrahedron. We will return to this issue below.</p>
 <p>First we create an automorphism group for the octahedron, using the
 technique as before.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -4818,7 +4818,7 @@ callback: function() {$('#cell9').find(".CodeMirror").get(0).CodeMirror.focus();
 </td>
 </tr>
 </tbody></table>
-<pre><code><span><span class="co">#&gt; [1] "The rhombioctahedron has 301056000000 spanning trees"</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; [1] "The rhombicuboctahedron has 301056000000 spanning trees"</span></span></code></pre>
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell10">
 <script type="text/x-sage">
@@ -4847,6 +4847,129 @@ callback: function() {$('#cell10').find(".CodeMirror").get(0).CodeMirror.focus()
 });
 </script>
 </div>
+</div>
+<div class="section level2">
+<h2 id="finally">Finally<a class="anchor" aria-label="anchor" href="#finally"></a>
+</h2>
+<p>The following GAP code was used to save information about the groups
+to a local directory.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>ElsByConjClass:=function(G)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  local els,cc,c,x,gens;</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  gens := GeneratorsOfGroup(G);</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  cc := ConjugacyClasses(G);</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  els := [];</span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  for c in cc do</span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>    for x in c do</span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>      Add(els, x);</span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>    od;</span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>  od;</span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>  return rec(names := ClassNames(CharacterTable(G)), sizes := List(cc, Size), </span>
+<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a>  gens :=  List(gens, x -&gt; Position(els, x)), elements := els);</span>
+<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a>end;;</span>
+<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a>SaveGroup := function(G, path, pts) </span>
+<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a>  local els, e;</span>
+<span id="cb20-17"><a href="#cb20-17" tabindex="-1"></a>  els := ElsByConjClass(G);</span>
+<span id="cb20-18"><a href="#cb20-18" tabindex="-1"></a>  LogTo(path);</span>
+<span id="cb20-19"><a href="#cb20-19" tabindex="-1"></a>  Print("# ", StructureDescription(G), "\n# ", els.gens, "\n");</span>
+<span id="cb20-20"><a href="#cb20-20" tabindex="-1"></a>  Print("# ", els.names, "\n# ", els.sizes, "\n");</span>
+<span id="cb20-21"><a href="#cb20-21" tabindex="-1"></a>  for e in els.elements do</span>
+<span id="cb20-22"><a href="#cb20-22" tabindex="-1"></a>  Print(ListPerm(e, pts),"\n");</span>
+<span id="cb20-23"><a href="#cb20-23" tabindex="-1"></a>  od;</span>
+<span id="cb20-24"><a href="#cb20-24" tabindex="-1"></a>  LogTo();</span>
+<span id="cb20-25"><a href="#cb20-25" tabindex="-1"></a>  return [];</span>
+<span id="cb20-26"><a href="#cb20-26" tabindex="-1"></a>end;;</span>
+<span id="cb20-27"><a href="#cb20-27" tabindex="-1"></a></span>
+<span id="cb20-28"><a href="#cb20-28" tabindex="-1"></a>pr:=Group( [ (3,5), (2,3)(4,5), (1,2)(4,6) ] );;</span>
+<span id="cb20-29"><a href="#cb20-29" tabindex="-1"></a>nsg:=NormalSubgroups(pr);;</span>
+<span id="cb20-30"><a href="#cb20-30" tabindex="-1"></a>path := Filename(DirectoryCurrent(), "r-projects/spantreeorbits/inst/extdata/")</span>
+<span id="cb20-31"><a href="#cb20-31" tabindex="-1"></a></span>
+<span id="cb20-32"><a href="#cb20-32" tabindex="-1"></a>SaveGroup(nsg[1], Concatenation(path, "oct_nsg1.txt"), 6);</span>
+<span id="cb20-33"><a href="#cb20-33" tabindex="-1"></a>SaveGroup(nsg[2], Concatenation(path, "oct_nsg2.txt"), 6);</span>
+<span id="cb20-34"><a href="#cb20-34" tabindex="-1"></a>SaveGroup(nsg[3], Concatenation(path, "oct_nsg3.txt"), 6);</span>
+<span id="cb20-35"><a href="#cb20-35" tabindex="-1"></a>SaveGroup(nsg[4], Concatenation(path, "oct_nsg4.txt"), 6);</span>
+<span id="cb20-36"><a href="#cb20-36" tabindex="-1"></a>SaveGroup(nsg[6], Concatenation(path, "oct_nsg6.txt"), 6);</span>
+<span id="cb20-37"><a href="#cb20-37" tabindex="-1"></a></span>
+<span id="cb20-38"><a href="#cb20-38" tabindex="-1"></a>ps := Group( [ (3,7)(4,6), (2,4)(5,7), (1,2)(3,4)(5,8)(6,7) ] );</span>
+<span id="cb20-39"><a href="#cb20-39" tabindex="-1"></a>SaveGroup(ps, Concatenation(path, "dic_lf.txt"), 8);</span>
+<span id="cb20-40"><a href="#cb20-40" tabindex="-1"></a></span>
+<span id="cb20-41"><a href="#cb20-41" tabindex="-1"></a>pt := Group( [ (3,5), (2,3)(4,5), (1,2)(4,6) ] );</span>
+<span id="cb20-42"><a href="#cb20-42" tabindex="-1"></a>SaveGroup(pt, Concatenation(path, "dic_rt.txt"), 6);</span>
+<span id="cb20-43"><a href="#cb20-43" tabindex="-1"></a></span>
+<span id="cb20-44"><a href="#cb20-44" tabindex="-1"></a>pu := Group( [ ( 2, 3)( 5, 7)( 8,12)( 9,11), ( 2, 9)( 3,11)( 4,10)( 5, 8)( 7,12), </span>
+<span id="cb20-45"><a href="#cb20-45" tabindex="-1"></a>  ( 1, 2)( 3, 4)( 5, 9)( 6, 8)(10,12) ] );</span>
+<span id="cb20-46"><a href="#cb20-46" tabindex="-1"></a>SaveGroup(pu, Concatenation(path, "co.txt"), 12);</span>
+<span id="cb20-47"><a href="#cb20-47" tabindex="-1"></a></span>
+<span id="cb20-48"><a href="#cb20-48" tabindex="-1"></a>pv := Group( [ ( 2, 3)( 4, 5)( 8, 9)(12,13), ( 1, 2)( 4, 6)( 8,10)(11,12), </span>
+<span id="cb20-49"><a href="#cb20-49" tabindex="-1"></a>  ( 1, 5, 4)( 2, 6, 3)( 7, 8, 9)(12,13,14), </span>
+<span id="cb20-50"><a href="#cb20-50" tabindex="-1"></a>  ( 1, 6)( 2, 3)( 4, 5)( 7,11)( 8,12)( 9,13)(10,14) ] );</span>
+<span id="cb20-51"><a href="#cb20-51" tabindex="-1"></a>SaveGroup(pv, Concatenation(path, "dtc_lf.txt"), 14);</span>
+<span id="cb20-52"><a href="#cb20-52" tabindex="-1"></a></span>
+<span id="cb20-53"><a href="#cb20-53" tabindex="-1"></a>pw := Group( [ ( 2, 3)( 5, 7)( 8,12)( 9,11), ( 2, 9)( 3,11)( 4,10)( 5, 8)( 7,12), </span>
+<span id="cb20-54"><a href="#cb20-54" tabindex="-1"></a>  ( 1, 2)( 3, 4)( 5, 9)( 6, 8)(10,12) ] );</span>
+<span id="cb20-55"><a href="#cb20-55" tabindex="-1"></a>SaveGroup(pw, Concatenation(path, "dtc_rt.txt"), 12);</span>
+<span id="cb20-56"><a href="#cb20-56" tabindex="-1"></a></span>
+<span id="cb20-57"><a href="#cb20-57" tabindex="-1"></a>px := Group( [ ( 2, 7)( 3,22)( 4,19)( 6,15)( 8,10)( 9,16)(11,14)(12,20)(17,24)</span>
+<span id="cb20-58"><a href="#cb20-58" tabindex="-1"></a>    (18,23), ( 1, 2, 5, 7)( 3, 4, 6, 8)( 9,14,18,12)(10,15,19,22)(11,16,20,23)</span>
+<span id="cb20-59"><a href="#cb20-59" tabindex="-1"></a>    (13,17,21,24), ( 1, 3,22)( 2,19,23)( 4, 7,18)( 5,20,12)( 6,14,24)</span>
+<span id="cb20-60"><a href="#cb20-60" tabindex="-1"></a>    ( 8,21,10)( 9,16,13)(11,15,17) ] );</span>
+<span id="cb20-61"><a href="#cb20-61" tabindex="-1"></a>SaveGroup(px, Concatenation(path, "dtc_rt.txt"), 24);</span></code></pre></div>
+<p>Then the following R code was used to create R objects from the save
+GAP output.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">convert_gap_to_r</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">infile</span>, <span class="va">pts</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">gaptext</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">infile</span><span class="op">)</span> </span>
+<span>  <span class="va">desc</span> <span class="op">&lt;-</span> <span class="va">gaptext</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_sub</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>;</span>
+<span>  <span class="va">gens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu">str_c</span><span class="op">(</span><span class="va">gaptext</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,collapse <span class="op">=</span> <span class="st">''</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>                       <span class="fu">str_replace</span><span class="op">(</span><span class="st">"# \\["</span>, <span class="st">"c("</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>                       <span class="fu">str_replace</span><span class="op">(</span><span class="st">"\\]"</span>, <span class="st">")"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">cn</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu">str_c</span><span class="op">(</span><span class="va">gaptext</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,collapse <span class="op">=</span> <span class="st">''</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>                      <span class="fu">str_replace</span><span class="op">(</span><span class="st">"# \\["</span>, <span class="st">"c("</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>                      <span class="fu">str_replace</span><span class="op">(</span><span class="st">"\\]"</span>, <span class="st">")"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">ci</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="va">gaptext</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_replace</span><span class="op">(</span><span class="st">"# \\["</span>, <span class="st">"c("</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>                      <span class="fu">str_replace</span><span class="op">(</span><span class="st">"\\]"</span>, <span class="st">")"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="kw">for</span><span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ci</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">names</span>, <span class="fu">str_c</span><span class="op">(</span><span class="va">cn</span><span class="op">[</span><span class="va">j</span><span class="op">]</span>,<span class="st">'.'</span>,<span class="fl">1</span><span class="op">:</span><span class="va">ci</span><span class="op">[</span><span class="va">j</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="va">mx</span> <span class="op">&lt;-</span> <span class="va">gaptext</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">gaptext</span><span class="op">)</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu">str_replace_all</span><span class="op">(</span><span class="st">'(\\[|\\])'</span>, <span class="st">''</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu">str_replace_all</span><span class="op">(</span><span class="st">' '</span>, <span class="st">''</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu">str_c</span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">','</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_split_1</span><span class="op">(</span><span class="st">','</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>byrow <span class="op">=</span> <span class="cn">T</span>, ncol <span class="op">=</span> <span class="va">pts</span><span class="op">)</span></span>
+<span>  </span>
+<span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>description <span class="op">=</span> <span class="va">desc</span>,</span>
+<span>      generators <span class="op">=</span> <span class="va">gens</span>,</span>
+<span>      ids <span class="op">=</span> <span class="va">names</span>,</span>
+<span>      elements <span class="op">=</span> <span class="va">mx</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>The r objects were copied into the data folder of this package.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fnames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"oct_nsg1.txt"</span>,<span class="st">"c2xs4_aut_oct"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"oct_nsg2.txt"</span>,<span class="st">"c2xa4_oct"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"oct_nsg3.txt"</span>,<span class="st">"s4lf_oct"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"oct_nsg4.txt"</span>,<span class="st">"s4rt_oct"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"oct_nsg6.txt"</span>,<span class="st">"as4_oct"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dic_lf.txt"</span>,<span class="st">"c2xs4_cu"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dic_rt.txt"</span>,<span class="st">"c2xs4_oct"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"co.txt"</span>,<span class="st">"c2xs4_co"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dtc_lf.txt"</span>,<span class="st">"c2xs4_rad"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dtc_rt.txt"</span>,<span class="st">"c2xs4_aut_co"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rco.txt"</span>,<span class="st">"c2xs4_rco"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">pts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">6</span>,<span class="fl">6</span>,<span class="fl">6</span>,<span class="fl">6</span>,<span class="fl">8</span>,<span class="fl">6</span>,<span class="fl">12</span>,<span class="fl">14</span>,<span class="fl">12</span>,<span class="fl">24</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">indir</span> <span class="op">&lt;-</span> <span class="st">"./subtrees/"</span></span>
+<span><span class="va">outdir</span> <span class="op">&lt;-</span> <span class="st">"../spantreeorbits/data/"</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">fnames</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu">convert_gap_to_r</span><span class="op">(</span><span class="fu">str_c</span><span class="op">(</span><span class="va">indir</span>, <span class="va">fnames</span><span class="op">[</span><span class="va">i</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>, <span class="va">pts</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/assign.html" class="external-link">assign</a></span><span class="op">(</span><span class="va">fnames</span><span class="op">[</span><span class="va">i</span>,<span class="fl">2</span><span class="op">]</span>, <span class="va">obj</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span>list <span class="op">=</span> <span class="va">fnames</span><span class="op">[</span><span class="va">i</span>,<span class="fl">2</span><span class="op">]</span>, file <span class="op">=</span> <span class="fu">str_c</span><span class="op">(</span><span class="va">outdir</span>, <span class="va">fnames</span><span class="op">[</span><span class="va">i</span>,<span class="fl">2</span><span class="op">]</span>, <span class="st">".rda"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
