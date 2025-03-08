@@ -38,7 +38,38 @@ rgl::setupKnitr(autoprint = TRUE)
 
 ## Introduction
 
-The goal of this vignette is to use the common expansion of a polyhedron $\pi$ and its dual $\delta$ as a way to align $\pi$ with $\delta$. (For now we assume without proof that the two expansions are equal. We can see an illustration of this idea for the expansion of the tetrahedron [eT](https://levskaya.github.io/polyhedronisme/?recipe=eT) and for the expansion of the dual of the tetrahedron [edT](https://levskaya.github.io/polyhedronisme/?recipe=edT), at these links).
+The goal of this vignette is to use the common expansion of a polyhedron $\pi$ and its dual $\delta$ as a way to align $\pi$ with $\delta$. (For now we assume without proof that the two expansions are equal. We can see an illustration of this idea for the expansion of the tetrahedron [eT](https://levskaya.github.io/polyhedronisme/?recipe=eT) and for the expansion of the dual of the tetrahedron [edT](https://levskaya.github.io/polyhedronisme/?recipe=edT), at these links). (Note that there are a number of equivalences that are not shown; for example: eT and [aC](https://levskaya.github.io/polyhedronisme/?recipe=aC))
+
+The following figure shows the polyhedra that will be considered, and how they are related by expansion operators.
+
+```{r echo=FALSE, fig.align='center', fig.cap=c("Figure 1. A tree of polyhedra with names, Conway operators, and edges/faces/vertices counts."), fig.height=4, fig.width=6}
+lxpy <- "cube,cuboctahedron,deltoidal_icositetrahedron,deltoidal_tetracontaoctahedron,dual_tetrahedron,octahedron,rhombic_dodecahedron,rhombicuboctahedron,tetrahedron"
+poly_info <- cbind(
+  str_split(lxpy, ",") %>% unlist(), c(1:9),
+  c(7,3,4,0,1,7,3,4,1),  # parents
+  c('C','aC','deC','deaC','dT','O','daC','eC','T'), # code
+  c('8/12/6','14/24/12','24/48/26','48/96/50','4/6/4','6/12/8','12/24/14','26/48/24','4/6/4') # Euler
+) %>% data.frame() %>% dplyr::rename(name=1,id=2,parent=3,code=4,euler=5) %>% 
+  dplyr::mutate(id = as.integer(id), parent = as.integer(parent)) %>% 
+  dplyr::mutate(pname = str_c(name, "\n", code, "\n", euler))
+
+lo <- function(g) {
+  igraph::layout_as_tree(g, root = 4, flip.y = TRUE)
+}
+
+edges <- poly_info %>% dplyr::slice(-4) %>% dplyr::select(from=parent, to=id)
+vertices <- poly_info %>% dplyr::select(name=id, pname, code, euler)
+g <- igraph::graph_from_data_frame(edges, vertices = vertices) %>% igraph::as_undirected()
+ggraph::ggraph(g, layout = lo(g)) +
+  ggraph::geom_edge_link() +
+  ggraph::geom_node_label(ggplot2::aes(label = vertices$pname), size = 4)  +
+  ggplot2::theme_void() +  
+  ggplot2::scale_x_continuous(expand = ggplot2::expansion(c(.15, .20))) +
+  ggplot2::scale_y_continuous(expand = ggplot2::expansion(c(.15, .15)))
+
+
+
+```
 
 ## Aligning the tetrahedron and its dual
 
