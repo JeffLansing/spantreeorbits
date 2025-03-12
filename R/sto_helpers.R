@@ -209,8 +209,8 @@ canonicalize <- function(el) {
 
 #' gen_span_trees
 #' Generate the spanning trees of a polygon
-#' @param elist The edgelist of the polygon
-#' @param vertices The vertices of the polygon (x,y,z coordinates)
+#' @param elist The edgelist from the polygon
+#' @param vertices The vertices of the tree (symbolic names)
 #' @param cmb A superset of the spanning trees, for example:
 #' the combinations of nrow(edgelist) things taken length(vertices) -1
 #' at a time
@@ -294,19 +294,28 @@ gen_span_trees <- function(elist, vertices, cmb) {
 #'
 get_orbits_of_trees <- function(sts, ops, lf, rt, orb_only = TRUE) {
   aemap <- c()
-  stsx <- apply(sts,1,digest::digest)
+  if(!is.integer(sts[1,1])) {
+    sti <- apply(sts, c(1,2), as.integer)
+    stsx <- apply(sti,1,digest::digest)
+  } else {
+    stsx <- apply(sts,1,digest::digest)
+  }
   p <- 1; q <- lf; r <- q + 1; s <- q + rt;
   for(k in 1:nrow(ops)) {
     op <- ops[k,]
     for(j in 1:nrow(sts)) {
       st <- sts[j,]
-      pr <- op[st] %>% as.numeric()
+      pr <- op[st]
       sprx <- c(pr[p:q] %>% sort(), pr[r:s] %>% sort()) %>% digest::digest()
       i <- match(sprx, stsx)
       if(!is.na(i)) {
         aemap <- c(aemap, c(j,i,k))
       }
     }
+  }
+  if(is.null(aemap)) {
+    warning("NULL matrix")
+    return(list())
   }
   aemapx <- matrix(aemap, byrow = T, ncol = 3)
   edges <- aemapx %>% data.frame() %>% dplyr::filter(X1 != X2) %>%
