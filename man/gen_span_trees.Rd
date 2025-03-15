@@ -8,9 +8,9 @@ Generate the spanning trees of a polygon}
 gen_span_trees(elist, vertices, cmb)
 }
 \arguments{
-\item{elist}{The edgelist of the polygon}
+\item{elist}{The edgelist from the polygon}
 
-\item{vertices}{The vertices of the polygon (x,y,z coordinates)}
+\item{vertices}{The vertices of the tree (symbolic names)}
 
 \item{cmb}{A superset of the spanning trees, for example:
 the combinations of nrow(edgelist) things taken length(vertices) -1

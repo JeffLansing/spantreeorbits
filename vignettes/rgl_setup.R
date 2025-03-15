@@ -98,6 +98,49 @@ display_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10,
   highlevel(integer()) # To trigger display as rglwidget
 }
 
+#' display_tree_pairs
+#'
+#' @param poly a polyhedron
+#' @param dual the dual of that polyhedron
+#' @param ortho the polyhedron which results from applying
+#' the ortho operator to either the polyhedron on to the dual
+#' (ortho is the dual of expand)
+#' @param trees a set of spanning trees which are compatible
+#' with the three polyhedra (in matrix form)
+#' @param choices a choosing of trees to display (as a vector
+#' of indices of the trees in the matrix.
+#'
+#' @return a zero-length integer vector
+#' @export
+#'
+#' @examples
+#' library(spantreepairs)
+#' library(rgl)
+#' display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, gens, c1,3,15,16)
+display_tree_pairs <- function(poly, dual, ortho, trees, choices) {
+  nghmap <- ortho$nghmap
+  l <- nghmap[,1:2] %>% max() -1
+  r <- nghmap[,3:4] %>% max() -1
+  tl <- trees[,1:l]
+  tr <- trees[,(l+1):(l+r)]
+  linfo <- gen_span_trees(nghmap[,1:2], letters[1:(l+1)], tl)
+  rinfo <- gen_span_trees(nghmap[,3:4], letters[1:(r+1)], tr)
+
+  verts1 <- poly$verts
+  verts2 <- dual$verts
+  elist1 <- nghmap[,1:2]
+  elist2 <- nghmap[,3:4]
+  sts1 <- linfo$sts
+  sts2 <- rinfo$sts
+
+  poly_map <- map_trees_to_poly(verts1,choices, elist1, sts1, sts2) %>%
+    append(list(texts = poly$texts))
+  dual_map <- map_trees_to_poly(verts2, choices, elist2, sts2, sts1) %>%
+    append(list(texts = dual$texts))
+
+  display_pairs(poly_map, dual_map, choices)
+}
+
 #' display_poly
 #' Display a polygon in various ways.
 #' @param poly The polygon
