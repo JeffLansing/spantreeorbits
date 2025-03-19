@@ -712,7 +712,7 @@ end;;
 
 pr:=Group( [ (3,5), (2,3)(4,5), (1,2)(4,6) ] );;
 nsg:=NormalSubgroups(pr);;
-path := Filename(DirectoryCurrent(), "r-projects/spantreeorbits/inst/extdata/")
+path := Filename(DirectoryCurrent(), "r-projects/spantreeorbits/inst/extdata/");
 
 SaveGroup(nsg[1], Concatenation(path, "oct_nsg1.txt"), 6);
 SaveGroup(nsg[2], Concatenation(path, "oct_nsg2.txt"), 6);

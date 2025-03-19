@@ -124,56 +124,45 @@ First we have to label the edges in the two sets in a canonical way. A figure wi
 data(tetrahedron, package = "spantreeorbits")
 data(dual_tetrahedron, package = "spantreeorbits")
 data(rhombic_dodecahedron, package = "spantreeorbits")
+data(c2xs4_oct, package = "spantreeorbits")
 
 # These are representatives of the right cosets of S3xS3 in S6
 reps <- rbind(
-  c(1, 2, 3, 4, 5, 6),
-  c(1, 2, 3, 4, 6, 5),
+    c(1, 2, 3, 4, 5, 6),
   c(1, 2, 4, 3, 5, 6),
-  c(1, 2, 4, 3, 6, 5),
   c(1, 2, 5, 3, 4, 6),
-  c(1, 2, 5, 3, 6, 4),
   c(1, 2, 6, 3, 4, 5),
-  c(1, 2, 6, 3, 5, 4),
   c(1, 3, 4, 2, 5, 6),
-  c(1, 3, 4, 2, 6, 5),
   c(1, 3, 5, 2, 4, 6),
-  c(1, 3, 5, 2, 6, 4),
   c(1, 3, 6, 2, 4, 5),
-  c(1, 3, 6, 2, 5, 4),
   c(1, 4, 5, 2, 3, 6),
-  c(1, 4, 5, 2, 6, 3),
   c(1, 4, 6, 2, 3, 5),
-  c(1, 4, 6, 2, 5, 3),
   c(1, 5, 6, 2, 3, 4),
-  c(1, 5, 6, 2, 4, 3)
+  c(2, 3, 4, 1, 5, 6),
+  c(2, 3, 5, 1, 4, 6),
+  c(2, 3, 6, 1, 4, 5),
+  c(2, 4, 5, 1, 3, 6),
+  c(2, 4, 6, 1, 3, 5),
+  c(2, 5, 6, 1, 3, 4),
+  c(3, 4, 5, 1, 2, 6),
+  c(3, 4, 6, 1, 2, 5),
+  c(3, 5, 6, 1, 2, 4),
+  c(4, 5, 6, 1, 2, 3)
 )
+```
 
-t3 <- reps[,1:3]
-d3 <- reps[,4:6]
-
-tinfo <- gen_span_trees(rhombic_dodecahedron$nghmap[,1:2], letters[1:4], t3)
-sinfo <- gen_span_trees(rhombic_dodecahedron$nghmap[,3:4], letters[1:4], d3)
-
-poly <- rhombic_dodecahedron
-
-verts1 <- tetrahedron$verts
-verts2 <- dual_tetrahedron$verts
-elist1 <- poly$nghmap[,1:2]
-elist2 <- poly$nghmap[,3:4]
-sts1 <- tinfo$sts
-sts2 <- sinfo$sts
-
-tet <- map_trees_to_poly(verts1, 1, elist1, sts1, sts2) %>% 
-  append(list(texts = tetrahedron$texts))
-dual <- map_trees_to_poly(verts2, 1, elist2, sts2, sts1) %>% 
-  append(list(texts = dual_tetrahedron$texts))
-
+```{r}
+trees <- trees_from_perms(rhombic_dodecahedron, reps, 3, 3)
+orbits <- get_orbits_of_trees(trees, c2xs4_oct$elements, 3, 3)
+```
+```{r echo=FALSE}
+knitr::kable(t(orbits[[1]]), caption = "orbit 1")%>% kableExtra::kable_styling(full_width = F, position = "left")
+knitr::kable(t(orbits[[2]]), caption = "orbit 2")%>% kableExtra::kable_styling(full_width = F, position = "left")
 ```
 
 
-```{r display1, fig.align='center', fig.cap=c("Figure 1. A tetrahedron and its dual, with spanning trees."), fig.height=3.5, fig.width=6}
-display_pairs(tet, dual, 1)
+```{r display1, fig.align='center', fig.cap=c("Figure 1. A tetrahedron and its dual, with some spanning trees, as red edges.")}
+display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, reps, c(1,13,2,3))
 
 ```
 

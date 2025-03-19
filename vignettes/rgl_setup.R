@@ -28,20 +28,24 @@ map_trees_to_poly <- function(verts, oids, elist, st_lf, st_rt) {
     el <- elist[st_lf[k,],]
     el %>% apply(c(2,1), c) %>% `dim<-`(c(1,nrow(el)*2))
   }) %>% abind::abind(along = 1)
+
   jxs <- lapply(oids, function(k) {
     el <- elist[st_rt[k,],]
     el %>% apply(c(2,1), c) %>% `dim<-`(c(1,nrow(el)*2))
   }) %>% abind::abind(along = 1)
+
   mpsa <- lapply(oids, function(k) {
     elist[st_lf[k,],] %>% apply(1, function(rw) {
       rbind(verts[rw[1],], verts[rw[2],]) %>% colMeans()
     }) %>% t()
   }) %>% abind::abind(along = 3)
+
   mpsb <- lapply(oids, function(k) {
     elist[st_rt[k,],] %>% apply(1, function(rw) {
       rbind(verts[rw[1],], verts[rw[2],]) %>% colMeans()
     }) %>% t()
   }) %>% abind::abind(along = 3)
+
   list(ixs = ixs, jxs = jxs, mpsa = mpsa, mpsb = mpsb,
        verts = verts, st_lf = st_lf, st_rt = st_rt)
 }
@@ -62,9 +66,10 @@ map_trees_to_poly <- function(verts, oids, elist, st_lf, st_rt) {
 #'
 #' @examples
 display_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10, umx = NULL) {
-  nr <- nrow(map1$ixs)
-  rc <- c(nr, 2)
-  open3d(windowRect = c(50, 50, 750, 350))
+  len <- length(oids)
+  if(len %% 2 == 1) len <- len + 1
+  rc <- c(len/2, 4)
+  open3d(windowRect = c(50, 50, 700, 700))
   if(is.null(umx)) {
     view3d(theta, phi, zoom = 0.85)
   } else {
@@ -74,26 +79,27 @@ display_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10,
   material3d(color = 'white', alpha = 0.1)
   mfrow3d(rc[1], rc[2], sharedMouse = shared)
   for(i in 1:length(oids)) {
+    k <- oids[i]
     next3d()
     bgplot3d({
       plot.new()
-      title(main = str_c('tree ', oids[i]), line = 2)
+      title(main = str_c('tree ', k), line = 2)
     })
     text3d(map1$verts, texts = map1$texts, adj = 1.1)
-    segments3d(map1$verts[map1$ixs,], col="red")
-    segments3d(map1$verts[map1$jxs,], col="forestgreen")
-    text3d(map1$mpsa[,,i], texts = str_c(map1$st_lf[oids[i],]), col = "red")
-    text3d(map1$mpsb[,,i], texts = str_c(map1$st_rt[oids[i],]), col = "forestgreen")
+    segments3d(map1$verts[map1$ixs[i,],], col="red")
+    segments3d(map1$verts[map1$jxs[i,],], col="forestgreen")
+    text3d(map1$mpsa[,,i], texts = str_c(map1$st_lf[k,]), col = "red")
+    text3d(map1$mpsb[,,i], texts = str_c(map1$st_rt[k,]), col = "forestgreen")
     next3d()
     bgplot3d({
       plot.new()
-      title(main = str_c('tree ', oids[i]), line = 2)
+      title(main = str_c('dual ', k), line = 2)
     })
     text3d(map2$verts, texts = map2$texts, adj = 1.1)
-    segments3d(map2$verts[map2$ixs,], col="red")
-    segments3d(map2$verts[map2$jxs,], col="forestgreen")
-    text3d(map2$mpsa[,,i], texts = str_c(map2$st_lf[oids[i],]), col = "red")
-    text3d(map2$mpsb[,,i], texts = str_c(map2$st_rt[oids[i],]), col = "forestgreen")
+    segments3d(map2$verts[map2$ixs[i,],], col="red")
+    segments3d(map2$verts[map2$jxs[i,],], col="forestgreen")
+    text3d(map2$mpsa[,,i], texts = str_c(map2$st_lf[k,]), col = "red")
+    text3d(map2$mpsb[,,i], texts = str_c(map2$st_rt[k,]), col = "forestgreen")
   }
   highlevel(integer()) # To trigger display as rglwidget
 }
