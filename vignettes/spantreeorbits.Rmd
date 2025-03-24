@@ -47,7 +47,7 @@ devtools::install_github("JeffLansing/spantreeorbits")
 
 Consider the tetrahedron, a self-dual polyhedron with 4 vertices, 4 faces, and 6 edges. (See: <https://dmccooey.com/polyhedra/Tetrahedron.html>)
 
-We will use some external tools to assemble some data concerning this polyhedron. These are [Sage](https://www.sagemath.org/) and [GAP](https://www.gap-system.org/), which will be accessed in the following using [Sage Cells](https://sagecell.sagemath.org/). To run the code shown in any Sage Cell, click the *Evaluate* button below the cell.
+We will use some external tools to assemble some facts about this polyhedron. These are [Sage](https://www.sagemath.org/) and [GAP](https://www.gap-system.org/), which will be accessed in the following using [Sage Cells](https://sagecell.sagemath.org/). To run the code shown in any Sage Cell, click the *Evaluate* button below the cell.
 
 
 ```{=html}
@@ -90,7 +90,7 @@ So there are two different kinds of trees on 4 vertices. Each of the 16 differen
 
 According to [this document](https://doi.org/10.1016/j.tcs.2024.114593), in Table 1, there are exactly two nets of the tetrahedron. So later we might look at the connections between the two orbits, the two kinds of trees, and the two nets. This will be in a separate vignette.
 
-Each spanning tree of the tetrahedron has 3 edges, and the tetrahedron is self dual, so we will look for some more data pertinent to these two sets of 3 edges (one set for the spanning trees of the tetrahedron, and the other for the spanning trees of its dual). We will use GAP for this.
+Each spanning tree of the tetrahedron has 3 edges, and the tetrahedron is self dual, so we will look for some more facts about these two sets of 3 edges (one set for the spanning trees of the tetrahedron, and the other for the spanning trees of its dual). We will use GAP for this.
 
 ```{=html}
 <div>
@@ -116,7 +116,7 @@ callback: function() {$('#cell2').find(".CodeMirror").get(0).CodeMirror.focus();
 </div>
 ```
 
-When we evaluate this GAP code, we see that the symmetric group $ S_6 $ has 2 subgroups of order 36, called $ S_3 $ x $ S_3 $. Further, looking at the representatives of the right cosets in $ S_6 $ of either of these subgroups (shown here for the first one as a table with 20 rows), we see how to relate these cosets to the 2 sets of 3 edges mentioned above. We use the R code in this package to explain that relation. 
+When we evaluate this GAP code, we see that the symmetric group $ S_6 $ has 2 subgroups of order 36, called $ S_3 $ x $ S_3 $. Further, looking at the representatives of the right cosets in $ S_6 $ of either of these subgroups (shown here for the second one as a table with 20 rows), we see how to relate these cosets to the 2 sets of 3 edges mentioned above. We use the R code in this package to explain the relation. 
 
 First we have to label the edges in the two sets in a canonical way. A figure will help to explain this.
 
@@ -155,14 +155,41 @@ reps <- rbind(
 trees <- trees_from_perms(rhombic_dodecahedron, reps, 3, 3)
 orbits <- get_orbits_of_trees(trees, c2xs4_oct$elements, 3, 3)
 ```
+
 ```{r echo=FALSE}
 knitr::kable(t(orbits[[1]]), caption = "orbit 1")%>% kableExtra::kable_styling(full_width = F, position = "left")
-knitr::kable(t(orbits[[2]]), caption = "orbit 2")%>% kableExtra::kable_styling(full_width = F, position = "left")
+knitr::kable(
+  trees[orbits[[1]],] %>% `rownames<-`(orbits[[1]]),
+  caption = "12 of 16 trees in orbit 1",
+  format = "html",
+  escape = FALSE,
+  align = 'c',
+  col.names = NULL) %>% kableExtra::kable_styling(
+  full_width = F, position = "left") %>% 
+  kableExtra::column_spec(c(1:7), width = "1.1em") %>% 
+  kableExtra::column_spec(c(4,7), border_right = T) %>% 
+  kableExtra::column_spec(c(2), border_left = T)
 ```
 
+```{r echo=FALSE}
+knitr::kable(t(orbits[[2]]), caption = "orbit 2")%>% kableExtra::kable_styling(full_width = F, position = "left")
+knitr::kable(
+  trees[orbits[[2]],] %>% `rownames<-`(orbits[[2]]),
+  caption = "4 of 16 trees in orbit 2",
+  format = "html",
+  escape = FALSE,
+  align = 'c',
+  col.names = NULL) %>% kableExtra::kable_styling(
+  full_width = F, position = "left") %>% 
+  kableExtra::column_spec(c(1:7), width = "1.1em") %>% 
+  kableExtra::column_spec(c(4,7), border_right = T) %>% 
+  kableExtra::column_spec(c(2), border_left = T)
+
+```
+   And now the figure:
 
 ```{r display1, fig.align='center', fig.cap=c("Figure 1. A tetrahedron and its dual, with some spanning trees, as red edges.")}
-display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, reps, c(1,13,2,3))
+display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, reps, orbits[[2]])
 
 ```
 
