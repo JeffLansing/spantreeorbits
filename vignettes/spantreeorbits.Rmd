@@ -186,11 +186,22 @@ knitr::kable(
   kableExtra::column_spec(c(2), border_left = T)
 
 ```
-   And now the figure:
+   And now the figure, which has 3 parts:
 
-```{r display1, fig.align='center', fig.cap=c("Figure 1. A tetrahedron and its dual, with some spanning trees, as red edges.")}
+```{r display1a, fig.align='center', fig.cap=c("Figure 1a. A tetrahedron and its dual, with some spanning trees, as red edges.")}
 display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, reps, orbits[[2]])
 
 ```
+
+
+```{r display1b, fig.align='center', fig.cap=c("Figure 1b. A tetrahedron and its dual, with some spanning trees, as red edges.")}
+display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, reps, orbits[[1]][c(1,3,4,7,8)]) #all positive factors
+
+```
+
+```{r display1c, fig.align='center', fig.cap=c("Figure 1c. A tetrahedron and its dual, with some spanning trees, as red edges.")}
+display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, reps, orbits[[1]][c(2,5,6,9,10,11,12)]) # some non-positive factors
+```
+
 
 
