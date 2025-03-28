@@ -702,6 +702,7 @@ SaveGroup := function(G, path, pts)
   els := ElsByConjClass(G);
   LogTo(path);
   Print("# ", StructureDescription(G), "\n# ", els.gens, "\n");
+  P := PresentationViaCosetTable(G);; TzPrint(P);
   Print("# ", els.names, "\n# ", els.sizes, "\n");
   for e in els.elements do
   Print(ListPerm(e, pts),"\n");
