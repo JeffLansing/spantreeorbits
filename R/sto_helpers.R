@@ -276,6 +276,8 @@ gen_span_trees <- function(elist, vertices, cmb) {
 #' @param perms A set of permutations in word form
 #' @param lf A left subset of the columns of perms
 #' @param rt A right subset of the columns of perms
+#' @param trees_only default(TRUE) If FALSE, also return the indices
+#' of those input perms which resulted in a spanning tree
 #'
 #' @return A set of spanning trees in word form
 #' @export
@@ -285,7 +287,7 @@ gen_span_trees <- function(elist, vertices, cmb) {
 #' reps <- rbind(c(1,2,3,4,5,6),c(1,2,3,4,6,5),c(1,2,4,3,5,6),c(1,2,4,3,6,5))
 #' s6trees <- trees_from_perms(rhombic_dodecahedron, reps, 3, 3)
 #' stopifnot(nrow(s6trees) == 2)
-trees_from_perms <- function(poly, perms, lf, rt) {
+trees_from_perms <- function(poly, perms, lf, rt, trees_only = TRUE) {
   if(is.null(poly$nghmap)) {
     warning("Polyhedron must contain a neighbor map")
     return(perms)
@@ -299,10 +301,12 @@ trees_from_perms <- function(poly, perms, lf, rt) {
 
   tinfo <- gen_span_trees(poly$nghmap[,1:2], letters[1:(lf+1)], t)
   sinfo <- gen_span_trees(poly$nghmap[,3:4], letters[1:(rt+1)], d)
-
+  stopifnot(identical(tinfo$is, sinfo$is))
   sts1 <- tinfo$sts
   sts2 <- sinfo$sts
-  cbind(sts1, sts2) %>% unique() %>% apply(c(1,2), as.integer)
+  val <- cbind(sts1, sts2) %>% unique() %>% apply(c(1,2), as.integer)
+  if(trees_only) return(val)
+  else return(list(trees = val, indexes = tinfo$is))
 }
 
 #' get_orbits_of_trees

@@ -5,7 +5,7 @@
 \title{trees_from_perms
 Extract spanning trees from a set of permutations}
 \usage{
-trees_from_perms(poly, perms, lf, rt)
+trees_from_perms(poly, perms, lf, rt, trees_only = TRUE)
 }
 \arguments{
 \item{poly}{A polyhedron data structure with a neighbor map}
@@ -15,6 +15,9 @@ trees_from_perms(poly, perms, lf, rt)
 \item{lf}{A left subset of the columns of perms}
 
 \item{rt}{A right subset of the columns of perms}
+
+\item{trees_only}{default(TRUE) If FALSE, also return the indices
+of those input perms which resulted in a spanning tree}
 }
 \value{
 A set of spanning trees in word form
