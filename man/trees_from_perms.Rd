@@ -16,8 +16,11 @@ trees_from_perms(poly, perms, lf, rt, trees_only = TRUE)
 
 \item{rt}{A right subset of the columns of perms}
 
-\item{trees_only}{default(TRUE) If FALSE, also return the indices
-of those input perms which resulted in a spanning tree}
+\item{trees_only}{default(TRUE) If TRUE, return the subset of the input
+permutations that result in paired spanning trees. If FALSE, return the
+paired spanning trees, and also return the indices
+of those input perms which resulted in a spanning tree.Note that
+one of the parts of the paired spanning trees may be rotated.}
 }
 \value{
 A set of spanning trees in word form

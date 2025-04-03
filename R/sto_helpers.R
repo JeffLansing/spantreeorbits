@@ -276,8 +276,11 @@ gen_span_trees <- function(elist, vertices, cmb) {
 #' @param perms A set of permutations in word form
 #' @param lf A left subset of the columns of perms
 #' @param rt A right subset of the columns of perms
-#' @param trees_only default(TRUE) If FALSE, also return the indices
-#' of those input perms which resulted in a spanning tree
+#' @param trees_only default(TRUE) If TRUE, return the subset of the input
+#' permutations that result in paired spanning trees. If FALSE, return the
+#' paired spanning trees, and also return the indices
+#' of those input perms which resulted in a spanning tree.Note that
+#' one of the parts of the paired spanning trees may be rotated.
 #'
 #' @return A set of spanning trees in word form
 #' @export
@@ -305,7 +308,7 @@ trees_from_perms <- function(poly, perms, lf, rt, trees_only = TRUE) {
   sts1 <- tinfo$sts
   sts2 <- sinfo$sts
   val <- cbind(sts1, sts2) %>% unique() %>% apply(c(1,2), as.integer)
-  if(trees_only) return(val)
+  if(trees_only) return(perms[tinfo$is,])
   else return(list(trees = val, indexes = tinfo$is))
 }
 
