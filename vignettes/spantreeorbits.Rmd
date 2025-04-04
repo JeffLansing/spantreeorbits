@@ -189,25 +189,70 @@ knitr::kable(
    And now the figure, which has 3 parts:
 
 ```{r display1a, fig.align='center', fig.cap=c("Figure 1a. A tetrahedron and its dual, with some spanning trees, as red edges.")}
-display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, reps, orbits[[2]])
+display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, trees, orbits[[2]])
 
 ```
 
-In Figure 1a we see that the *get_orbits_of_trees* function has separated the spanning trees into kinds: 1a has all of the *star3* trees. There are 4 such spanning trees, corresponding to the 4 vertices of the tetrahedron.
+In Figure 1a we see that the *get_orbits_of_trees* function has separated the spanning trees into kinds: 1a has all of the *claw* (or $ K_{1,3} $) graphs.^[This terminology is from https://www.graphclasses.org/smallgraphs.html#nodes4.] 
+There are 4 such spanning trees, corresponding to the 4 vertices of the tetrahedron.
 
-```{r display1b, fig.align='center', fig.cap=c("Figure 1b. A tetrahedron and its dual, with some spanning trees, as red edges.")}
-display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, reps, orbits[[1]][c(1,12,2,11,3,10)])
+
+
+```{r display1b, fig.align='center', fig.cap=c("Figure 1b.i. A tetrahedron and its dual, with some spanning trees, as red edges.")}
+display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, trees, orbits[[1]][c(1,12,2,11,3,10)])
 
 ```
 
-```{r display1c, fig.align='center', fig.cap=c("Figure 1c. A tetrahedron and its dual, with some spanning trees, as red edges.")}
-display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, reps, orbits[[1]][c(4,9,5,8,6,7)])
+```{r display1c, fig.align='center', fig.cap=c("Figure 1b.ii. A tetrahedron and its dual, with some spanning trees, as red edges.")}
+display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, trees, orbits[[1]][c(4,9,5,8,6,7)])
 ```
 
-Figures 1b and 1c contain all of the spanning trees which are *line3* trees.
+Figures 1b.i and 1b.ii contain all of the spanning trees which are *path* (or $ P_4 $) graphs.
 
-The left and right parts of Figures 1b and 1c are the same, except that the tetrahedra and the duals are switched. There are 6 such pairs of spanning trees, corresponding to the $ _4C_2 = 6 $ ways that the 2 ends of a *line3* tree can be mapped to the 4 vertices of the tetrahedron.
+The left and right parts of Figures 1b.i and 1b.ii are the same, except that the tetrahedra and the duals are switched. There are 6 such pairs of spanning trees, corresponding to the $ _4C_2 = 6 $ ways that the 2 ends of a *path* tree can be mapped to the 4 vertices of the tetrahedron.
 
 # Another Example
 
-We consider the cube,  with 8 vertices, 6 faces, and 12 edges, and its dual polyhedron, the octahedron.
+We consider the cube,  with 8 vertices, 6 faces, and 12 edges, and its dual polyhedron, the octahedron. A spanning tree for the cube will touch the 8 vertices once, so will have 7 edges^[
+**Proof**: Every node except the root has exactly one in-coming edge. Since there are $ n-1 $ nodes other than the root, there are $ n-1 $ edges in a tree.]; similarly, a spanning tree for the octahedron will have 5 edges. Since $ 7 + 5 = 12 $, the appropriate data source for this example will be $ S_{12} $, but since the order of $ S_{12} $ is $ 479001600 $ -- too large for a vignette example -- we will restrict it by using the cosets of $ S_7 \\times S_5 $ in $ S_{12} $, so we will have a data source of size $ 479001600 / (5040 * 120) = 792 $, which is the *s7s5cosetreps.rda* data set in this package.
+
+```{r echo=FALSE}
+data(cube, package = "spantreeorbits")
+data(octahedron, package = "spantreeorbits")
+data(deltoidal_icositetrahedron, package = "spantreeorbits")
+# This is a temporary fix. I should go away when the polyhedra are better aligned.
+cube$verts <- deltoidal_icositetrahedron$verts[19:26,]
+octahedron$verts <- deltoidal_icositetrahedron$verts[1:6,]
+
+```
+
+
+```{r}
+trees <- trees_from_perms(deltoidal_icositetrahedron, s7s5cosetreps, 7, 5)
+nrow(trees)
+orbits <- get_orbits_of_trees(trees, c2xs4_co$elements, 7, 5)
+length(orbits)
+
+```
+
+Using the association between vertices and edges of the cube and the octahedron (*deltoidal_icositetrahedron$nghmap*) we get 384 spanning trees in this case, and using the automorphism group of the cuboctahedron (see the [Automorphism Groups](./Automorphism_Groups.html#alignment-of-the-cube-and-the-octahedron) vignette) we get 11 orbits.
+
+If we look at, say, the first tree in each orbit, we see that this compares favorably with the [results of Peter Turney](https://unfolding.apperceptual.com/)^[Turney, Peter D. "Unfolding the tesseract." Journal of Recreational Mathematics 17.1 (1984): 1-16.]
+
+```{r display2a, fig.align='center', fig.cap=c("Figure 2a. A cube and its dual, with some spanning trees, as red edges.")}
+display_tree_pairs(cube, octahedron, deltoidal_icositetrahedron, trees, rbind(orbits[[1]][1],orbits[[2]][1],orbits[[5]][1],orbits[[8]][1]))
+```
+
+In Figure 2a we have the 4 pairs where the octahedron is spanned by the $ P_6 $ *path* graph.
+
+```{r display2b, fig.align='center', fig.cap=c("Figure 2b. A cube and its dual, with some spanning trees, as red edges.")}
+display_tree_pairs(cube, octahedron, deltoidal_icositetrahedron, trees, rbind(orbits[[3]][1],orbits[[4]][1],orbits[[10]][1]))
+```
+
+In Figure 2b we have the 3 pairs where the octahedron is spanned by the $ star_{1,1,3} $ graph.
+
+```{r display2c, fig.align='center', fig.cap=c("Figure 2c. A cube and its dual, with some spanning trees, as red edges.")}
+display_tree_pairs(cube, octahedron, deltoidal_icositetrahedron, trees, rbind(orbits[[6]][1],orbits[[7]][1],orbits[[9]][1],orbits[[11]][1]))
+```
+
+In Figure 2c we have on the top the 2 pairs where the octahedron is spanned by the $ star_{1,2,2} $ graph, and on the bottom the pair where the octahedron is spanned by the $ H_1 $ graph on the left, and the pair where the octahedron is spanned by the $ star_{1,1,1,2} $ graph on the right.
