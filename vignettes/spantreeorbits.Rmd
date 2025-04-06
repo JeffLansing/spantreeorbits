@@ -243,7 +243,7 @@ length(orbits)
 
 ```
 
-Using the association between vertices and edges of the cube and the octahedron (*deltoidal_icositetrahedron$nghmap*) we get 384 spanning trees in this case, and using the automorphism group of the cuboctahedron (see the [Automorphism Groups](./Automorphism_Groups.html#alignment-of-the-cube-and-the-octahedron) vignette) we get 11 orbits.
+Using the association between vertices and edges of the cube and the octahedron (*deltoidal_icositetrahedron$nghmap*) we get 384 spanning trees in this case, and using the automorphism group of the cuboctahedron (see the [Automorphism Groups](Automorphism_Groups.html#alignment-of-the-cube-and-the-octahedron) vignette) we get 11 orbits.
 
 If we look at, say, the first tree in each orbit, we see that this compares favorably with the [results of Peter Turney](https://unfolding.apperceptual.com/)^[Turney, Peter D. "Unfolding the tesseract." Journal of Recreational Mathematics 17.1 (1984): 1-16.], in that it agrees with him on the point that for the octahedron there are 11 different nets, even though there are only 4 different tree graphs which span the octahedron.
 
@@ -268,11 +268,11 @@ In Figure 2c we have on the top the 2 pairs where the octahedron is spanned by t
 Since we are investigating here the matching spanning trees of the cube and of its dual, we should look at the tree graphs which span the cube. Here are the 23 tree graphs with 8 vertices:
 
 <center>
-![Trees with 8 vertices](./images/harary.png){#id .class width=75% height=75%}
+![Figure 3. Trees with 8 vertices](./images/harary.png){#id .class width=75% height=75%}
 </center>
 Note^[Available online at [StackExchange](https://math.stackexchange.com/questions/407562/gallery-of-unlabelled-trees-with-n-vertices), perhaps taken from: *Graph Theory*. By FRANK HARARY. Addison-Wesley, Reading, Mass., 1969. ix + 274 pp.]
 
-Of these 23 trees, only 5 will span a cube: the first, third, and fourth trees in the first row of the figure, the seventh tree in the second row, and the first 2 trees in the third row of the figure. Following the [ISGCI nomenclature](https://www.graphclasses.org/smallgraphs.html#nodes8) this 5 trees are named, in order,
+Of these 23 trees, only 5 will span a cube: the first, third, and fourth trees in the first row of the figure, the seventh tree in the second row, and the first 2 trees in the third row of the figure. Following the [ISGCI nomenclature](https://www.graphclasses.org/smallgraphs.html#nodes8) these 5 trees are named, in order,
 
 \[
 \begin{array}{lllll}
@@ -281,32 +281,48 @@ P_8, & star_{1,2,4}, & star_{2,2,3}, & H_3, & _{1,1}^{2,2}H_1, & \text{and } _{1
 \]
 Note^[The distinction of different H-graphs is inspired by Johnson, Matthew, et al. "Complexity framework for forbidden subgraphs I: The framework." Algorithmica (2025): 1-36. Their Figure 1, p.3 shows $ H_1 \text{and} h_3 $.]
 
+Reviewing briefly, the hypothesis is that the 384 spanning trees of the cube and the 384 spanning trees are "connected", and we have connected them here by concatenation, in the way that $ S_7\\times S_5 $ does. So the *trees* that we are looking at here are elements of $ S_{12} $. The orbits that we are looking at here are created by applying the cuboctahedral group, created in the [Automorphism Groups](./Automorphism_Groups.html#alignment-of-the-rhonbic-dodecahedron-and-the-cuboctahedron) vignette, to the 12 vertex spanning trees. 
 
+```{r}
+lapply(orbits, length) %>% unlist() #lengths
+lapply(orbits, function(v) v[1]) %>% unlist() #representatives
+```
+Within each orbit, the 24 or 48 elements are structurally indistinguishable (they all have the same spectrum). But if we take the elements apart, as in Figure 2 above, we start to see distinctions. Looking at the first element of each orbit as a representative, we see that the tree graph for the left part of the representative, together with the tree graph for the right part, distinguishes (with one exception) the 11 orbits. And if we go on to look at both the tree graphs and their complements (shown in green in Figure 2), then in fact the orbits are completely characterized by 4 small graphs, as shown in the table below.
 \[
 \begin{array}{|c|c|c|c|c|}
   n & \text{cube} & \text{co-cube} & \text{oct} & \text{co-oct} \\
   \hline
   1 & P_8 & P_2\cup 2P_3 & P_6 & \textit{twin-}C_5 \\
   \hline
-  2 & star_{1,2,4} & P_3\cup P_4 & P_6 & X_{37} \\
+  2 & star_{1,2,4} & P_3\cup P_4\cup K_1 & P_6 & X_{37} \\
   \hline 
-  6 & H_3 & P_6\cup K_1 & P_6 & 2K_3+e \\
+  6 & H_3 & P_6\cup 2K_1 & P_6 & 2K_3+e \\
   \hline
   9 & P_8 & 2P_2\cup P_4 & P_6 & \textit{twin-}C_5 \\
   \hline 
   3 & star_{1,2,4} & P_3\cup P_4\cup K_1 & star_{1,1,3} & \overline{X_5} \\
   \hline
-  5 & _{1,3}^{1,1}H_1 & P_6 & star_{1,1,3} & X_{171} \\
+  5 & _{1,3}^{1,1}H_1 & P_6\cup 2K_1 & star_{1,1,3} & X_{171} \\
   \hline
   11 & P_8 & P_4\cup 2P_2 & star_{1,1,3} & X_{45} \\
   \hline 
-  7 & star_{2,2,3} & P_5\cup P_2 & star_{1,2,2} & antenna \\
+  7 & star_{2,2,3} & P_5\cup P_2\cup K_1 & star_{1,2,2} & antenna \\
   \hline 
   8 & star_{1,2,4} & P_5\cup P_2\cup K_1 & star_{1,2,2} & \overline{X_5} \\
   \hline
-  18 & ^{1,1}_{2,2}H_1 & P_6 & H_1 & \textit{co-twin-house} \\
+  18 & ^{1,1}_{2,2}H_1 & P_6\cup 2K_1 & H_1 & \textit{co-twin-house} \\
   \hline
-  13 & ^{1,1}_{2,2}H_1 & C_4\cup K_2 & star_{1,1,1,2} & X_{170}\textit{-e}\cup K_1 \\
+  13 & ^{1,1}_{2,2}H_1 & C_4\cup K_2\cup 2K_1 & star_{1,1,1,2} & X_{170}\textit{-e}\cup K_1 \\
   \hline
 \end{array}
 \]
+
+We can see some of these small graphs at ISGCI, for example [antenna](https://www.graphclasses.org/smallgraphs.html#antenna) or [co-twin-house](https://www.graphclasses.org/smallgraphs.html#twin-house). Here we look at a few of them geometrically in Figure 4 below.
+
+```{r display4a, fig.align='center', fig.cap=c("Figure 4. A cube and its dual, with some small graphs.")}
+display_tree_pairs(cube, octahedron, deltoidal_icositetrahedron, trees, c(5,6,18,13), split = TRUE)
+```
+
+## Towards A Third Example
+
+## Notes

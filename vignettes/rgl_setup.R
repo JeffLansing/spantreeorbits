@@ -69,7 +69,8 @@ display_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10,
   len <- length(oids)
   if(len %% 2 == 1) len <- len + 1
   rc <- c(len/2, 4)
-  open3d(windowRect = c(50, 50, 700, 700))
+  ht <- ifelse(len/2 == 1, 350, 700)
+  open3d(windowRect = c(50, 50, 750, ht))
   if(is.null(umx)) {
     view3d(theta, phi, zoom = 0.85)
   } else {
@@ -104,6 +105,73 @@ display_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10,
   highlevel(integer()) # To trigger display as rglwidget
 }
 
+#' display_split_pairs
+#' Use rgl to display pairs of polyhedrasplit into small graphs
+#' and its dual
+#' @param map1 A map of a tree to a polyhedron
+#' @param map2 A map of a tree to a polyhedron
+#' @param oids Indices
+#' @param shared = TRUE Whether mouse actions are shared between the pair
+#' @param theta = 20 An initial value for the theta display angle
+#' @param phi = 10 An initial value for the phi display angle
+#' @param umx = NULL A 3d rotation matrix. If present overrides theta and phi.
+#'
+#' @return named zero length integer vector: 'rglHighlevel' int(0)
+#' @export
+#'
+#' @examples
+display_split_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10, umx = NULL) {
+  len <- length(oids)
+  if(len %% 2 == 1) len <- len + 1
+  rc <- c(len, 4)
+  ht <- ifelse(rc[1] == 1, 350, 700)
+  open3d(windowRect = c(50, 50, 750, ht))
+  if(is.null(umx)) {
+    view3d(theta, phi, zoom = 0.85)
+  } else {
+    view3d(userMatrix = umx, zoom = 0.85)
+  }
+  par3d(font = 2, FOV = 10) #0 is isomorphic view
+  material3d(color = 'white', alpha = 0.1)
+  mfrow3d(rc[1], rc[2], sharedMouse = shared)
+  for(i in 1:length(oids)) {
+    k <- oids[i]
+    next3d()
+    bgplot3d({
+      plot.new()
+      title(main = str_c('tree ', k), line = 3)
+    })
+    text3d(map1$verts, texts = map1$texts, adj = 0)
+    segments3d(map1$verts[map1$ixs[i,],], col="red")
+    # text3d(map1$mpsa[,,i], texts = str_c(map1$st_lf[k,]), col = "red")
+    next3d()
+    bgplot3d({
+      plot.new()
+      title(main = str_c('co-tree ', k), line = 3)
+    })
+    text3d(map1$verts, texts = map1$texts, adj = 0)
+    segments3d(map1$verts[map1$jxs[i,],], col="forestgreen")
+    # text3d(map1$mpsb[,,i], texts = str_c(map1$st_rt[k,]), col = "forestgreen")
+    next3d()
+    bgplot3d({
+      plot.new()
+      title(main = str_c('dual ', k), line = 3)
+    })
+    text3d(map2$verts, texts = map2$texts, adj = 0)
+    segments3d(map2$verts[map2$ixs[i,],], col="red")
+    # text3d(map2$mpsa[,,i], texts = str_c(map2$st_lf[k,]), col = "red")
+    next3d()
+    bgplot3d({
+      plot.new()
+      title(main = str_c('co-dual ', k), line = 3)
+    })
+    text3d(map2$verts, texts = map2$texts, adj = 0)
+    segments3d(map2$verts[map2$jxs[i,],], col="forestgreen")
+    # text3d(map2$mpsb[,,i], texts = str_c(map2$st_rt[k,]), col = "forestgreen")
+  }
+  highlevel(integer()) # To trigger display as rglwidget
+}
+
 #' display_tree_pairs
 #'
 #' @param poly a polyhedron
@@ -123,7 +191,7 @@ display_pairs <- function(map1, map2, oids, shared = TRUE, theta = 20, phi = 10,
 #' library(spantreepairs)
 #' library(rgl)
 #' display_tree_pairs(tetrahedron, dual_tetrahedron, rhombic_dodecahedron, gens, c1,3,15,16)
-display_tree_pairs <- function(poly, dual, ortho, trees, choices) {
+display_tree_pairs <- function(poly, dual, ortho, trees, choices, split = FALSE) {
   nghmap <- ortho$nghmap
   l <- nghmap[,1:2] %>% max() -1
   r <- nghmap[,3:4] %>% max() -1
@@ -144,7 +212,11 @@ display_tree_pairs <- function(poly, dual, ortho, trees, choices) {
   dual_map <- map_trees_to_poly(verts2, choices, elist2, sts2, sts1) %>%
     append(list(texts = dual$texts))
 
-  display_pairs(poly_map, dual_map, choices)
+  if(split) {
+    display_split_pairs(poly_map, dual_map, choices)
+  } else {
+    display_pairs(poly_map, dual_map, choices)
+  }
 }
 
 #' display_poly
