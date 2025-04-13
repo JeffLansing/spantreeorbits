@@ -36,7 +36,8 @@ get_deltoidal_icositetrahedron <- function() {
   code <- c(code, tmp %>% str_c(collapse = ", ") %>% str_c("faces <- rbind(", ., ")"))
   eval(parse(text=code))
 
-  vorder <- c(1,14,20,23,25,26,2,3,5,4,9,15,11,19,13,22,7,17,10,12,6,8,16,18,21,24)
+  old_vorder <- c(1,14,20,23,25,26,2,3,5,4,9,15,11,19,13,22,7,17,10,12,6,8,16,18,21,24)
+  vorder <- old_vorder[c(1:18, c(19:26)[c(1,5,7,3,6,2,4,8)])] # 2025-04-13 06:07:06 PDT fix alignment with cube
 
   verts <- verts %>% zapsmall() %>% `[`(vorder, TRUE)
   faces <- faces %>% apply(1, function(rw) order(vorder)[rw]) %>% t()
