@@ -42,13 +42,13 @@ The goal of this vignette is to use the common expansion of a polyhedron $\pi$ a
 
 The following figure shows the polyhedra that will be considered, and how they are related by expansion operators.
 
-```{r echo=FALSE, fig.align='center', fig.cap=c("Figure 1. A tree of polyhedra with names, Conway operators, and edges/faces/vertices counts."), fig.height=4, fig.width=6}
+```{r echo=FALSE, fig.align='center', fig.cap=c("Figure 1. A tree of polyhedra with names, Conway operators, and faces/edges/vertices counts."), fig.height=4, fig.width=6}
 lxpy <- "cube,cuboctahedron,deltoidal_icositetrahedron,deltoidal_tetracontaoctahedron,dual_tetrahedron,octahedron,rhombic_dodecahedron,rhombicuboctahedron,tetrahedron"
 poly_info <- cbind(
   str_split(lxpy, ",") %>% unlist(), c(1:9),
   c(7,3,4,0,1,7,3,4,1),  # parents
   c('C','aC','deC','deaC','dT','O','daC','eC','T'), # code
-  c('8/12/6','14/24/12','24/48/26','48/96/50','4/6/4','6/12/8','12/24/14','26/48/24','4/6/4') # Euler
+  c('6/12/8','14/24/12','24/48/26','48/96/50','4/6/4','8/12/6','12/24/14','26/48/24','4/6/4') # Euler
 ) %>% data.frame() %>% dplyr::rename(name=1,id=2,parent=3,code=4,euler=5) %>% 
   dplyr::mutate(id = as.integer(id), parent = as.integer(parent)) %>% 
   dplyr::mutate(pname = str_c(name, "\n", code, "\n", euler))
