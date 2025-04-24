@@ -79,7 +79,7 @@ get_deltoidal_tetracontaoctahedron <- function() {
 
   # In Conway's operators, this is aaaC or aaaO (See Polyhedralisme . Also note e = aa)
   deltoidal_tetracontaoctahedron <- list(
-    info = c(48,96,50) %>% `names<-`(c('facces', 'edges', 'vertices')),
+    info = c(48,96,50) %>% `names<-`(c('faces', 'edges', 'vertices')),
     verts = verts,
     nghmap = nghmap,
     faces = faces,

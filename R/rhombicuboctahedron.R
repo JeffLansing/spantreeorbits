@@ -73,7 +73,7 @@ get_rhombicuboctahedron <- function() {
   segments <- verts[segix,]
 
   rhombicuboctahedron <- list(
-    info = c(26,48,24) %>% `names<-`(c('facces', 'edges', 'vertices')),
+    info = c(26,48,24) %>% `names<-`(c('faces', 'edges', 'vertices')),
     verts = verts,
     cu_faces = cu_faces,
     oct_faces = oct_faces,

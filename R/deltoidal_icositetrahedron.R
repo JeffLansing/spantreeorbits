@@ -71,7 +71,7 @@ get_deltoidal_icositetrahedron <- function() {
   }) %>% abind::abind(along = 2) %>% t() %>% `[`(TRUE,c(3,4,1,2))
 
   deltoidal_icositetrahedron <- list(
-    info = c(24,48,26) %>% `names<-`(c('facces', 'edges', 'vertices')),
+    info = c(24,48,26) %>% `names<-`(c('faces', 'edges', 'vertices')),
     verts = verts,
     nghmap = nghmap,
     faces = faces,

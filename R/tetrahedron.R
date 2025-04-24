@@ -57,7 +57,7 @@ get_tetrahedron <- function() {
   segments <- verts[segix,]
 
   tetrahedron <- list(
-    info = c(4,6,4) %>% `names<-`(c('facces', 'edges', 'vertices')),
+    info = c(4,6,4) %>% `names<-`(c('faces', 'edges', 'vertices')),
     verts = verts,
     faces = faces,
     texts = texts,

@@ -57,7 +57,7 @@ get_octahedron <- function() {
   segments <- verts[segix,]
 
   octahedron <- list(
-    info = c(8,12,6) %>% `names<-`(c('facces', 'edges', 'vertices')),
+    info = c(8,12,6) %>% `names<-`(c('faces', 'edges', 'vertices')),
     verts = verts,
     faces = faces,
     texts = texts,

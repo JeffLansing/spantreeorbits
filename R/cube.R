@@ -62,7 +62,7 @@ get_cube <- function() {
   segments <- verts[segix,]
 
   cube <- list(
-    info = c(6,12,8) %>% `names<-`(c('facces', 'edges', 'vertices')),
+    info = c(6,12,8) %>% `names<-`(c('faces', 'edges', 'vertices')),
     verts = verts,
     faces = faces,
     texts = texts,

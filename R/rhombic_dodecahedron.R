@@ -75,7 +75,7 @@ get_rhombic_dodecahedron <- function() {
   }) %>% abind::abind(along = 2) %>% t() %>% `[`(TRUE,c(3,4,1,2))
 
   rhombic_dodecahedron <- list(
-    info = c(12,24,14) %>% `names<-`(c('facces', 'edges', 'vertices')),
+    info = c(12,24,14) %>% `names<-`(c('faces', 'edges', 'vertices')),
     verts = verts,
     nghmap = nghmap,
     faces = faces,

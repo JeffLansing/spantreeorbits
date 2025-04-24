@@ -75,7 +75,7 @@ get_cuboctahedron <- function() {
   segments <- verts[segix,]
 
   cuboctahedron <- list(
-    info = c(14,24,12) %>% `names<-`(c('facces', 'edges', 'vertices')),
+    info = c(14,24,12) %>% `names<-`(c('faces', 'edges', 'vertices')),
     verts = verts,
     cu_faces = cu_faces,
     oct_faces = oct_faces,
