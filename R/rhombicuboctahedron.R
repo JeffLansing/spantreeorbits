@@ -71,6 +71,7 @@ get_rhombicuboctahedron <- function() {
   segx <- Reduce(rbind, segs)
   segix <- get_set(segx) %>% as.list() %>% unlist()
   segments <- verts[segix,]
+  edges <- segix %>% matrix(byrow = T, ncol = 2)
 
   rhombicuboctahedron <- list(
     info = c(26,48,24) %>% `names<-`(c('faces', 'edges', 'vertices')),
@@ -78,7 +79,8 @@ get_rhombicuboctahedron <- function() {
     cu_faces = cu_faces,
     oct_faces = oct_faces,
     texts = texts,
-    segments = segments
+    segments = segments,
+    edges = edges
   )
   rhombicuboctahedron
 }
@@ -86,9 +88,11 @@ get_rhombicuboctahedron <- function() {
 #'  Rhombicuboctahedron
 #' @details A rhombicuboctahedron data structure.
 #' \describe{
+#'  \item{info}{The numbers of faces, edges, and vertices}
 #'  \item{verts}{The vertex coordinates}
 #'  \item{texts}{The vertex labels}
 #'  \item{segments}{The edges of the rhombicuboctahedron}
+#'  \item{edges}{An edgelist as indices of vertices}
 #'  \item{cu_faces}{The quadrilateral faces}
 #'  \item{oct_faces}{The triangular faces}
 #' }

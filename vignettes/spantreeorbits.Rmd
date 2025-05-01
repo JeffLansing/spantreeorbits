@@ -229,8 +229,9 @@ data(cube, package = "spantreeorbits")
 data(octahedron, package = "spantreeorbits")
 data(deltoidal_icositetrahedron, package = "spantreeorbits")
 # This is a temporary fix. I should go away when the polyhedra are better aligned.
-cube$verts <- deltoidal_icositetrahedron$verts[19:26,]
-octahedron$verts <- deltoidal_icositetrahedron$verts[1:6,]
+# cube$verts <- deltoidal_icositetrahedron$verts[19:26,]
+# octahedron$verts <- deltoidal_icositetrahedron$verts[1:6,]
+#fixed 4/13/2025
 
 ```
 
@@ -245,7 +246,7 @@ length(orbits)
 
 Using the association between vertices and edges of the cube and the octahedron (*deltoidal_icositetrahedron$nghmap*) we get 384 spanning trees in this case, and using the automorphism group of the cuboctahedron (see the [Automorphism Groups](Automorphism_Groups.html#alignment-of-the-cube-and-the-octahedron) vignette) we get 11 orbits.
 
-If we look at, say, the first tree in each orbit, we see that this compares favorably with the [results of Peter Turney](https://unfolding.apperceptual.com/)^[Turney, Peter D. "Unfolding the tesseract." Journal of Recreational Mathematics 17.1 (1984): 1-16.], in that it agrees with him on the point that for the octahedron there are 11 different nets, even though there are only 4 different tree graphs which span the octahedron.
+If we look at, say, the first tree in each orbit, we see that this compares favorably with the [results of Peter Turney](https://unfolding.apperceptual.com/)^[Turney, Peter D. "Unfolding the tesseract." Journal of Recreational Mathematics 17.1 (1984): 1-16.], in that it agrees with him that for the octahedron there are 11 different nets, even though there are only 4 different tree graphs which span the octahedron.
 
 ```{r display2a, fig.align='center', fig.cap=c("Figure 2a. A cube and its dual, with some spanning trees, as red edges.")}
 display_tree_pairs(cube, octahedron, deltoidal_icositetrahedron, trees, rbind(orbits[[1]][1],orbits[[2]][1],orbits[[5]][1],orbits[[8]][1]))
@@ -281,7 +282,7 @@ P_8, & star_{1,2,4}, & star_{2,2,3}, & H_3, & _{1,1}^{2,2}H_1, & \text{and } _{1
 \]
 Note^[The distinction of different H-graphs is inspired by Johnson, Matthew, et al. "Complexity framework for forbidden subgraphs I: The framework." Algorithmica (2025): 1-36. Their Figure 1, p.3 shows $ H_1 \text{and} h_3 $.]
 
-Reviewing briefly, the hypothesis is that the 384 spanning trees of the cube and the 384 spanning trees are "connected", and we have connected them here by concatenation, in the way that $ S_7\\times S_5 $ does. So the *trees* that we are looking at here are elements of $ S_{12} $. The orbits that we are looking at here are created by applying the cuboctahedral group, created in the [Automorphism Groups](./Automorphism_Groups.html#alignment-of-the-rhonbic-dodecahedron-and-the-cuboctahedron) vignette, to the 12 vertex spanning trees. 
+Reviewing briefly, the hypothesis is that the 384 spanning trees of the cube and the 384 spanning trees of the octahedron are "associated", and we have associated them here by concatenation, in the way that $ S_7\\times S_5 $ does. So the *trees* that we are looking at here are elements of $ S_{12} $. The orbits that we are looking at here are created by applying the cuboctahedral group, created in the [Automorphism Groups](./Automorphism_Groups.html#alignment-of-the-rhonbic-dodecahedron-and-the-cuboctahedron) vignette, to the 12 vertex spanning trees. 
 
 ```{r}
 lapply(orbits, length) %>% unlist() #lengths
@@ -325,4 +326,182 @@ display_tree_pairs(cube, octahedron, deltoidal_icositetrahedron, trees, c(5,6,18
 
 ## Towards A Third Example
 
+We consider the rhombic dodecahedron,  with 14 vertices, 12 faces, and 24 edges, and its dual polyhedron, the cuboctahedron. A spanning tree for the rhombic dodecahedron will touch the 14 vertices once, so will have 13 edges; similarly, a spanning tree for the cuboctahedron will have 11 edges. Since $ 13 + 11 = 24 $, the appropriate data source for this example will be $ S_{24} $, but since the order of $ S_{12} $ is $ 620448401733239439360000 $ we will restrict it by using the cosets of $ S_13 \\times S_11 $ in $ S_{24} $, so we will have a data source of size $ 620448401733239439360000 / (6227020800 * 39916800) = 2496144 $, which is the *s13s11cosetreps.rda* data set in this package.
+
+```{r echo=FALSE}
+data(rhombic_dodecahedron, package = "spantreeorbits")
+data(cuboctahedron, package = "spantreeorbits")
+data("deltoidal_tetracontaoctahedron" , package = "spantreeorbits")
+```
+
+Furthermore, the following bit of code takes far too long, for a vignette, so the result was computed offline and is available as the *s13s11trees.rda* data set in this package. 
+
+```{r eval=FALSE}
+s13s1trees <- trees_from_perms(deltoidal_tetracontaoctahedron, s13s11cosetreps, 13, 11)
+```
+
+### Vectors over GF(2) and the Neighbor Map
+
+```{r}
+# Load the 331776 spanning tree pairs for the rhombic dodecahedron
+# and its dual, the cuboctahedron
+data(s13s11trees, package = "spantreeorbits")
+
+#Look at one of the pairs, e.g., the first one
+tree <- s13s11trees[1,]
+
+tree %>% `dim<-`(c(1,24)) %>% kableExtra::kbl(caption = "The first of the spanning tree pairs, as a vector of edge labels: ") %>% kableExtra::column_spec(c(1:24), width = "2em") %>% 
+  kableExtra::row_spec(1, align = 'c') %>% 
+  kableExtra::column_spec(c(1,14), border_left = T) %>% 
+  kableExtra::column_spec(c(13,24), border_rig = T)
+
+```
+</p>
+
+We show that this particular pair actually is a pair of spanning trees:
+
+```{r fig.align='center', fig.cap="red: rhombic_dodecahedron, green: cuboctahedron"}
+
+get_spanning_trees <- function(pair) {
+  radixs <- nmdtco[pair[1:13],1:2] %>% t() %>% c()
+  cuixs <- nmdtco[pair[14:24],3:4] %>% t() %>% c()
+  
+  rad <- list(verts = rhombic_dodecahedron$verts, 
+                     texts = rhombic_dodecahedron$texts, 
+                     segments = rhombic_dodecahedron$verts[radixs,])
+  cu <- list(verts = cuboctahedron$verts, 
+                    texts = cuboctahedron$texts, 
+                    segments = cuboctahedron$verts[cuixs,])
+  list(rad = rad, cu = cu)
+}
+
+nmdtco <- deltoidal_tetracontaoctahedron$nghmap
+
+sptrs <- get_spanning_trees(tree)
+
+display_poly(deltoidal_icositetrahedron, dual = sptrs$rad, codual = sptrs$cu,
+             show_axes = F, show_segments = F, show_labels = F)
+```
+</p>
+Next we apply this particular tree pair to the appropriate neighbor map.
+
+As shown in the [Pair_Alignment](Pair_Alignment.html) vignette, a neighbor map is a representation of the way that a polyhedron and its dual are aligned, within the larger polyhedron that contains them, by the dual of that larger polyhedron. In this case, the larger polyhedron is the deltoidal icositetrahedron, and its dual is the rhombicuboctahedron.
+
+We can see how this alignment works by zooming in on the deltoidal tetracontaoctahedron, whic contains both the deltoidal icositetrahedron and the rhombicuboctahedron:
+
+```{r fig.align='center', fig.cap="f and v: rhombic dodecahedron vertices, o: cuboctahedron vertices, r: rhombicuboctahedron vertices", fig.width = 4, fig.height = 4}
+
+display_poly(deltoidal_tetracontaoctahedron, zoom = 2/5)
+
+```
+</p>
+We see that, e.g., $r_5$ aligns its neighbors $f_1$ and $v_1$ with its other neighbors $o_3$ and $o_4$, and $r_{21}$ aligns $f_6$ and $v_8$ with $o_{10}$ and $o_{12}$.
+Both $5$ and $21$ are in the right hand part of the example tree pair, and both $o_3$ and $o_4$, and $o_{10}$ and $o_{12}$ are green edges in the spanning tree figure, previously shown.
+
+So in general, applying a tree pair to a neighbor map means using the values in the tree pair to select rows in the map, with the left part of the tree pair selecting the left part of the map, and similarly for the right parts. We show an example of this next.
+
+```{r}
+
+# Make the neighbor map easier to read
+ttco <- cbind(
+  str_c('f',nmdtco[,1]),
+  str_c('v',nmdtco[,2] - 6),
+  str_c('o',nmdtco[,3]),
+  str_c('o',nmdtco[,4])
+)
+
+# A helper function for colors:
+get_colors <- function(rw) {
+  colors <- rep('gray50',24)
+  colors[rw] <- 'white'
+  colors
+}
+
+# Show the table:
+ttco %>%`rownames<-`(str_c('r', 1:24)) %>% kableExtra::kbl() %>% 
+  kableExtra::kable_styling(full_width = F, position = "center") %>% 
+  kableExtra::column_spec(c(1:4), width = "2em") %>%
+  kableExtra::add_header_above(c(" " = 1, "0" = 2, "1" = 2)) %>%
+  kableExtra::row_spec(1:24, align = 'c') %>%
+  kableExtra::column_spec(1, bold = T) %>% 
+  kableExtra::column_spec(2:3, background = get_colors(tree[1:13])) %>%
+  kableExtra::column_spec(4:5, background = get_colors(tree[14:24]))
+
+```
+
+</p>
+The entries in the neighbor map that are not grayed out can be identified by listing which column (0 or 1) that they are in, in the map. 
+So this gives a representation of the tree pair as a vector of zeros and ones.
+
+```{r}
+
+get_01vec <- function(tree) {
+  rw <- tree[1:13]
+  v <- rep(1,24)
+  v[rw] <- 0
+  v
+}
+
+vec <- get_01vec(tree)
+
+vec %>% `dim<-`(c(1,24)) %>% kableExtra::kbl(caption = "The first of the spanning tree pairs, as a vector over GL(2): ") %>% kableExtra::column_spec(c(1:24), width = "1.2em") %>%
+  kableExtra::row_spec(1, align = 'c') 
+
+```
+</p>
+Since there are only 24 entries in this vector, it can be "naturally" encoded as a single integer, as follows.
+
+```{r}
+
+powers_of_two <- sapply(0:23, function(n) 2^n)
+
+vec_to_int <- function(tree) {
+  powers_of_two[which(vec == 1)] %>% sum()
+}
+
+int <- vec_to_int(vec)
+factors <- gmp::factorize(int) %>% table() %>% str_c(names(.),'^{',., '}', collapse = ' ')
+rep <- str_c(int, ' = ', factors)
+```
+</p>
+So in this representation, the example tree pair becomes the integer: $$ `r rep ` $$
+
+Clearly there will be $ 2^{24} $ such integers, and if we check with GAP we that the module $ GF(2)^{24} $ is exactly that size.
+
+```{=html}
+<div>
+<script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
+<div id="cell4">
+<script type="text/x-sage">
+vs := GF(2)^24;
+IsFreeLeftModule(vs);
+2^24 = Size(vs);
+</script>
+</div>
+<script>
+sagecell.makeSagecell({
+inputLocation: '#cell4',
+languages: ['gap'],
+//Focus the editor
+callback: function() {$('#cell4').find(".CodeMirror").get(0).CodeMirror.focus();}
+});
+</script>
+</div>
+```
+</p>
+Summarizing, we have shown 5 different representations of a spanning tree pair: 
+
+1. A 2-part vector of indices of vertices in a particular polyhedron
+
+2. A "3d" *rgl* view of the tree pair
+
+3. A shaded neighbor map
+
+4. A vector of elements of $ GL(2) $
+
+5. An integer between $ 0 $  and $ 2^{n} $, exclusive, where $ n $ is the length of the vector in representation 1.
+
+The 331776 spanning tree pairs for the rhombic dodecahedron and the  cuboctahedron will .use slightly less than 2 percent of these representations.
+
+### Arranging the Spanning Trees into Orbits
 ## Notes

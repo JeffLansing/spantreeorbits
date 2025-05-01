@@ -30,7 +30,9 @@ Suggests:
     permutations,
     sets,
     digest,
-    bit64
+    bit64,
+    gmp,
+    scico
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Depends: 

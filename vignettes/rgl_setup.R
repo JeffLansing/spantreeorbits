@@ -219,6 +219,32 @@ display_tree_pairs <- function(poly, dual, ortho, trees, choices, split = FALSE)
   }
 }
 
+#' get_axes
+#' Get the labeled rotation axes for a polyhedron
+#'
+#' @param verts The geometrically opposite vertices of a polyhedron
+#' @param texts The labels for those vertices
+#'
+#' @return A vector of vertex indices
+#' @export
+#'
+#' @examples
+#'
+get_axes <- function(verts, texts = str_c('x', 1:nrow(verts))) {
+  vt <- verts %>% `row.names<-`(texts)
+  vti <- (verts * -1) %>% `row.names<-`(str_c(texts, 'i'))
+  both <- rbind(vt, vti)
+  pairs <- both[order(both[,1], both[,2], both[,3]),] %>%
+    rownames() %>%str_remove("i") %>% matrix(byrow = T, ncol = 2) %>%
+    apply(1,sort) %>% t() %>% unique()
+  wideaxes <- pairs[order(pairs[,1]),] %>% apply(1, function(rw) {
+    ixs <- c(which(texts ==rw[1]),
+             which(texts ==rw[2]))
+    ixs
+  }) %>% t()
+  c(t(wideaxes))
+}
+
 #' display_poly
 #' Display a polygon in various ways.
 #' @param poly The polygon
@@ -228,10 +254,15 @@ display_tree_pairs <- function(poly, dual, ortho, trees, choices, split = FALSE)
 #' @param coscale = scale A scale factor for the second contained polygon
 #' @param labels = TRUE Whether to displayed the vertex labels of the contained
 #' polygons.
-#' @param zoom = 0,8 An initial value  fro the zoom factor
+#' @param zoom = 0,8 An initial value  for the zoom factor
 #' @param theta = 20 An initial value for the theta display angle
 #' @param phi = 10 An initial value for the phi display angle
 #' @param umx = NULL A 3d rotation matrix. If present overrides theta and phi.
+#' @param show_segments = TRUE Whether or not to show the segments of the containing poly
+#' @param show_labels = TRUE Whether or not to show the vertex labels of the containing poly
+#' @param show_axes = FALSE Whether or not to show the rotation axes of the containing poly
+#' @param colorize = FALSE Whether or not to color the segments of the containing poly with scico colors
+#' @param palette = "hawaii" The name of the scico pallette to use, if colorize is true
 #'
 #' @return named zero length integer vector: 'rglHighlevel' int(0)
 #' @export
@@ -241,7 +272,9 @@ display_tree_pairs <- function(poly, dual, ortho, trees, choices, split = FALSE)
 display_poly <- function(poly, dual = NULL, codual = NULL,
                          scale = 1, coscale = scale,
                          labels = TRUE, jitter = FALSE, zoom = 0.8,
-                         theta = 20, phi = 10, umx = NULL) {
+                         theta = 20, phi = 10, umx = NULL,
+                         show_segments = TRUE, show_labels = TRUE, show_axes = FALSE,
+                         colorize = FALSE, palette = "hawaii") {
   open3d(windowRect = c(50, 50, 750, 700))
   if(is.null(umx)) {
     view3d(theta, phi, zoom = zoom)
@@ -255,23 +288,43 @@ display_poly <- function(poly, dual = NULL, codual = NULL,
   bgplot3d({
     plot.new()
   })
-  segments3d(poly$segments, col="black", lwd=1)
-  if(jitter) {
-    text3d(poly$verts, texts = poly$texts, adj = -0.1)
-  } else {
-    text3d(poly$verts, texts = poly$texts)
+  if(show_axes) {
+    axes <- poly$verts[get_axes(poly$verts, poly$texts),] * scale * 1.25
+    clrs <- scico(nrow(axes)/2, palette = palette)
+    for(j in seq(1, nrow(axes) - 1, 2)) {
+      seg <- axes[c(j, j + 1),]
+      segments3d(seg, col=clrs[(j+1)/2], lwd=1.0)
+    }
   }
+  if(colorize) {
+    clrs <- scico(nrow(poly$segments)/2, palette = palette)
+    for(j in seq(1, nrow(poly$segments) - 1, 2)) {
+      seg <- poly$segments[c(j, j + 1),]
+      segments3d(seg, col=clrs[(j+1)/2], lwd=1.5)
+    }
+  } else if(show_segments) {
+    segments3d(poly$segments, col="black", lwd=1)
+  }
+  if(show_labels) {
+    if(jitter) {
+      text3d(poly$verts, texts = poly$texts, adj = -0.1)
+    } else {
+      text3d(poly$verts, texts = poly$texts)
+    }
+  }
+
   if(!is.null(dual)) {
-    segments3d(dual$segments * scale, col="red", lwd=1)
+    segments3d(dual$segments * scale, col="red", lwd=1.5)
     if(labels) {
       text3d(dual$verts * scale, texts = dual$texts, col="red", adj = 1.1)
     }
   }
   if(!is.null(codual)) {
-    segments3d(codual$segments * coscale, col="forestgreen", lwd=1)
+    segments3d(codual$segments * coscale, col="forestgreen", lwd=1.5)
     if(labels) {
       text3d(codual$verts * coscale, texts = codual$texts, col="forestgreen", adj = 1.1)
     }
   }
   highlevel(integer()) # To trigger display as rglwidget
 }
+

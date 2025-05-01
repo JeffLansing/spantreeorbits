@@ -159,6 +159,16 @@ nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
 str_c("The octahedron has ", nst, " spanning trees")
 ```
 
+We convert the octahedron adjacency matrix to a GAP list of lists, and call it *"A"*. This can be plugged into a call to GAP.
+
+```{r}
+am <- am_oct %>% apply(1, function(rw) { 
+    str_c(rw, collapse = ',') %>% str_c('[', ., ']')
+  }) %>% str_c(collapse = ',') %>% str_c('A := [', ., '];;gamma := Graph( Group(()), [1..6], OnPoints, function(x,y) return A[x][y]=1;; end, true );;ag := AutGroupGraph( gamma );')
+am
+
+```
+
 In this case the adjacency matrix is a $6 \times 6$ matrix. We use it to generate a group.
 
 ```{=html}
@@ -490,6 +500,16 @@ nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
 str_c("The cuboctahedron has ", nst, " spanning trees")
 ```
 
+We convert the cuboctahedron adjacency matrix to a GAP list of lists, and call it *"A"*. This can be plugged into a call to GAP.
+
+```{r}
+am <- am_co %>% apply(1, function(rw) { 
+    str_c(rw, collapse = ',') %>% str_c('[', ., ']')
+  }) %>% str_c(collapse = ',') %>% str_c('A := [', ., '];;gamma := Graph( Group(()), [1..12], OnPoints, function(x,y) return A[x][y]=1;; end, true );;ag := AutGroupGraph( gamma );')
+am
+
+```
+
 ```{=html}
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
@@ -622,16 +642,7 @@ callback: function() {$('#cell9').find(".CodeMirror").get(0).CodeMirror.focus();
 ```
 
 ```{r}
-am_rco <- c(
-  rhombicuboctahedron$cu_faces %>% apply(1, function(rw) {
-    rw[c(1,2,2,3,3,4,4,1)]
-  }) %>% as.integer(),
-  rhombicuboctahedron$oct_faces %>% apply(1, function(rw) {
-    rw[c(1,2,2,3,3,1)]
-  }) %>% as.integer()
-) %>% matrix(byrow = T, ncol = 2) %>% get_set() %>%
-as.list() %>% unlist() %>%
-matrix(byrow = T, ncol = 2) %>% edgelist_to_adjmat()
+am_rco <- rhombicuboctahedron$edges %>% edgelist_to_adjmat()
 
 ```
 
@@ -646,18 +657,29 @@ nst <- lap[2:nrow(lap),2:ncol(lap)] %>% `dimnames<-`(list(NULL, NULL)) %>% det()
 str_c("The rhombicuboctahedron has ", bit64::as.integer64(nst) + 1, " spanning trees")
 ```
 
+We convert the rhombicuboctahedron adjacency matrix to a GAP list of lists, and call it *"A"*. This can be plugged into a call to GAP.
+
+```{r}
+am <- am_rco %>% apply(1, function(rw) { 
+    str_c(rw, collapse = ',') %>% str_c('[', ., ']')
+  }) %>% str_c(collapse = ',') %>% str_c('A := [', ., '];;gamma := Graph( Group(()), [1..24], OnPoints, function(x,y) return A[x][y]=1;; end, true );;ag := AutGroupGraph( gamma );')
+am
+
+```
+
 ```{=html}
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script>
 <div id="cell10">
 <script type="text/x-sage">
 A := [[0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],[1,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0],[0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0],[0,1,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0],[0,1,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,1,0,0,0,0],[0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,0,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0],[0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1],[1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0]];;
-gamma := Graph( Group(()), [1..24], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+gamma := Graph( Group(()), [1..24], OnPoints, function(x,y) return A[x][y]=1;; end, true );;ag := AutGroupGraph( gamma );
 ag := AutGroupGraph( gamma );
 Display(StructureDescription(ag));
 sg :=StrongGeneratorsStabChain(StabChain(ag));
 oh := Group(sg);;
 Display(oh);
+P := PresentationViaCosetTable(oh);; TzPrint(P);
 aa := ConjugacyClasses(oh);;
 els := [];;
 for a in aa do

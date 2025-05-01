@@ -5,7 +5,7 @@
 \alias{rhombicuboctahedron}
 \title{Rhombicuboctahedron}
 \format{
-An object of class \code{list} of length 6.
+An object of class \code{list} of length 7.
 }
 \usage{
 rhombicuboctahedron
@@ -16,9 +16,11 @@ Rhombicuboctahedron
 \details{
 A rhombicuboctahedron data structure.
 \describe{
+\item{info}{The numbers of faces, edges, and vertices}
 \item{verts}{The vertex coordinates}
 \item{texts}{The vertex labels}
 \item{segments}{The edges of the rhombicuboctahedron}
+\item{edges}{An edgelist as indices of vertices}
 \item{cu_faces}{The quadrilateral faces}
 \item{oct_faces}{The triangular faces}
 }
