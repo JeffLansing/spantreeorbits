@@ -62,7 +62,7 @@
                         <h4 data-toc-skip class="author">Jeff
 Lansing</h4>
             
-            <h4 data-toc-skip class="date">2025-04-24</h4>
+            <h4 data-toc-skip class="date">2025-05-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/JeffLansing/spantreeorbits/blob/master/vignettes/Automorphism_Groups.Rmd" class="external-link"><code>vignettes/Automorphism_Groups.Rmd</code></a></small>
       <div class="d-none name"><code>Automorphism_Groups.Rmd</code></div>
@@ -476,6 +476,14 @@ technique as before.</p>
 </tr>
 </tbody></table>
 <pre><code><span><span class="co">#&gt; [1] "The octahedron has 384 spanning trees"</span></span></code></pre>
+<p>We convert the octahedron adjacency matrix to a GAP list of lists,
+and call it <em>“A”</em>. This can be plugged into a call to GAP.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">am</span> <span class="op">&lt;-</span> <span class="va">am_oct</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span> </span>
+<span>    <span class="fu">str_c</span><span class="op">(</span><span class="va">rw</span>, collapse <span class="op">=</span> <span class="st">','</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_c</span><span class="op">(</span><span class="st">'['</span>, <span class="va">.</span>, <span class="st">']'</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_c</span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">','</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_c</span><span class="op">(</span><span class="st">'A := ['</span>, <span class="va">.</span>, <span class="st">'];;gamma := Graph( Group(()), [1..6], OnPoints, function(x,y) return A[x][y]=1;; end, true );;ag := AutGroupGraph( gamma );'</span><span class="op">)</span></span>
+<span><span class="va">am</span></span>
+<span><span class="co">#&gt; [1] "A := [[0,1,1,1,1,0],[1,0,1,0,1,1],[1,1,0,1,0,1],[1,0,1,0,1,1],[1,1,0,1,0,1],[0,1,1,1,1,0]];;gamma := Graph( Group(()), [1..6], OnPoints, function(x,y) return A[x][y]=1;; end, true );;ag := AutGroupGraph( gamma );"</span></span></code></pre></div>
 <p>In this case the adjacency matrix is a
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>×</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">6 \times 6</annotation></semantics></math>
 matrix. We use it to generate a group.</p>
@@ -993,7 +1001,7 @@ subgroups is interesting, as will be seen in another vignette.</p>
 </h2>
 <p>As above, each of the 3 aspects of the neighbor map has an associated
 automorphism group.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_dit_lf</span> <span class="op">&lt;-</span> <span class="va">deltoidal_icositetrahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table"><tbody>
 <tr>
@@ -1234,7 +1242,7 @@ callback: function() {$('#cell5').find(".CodeMirror").get(0).CodeMirror.focus();
 });
 </script>
 </div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_dit_rt</span> <span class="op">&lt;-</span> <span class="va">deltoidal_icositetrahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table"><tbody>
 <tr>
@@ -1387,7 +1395,7 @@ callback: function() {$('#cell6').find(".CodeMirror").get(0).CodeMirror.focus();
 });
 </script>
 </div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_co</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>    <span class="va">cuboctahedron</span><span class="op">$</span><span class="va">cu_faces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span></span>
 <span>      <span class="va">rw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span></span>
@@ -1857,6 +1865,14 @@ callback: function() {$('#cell6').find(".CodeMirror").get(0).CodeMirror.focus();
 </tr>
 </tbody></table>
 <pre><code><span><span class="co">#&gt; [1] "The cuboctahedron has 331776 spanning trees"</span></span></code></pre>
+<p>We convert the cuboctahedron adjacency matrix to a GAP list of lists,
+and call it <em>“A”</em>. This can be plugged into a call to GAP.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">am</span> <span class="op">&lt;-</span> <span class="va">am_co</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span> </span>
+<span>    <span class="fu">str_c</span><span class="op">(</span><span class="va">rw</span>, collapse <span class="op">=</span> <span class="st">','</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_c</span><span class="op">(</span><span class="st">'['</span>, <span class="va">.</span>, <span class="st">']'</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_c</span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">','</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_c</span><span class="op">(</span><span class="st">'A := ['</span>, <span class="va">.</span>, <span class="st">'];;gamma := Graph( Group(()), [1..12], OnPoints, function(x,y) return A[x][y]=1;; end, true );;ag := AutGroupGraph( gamma );'</span><span class="op">)</span></span>
+<span><span class="va">am</span></span>
+<span><span class="co">#&gt; [1] "A := [[0,1,1,0,0,0,0,0,1,0,1,0],[1,0,0,1,1,0,0,0,0,0,1,0],[1,0,0,1,0,0,1,0,1,0,0,0],[0,1,1,0,1,0,1,0,0,0,0,0],[0,1,0,1,0,1,0,0,0,0,0,1],[0,0,0,0,1,0,1,1,0,0,0,1],[0,0,1,1,0,1,0,1,0,0,0,0],[0,0,0,0,0,1,1,0,1,1,0,0],[1,0,1,0,0,0,0,1,0,1,0,0],[0,0,0,0,0,0,0,1,1,0,1,1],[1,1,0,0,0,0,0,0,0,1,0,1],[0,0,0,0,1,1,0,0,0,1,1,0]];;gamma := Graph( Group(()), [1..12], OnPoints, function(x,y) return A[x][y]=1;; end, true );;ag := AutGroupGraph( gamma );"</span></span></code></pre></div>
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell7">
 <script type="text/x-sage">
@@ -1891,7 +1907,7 @@ callback: function() {$('#cell7').find(".CodeMirror").get(0).CodeMirror.focus();
 </h2>
 <p>Again, each of the 3 aspects of the neighbor map has an associated
 automorphism group.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_dtc_lf</span> <span class="op">&lt;-</span> <span class="va">deltoidal_tetracontaoctahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table"><tbody>
 <tr>
@@ -2540,7 +2556,7 @@ callback: function() {$('#cell8').find(".CodeMirror").get(0).CodeMirror.focus();
 });
 </script>
 </div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">am_dtc_rt</span> <span class="op">&lt;-</span> <span class="va">deltoidal_tetracontaoctahedron</span><span class="op">$</span><span class="va">nghmap</span><span class="op">[</span>,<span class="fl">3</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table"><tbody>
 <tr>
@@ -3029,17 +3045,8 @@ callback: function() {$('#cell9').find(".CodeMirror").get(0).CodeMirror.focus();
 });
 </script>
 </div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">am_rco</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="va">rhombicuboctahedron</span><span class="op">$</span><span class="va">cu_faces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">rw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span></span>
-<span>  <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  <span class="va">rhombicuboctahedron</span><span class="op">$</span><span class="va">oct_faces</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">rw</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span></span>
-<span>  <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>byrow <span class="op">=</span> <span class="cn">T</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/get_set.html">get_set</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>byrow <span class="op">=</span> <span class="cn">T</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">am_rco</span> <span class="op">&lt;-</span> <span class="va">rhombicuboctahedron</span><span class="op">$</span><span class="va">edges</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/edgelist_to_adjmat.html">edgelist_to_adjmat</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table"><tbody>
 <tr>
 <td style="text-align:right;">
@@ -4819,16 +4826,26 @@ callback: function() {$('#cell9').find(".CodeMirror").get(0).CodeMirror.focus();
 </tr>
 </tbody></table>
 <pre><code><span><span class="co">#&gt; [1] "The rhombicuboctahedron has 301056000000 spanning trees"</span></span></code></pre>
+<p>We convert the rhombicuboctahedron adjacency matrix to a GAP list of
+lists, and call it <em>“A”</em>. This can be plugged into a call to
+GAP.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">am</span> <span class="op">&lt;-</span> <span class="va">am_rco</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">rw</span><span class="op">)</span> <span class="op">{</span> </span>
+<span>    <span class="fu">str_c</span><span class="op">(</span><span class="va">rw</span>, collapse <span class="op">=</span> <span class="st">','</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_c</span><span class="op">(</span><span class="st">'['</span>, <span class="va">.</span>, <span class="st">']'</span><span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_c</span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">','</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_c</span><span class="op">(</span><span class="st">'A := ['</span>, <span class="va">.</span>, <span class="st">'];;gamma := Graph( Group(()), [1..24], OnPoints, function(x,y) return A[x][y]=1;; end, true );;ag := AutGroupGraph( gamma );'</span><span class="op">)</span></span>
+<span><span class="va">am</span></span>
+<span><span class="co">#&gt; [1] "A := [[0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],[1,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0],[0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0],[0,1,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0],[0,1,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,1,0,0,0,0],[0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,0,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0],[0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1],[1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0]];;gamma := Graph( Group(()), [1..24], OnPoints, function(x,y) return A[x][y]=1;; end, true );;ag := AutGroupGraph( gamma );"</span></span></code></pre></div>
 <div>
 <script src="https://sagecell.sagemath.org/static/embedded_sagecell.js" data-external="1"></script><div id="cell10">
 <script type="text/x-sage">
 A := [[0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],[1,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,0,0],[0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,0,0],[0,1,0,0,0,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0],[0,1,0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,0,1,0,0,0,0],[0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,0,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0],[0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,1],[1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,0,0,0]];;
-gamma := Graph( Group(()), [1..24], OnPoints, function(x,y) return A[x][y]=1;; end, true );;
+gamma := Graph( Group(()), [1..24], OnPoints, function(x,y) return A[x][y]=1;; end, true );;ag := AutGroupGraph( gamma );
 ag := AutGroupGraph( gamma );
 Display(StructureDescription(ag));
 sg :=StrongGeneratorsStabChain(StabChain(ag));
 oh := Group(sg);;
 Display(oh);
+P := PresentationViaCosetTable(oh);; TzPrint(P);
 aa := ConjugacyClasses(oh);;
 els := [];;
 for a in aa do
@@ -4853,71 +4870,71 @@ callback: function() {$('#cell10').find(".CodeMirror").get(0).CodeMirror.focus()
 </h2>
 <p>The following GAP code was used to save information about the groups
 to a local directory.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>ElsByConjClass:=function(G)</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  local els,cc,c,x,gens;</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  gens := GeneratorsOfGroup(G);</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  cc := ConjugacyClasses(G);</span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  els := [];</span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  for c in cc do</span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>    for x in c do</span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>      Add(els, x);</span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>    od;</span>
-<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>  od;</span>
-<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>  return rec(names := ClassNames(CharacterTable(G)), sizes := List(cc, Size), </span>
-<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a>  gens :=  List(gens, x -&gt; Position(els, x)), elements := els);</span>
-<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a>end;;</span>
-<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a></span>
-<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a>SaveGroup := function(G, path, pts) </span>
-<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a>  local els, e;</span>
-<span id="cb20-17"><a href="#cb20-17" tabindex="-1"></a>  els := ElsByConjClass(G);</span>
-<span id="cb20-18"><a href="#cb20-18" tabindex="-1"></a>  LogTo(path);</span>
-<span id="cb20-19"><a href="#cb20-19" tabindex="-1"></a>  Print("# ", StructureDescription(G), "\n# ", els.gens, "\n");</span>
-<span id="cb20-20"><a href="#cb20-20" tabindex="-1"></a>  P := PresentationViaCosetTable(G);; TzPrint(P);</span>
-<span id="cb20-21"><a href="#cb20-21" tabindex="-1"></a>  Print("# ", els.names, "\n# ", els.sizes, "\n");</span>
-<span id="cb20-22"><a href="#cb20-22" tabindex="-1"></a>  for e in els.elements do</span>
-<span id="cb20-23"><a href="#cb20-23" tabindex="-1"></a>  Print(ListPerm(e, pts),"\n");</span>
-<span id="cb20-24"><a href="#cb20-24" tabindex="-1"></a>  od;</span>
-<span id="cb20-25"><a href="#cb20-25" tabindex="-1"></a>  LogTo();</span>
-<span id="cb20-26"><a href="#cb20-26" tabindex="-1"></a>  return [];</span>
-<span id="cb20-27"><a href="#cb20-27" tabindex="-1"></a>end;;</span>
-<span id="cb20-28"><a href="#cb20-28" tabindex="-1"></a></span>
-<span id="cb20-29"><a href="#cb20-29" tabindex="-1"></a>pr:=Group( [ (3,5), (2,3)(4,5), (1,2)(4,6) ] );;</span>
-<span id="cb20-30"><a href="#cb20-30" tabindex="-1"></a>nsg:=NormalSubgroups(pr);;</span>
-<span id="cb20-31"><a href="#cb20-31" tabindex="-1"></a>path := Filename(DirectoryCurrent(), "r-projects/spantreeorbits/inst/extdata/");</span>
-<span id="cb20-32"><a href="#cb20-32" tabindex="-1"></a></span>
-<span id="cb20-33"><a href="#cb20-33" tabindex="-1"></a>SaveGroup(nsg[1], Concatenation(path, "oct_nsg1.txt"), 6);</span>
-<span id="cb20-34"><a href="#cb20-34" tabindex="-1"></a>SaveGroup(nsg[2], Concatenation(path, "oct_nsg2.txt"), 6);</span>
-<span id="cb20-35"><a href="#cb20-35" tabindex="-1"></a>SaveGroup(nsg[3], Concatenation(path, "oct_nsg3.txt"), 6);</span>
-<span id="cb20-36"><a href="#cb20-36" tabindex="-1"></a>SaveGroup(nsg[4], Concatenation(path, "oct_nsg4.txt"), 6);</span>
-<span id="cb20-37"><a href="#cb20-37" tabindex="-1"></a>SaveGroup(nsg[6], Concatenation(path, "oct_nsg6.txt"), 6);</span>
-<span id="cb20-38"><a href="#cb20-38" tabindex="-1"></a></span>
-<span id="cb20-39"><a href="#cb20-39" tabindex="-1"></a>ps := Group( [ (3,7)(4,6), (2,4)(5,7), (1,2)(3,4)(5,8)(6,7) ] );</span>
-<span id="cb20-40"><a href="#cb20-40" tabindex="-1"></a>SaveGroup(ps, Concatenation(path, "dic_lf.txt"), 8);</span>
-<span id="cb20-41"><a href="#cb20-41" tabindex="-1"></a></span>
-<span id="cb20-42"><a href="#cb20-42" tabindex="-1"></a>pt := Group( [ (3,5), (2,3)(4,5), (1,2)(4,6) ] );</span>
-<span id="cb20-43"><a href="#cb20-43" tabindex="-1"></a>SaveGroup(pt, Concatenation(path, "dic_rt.txt"), 6);</span>
-<span id="cb20-44"><a href="#cb20-44" tabindex="-1"></a></span>
-<span id="cb20-45"><a href="#cb20-45" tabindex="-1"></a>pu := Group( [ ( 2, 3)( 5, 7)( 8,12)( 9,11), ( 2, 9)( 3,11)( 4,10)( 5, 8)( 7,12), </span>
-<span id="cb20-46"><a href="#cb20-46" tabindex="-1"></a>  ( 1, 2)( 3, 4)( 5, 9)( 6, 8)(10,12) ] );</span>
-<span id="cb20-47"><a href="#cb20-47" tabindex="-1"></a>SaveGroup(pu, Concatenation(path, "co.txt"), 12);</span>
-<span id="cb20-48"><a href="#cb20-48" tabindex="-1"></a></span>
-<span id="cb20-49"><a href="#cb20-49" tabindex="-1"></a>pv := Group( [ ( 2, 3)( 4, 5)( 8, 9)(12,13), ( 1, 2)( 4, 6)( 8,10)(11,12), </span>
-<span id="cb20-50"><a href="#cb20-50" tabindex="-1"></a>  ( 1, 5, 4)( 2, 6, 3)( 7, 8, 9)(12,13,14), </span>
-<span id="cb20-51"><a href="#cb20-51" tabindex="-1"></a>  ( 1, 6)( 2, 3)( 4, 5)( 7,11)( 8,12)( 9,13)(10,14) ] );</span>
-<span id="cb20-52"><a href="#cb20-52" tabindex="-1"></a>SaveGroup(pv, Concatenation(path, "dtc_lf.txt"), 14);</span>
-<span id="cb20-53"><a href="#cb20-53" tabindex="-1"></a></span>
-<span id="cb20-54"><a href="#cb20-54" tabindex="-1"></a>pw := Group( [ ( 2, 3)( 5, 7)( 8,12)( 9,11), ( 2, 9)( 3,11)( 4,10)( 5, 8)( 7,12), </span>
-<span id="cb20-55"><a href="#cb20-55" tabindex="-1"></a>  ( 1, 2)( 3, 4)( 5, 9)( 6, 8)(10,12) ] );</span>
-<span id="cb20-56"><a href="#cb20-56" tabindex="-1"></a>SaveGroup(pw, Concatenation(path, "dtc_rt.txt"), 12);</span>
-<span id="cb20-57"><a href="#cb20-57" tabindex="-1"></a></span>
-<span id="cb20-58"><a href="#cb20-58" tabindex="-1"></a>px := Group( [ ( 2, 7)( 3,22)( 4,19)( 6,15)( 8,10)( 9,16)(11,14)(12,20)(17,24)</span>
-<span id="cb20-59"><a href="#cb20-59" tabindex="-1"></a>    (18,23), ( 1, 2, 5, 7)( 3, 4, 6, 8)( 9,14,18,12)(10,15,19,22)(11,16,20,23)</span>
-<span id="cb20-60"><a href="#cb20-60" tabindex="-1"></a>    (13,17,21,24), ( 1, 3,22)( 2,19,23)( 4, 7,18)( 5,20,12)( 6,14,24)</span>
-<span id="cb20-61"><a href="#cb20-61" tabindex="-1"></a>    ( 8,21,10)( 9,16,13)(11,15,17) ] );</span>
-<span id="cb20-62"><a href="#cb20-62" tabindex="-1"></a>SaveGroup(px, Concatenation(path, "rco.txt"), 24);</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>ElsByConjClass:=function(G)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>  local els,cc,c,x,gens;</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>  gens := GeneratorsOfGroup(G);</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  cc := ConjugacyClasses(G);</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  els := [];</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>  for c in cc do</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>    for x in c do</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>      Add(els, x);</span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>    od;</span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>  od;</span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>  return rec(names := ClassNames(CharacterTable(G)), sizes := List(cc, Size), </span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>  gens :=  List(gens, x -&gt; Position(els, x)), elements := els);</span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>end;;</span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>SaveGroup := function(G, path, pts) </span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a>  local els, e;</span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>  els := ElsByConjClass(G);</span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a>  LogTo(path);</span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a>  Print("# ", StructureDescription(G), "\n# ", els.gens, "\n");</span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a>  P := PresentationViaCosetTable(G);; TzPrint(P);</span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>  Print("# ", els.names, "\n# ", els.sizes, "\n");</span>
+<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a>  for e in els.elements do</span>
+<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a>  Print(ListPerm(e, pts),"\n");</span>
+<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a>  od;</span>
+<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a>  LogTo();</span>
+<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a>  return [];</span>
+<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a>end;;</span>
+<span id="cb23-28"><a href="#cb23-28" tabindex="-1"></a></span>
+<span id="cb23-29"><a href="#cb23-29" tabindex="-1"></a>pr:=Group( [ (3,5), (2,3)(4,5), (1,2)(4,6) ] );;</span>
+<span id="cb23-30"><a href="#cb23-30" tabindex="-1"></a>nsg:=NormalSubgroups(pr);;</span>
+<span id="cb23-31"><a href="#cb23-31" tabindex="-1"></a>path := Filename(DirectoryCurrent(), "r-projects/spantreeorbits/inst/extdata/");</span>
+<span id="cb23-32"><a href="#cb23-32" tabindex="-1"></a></span>
+<span id="cb23-33"><a href="#cb23-33" tabindex="-1"></a>SaveGroup(nsg[1], Concatenation(path, "oct_nsg1.txt"), 6);</span>
+<span id="cb23-34"><a href="#cb23-34" tabindex="-1"></a>SaveGroup(nsg[2], Concatenation(path, "oct_nsg2.txt"), 6);</span>
+<span id="cb23-35"><a href="#cb23-35" tabindex="-1"></a>SaveGroup(nsg[3], Concatenation(path, "oct_nsg3.txt"), 6);</span>
+<span id="cb23-36"><a href="#cb23-36" tabindex="-1"></a>SaveGroup(nsg[4], Concatenation(path, "oct_nsg4.txt"), 6);</span>
+<span id="cb23-37"><a href="#cb23-37" tabindex="-1"></a>SaveGroup(nsg[6], Concatenation(path, "oct_nsg6.txt"), 6);</span>
+<span id="cb23-38"><a href="#cb23-38" tabindex="-1"></a></span>
+<span id="cb23-39"><a href="#cb23-39" tabindex="-1"></a>ps := Group( [ (3,7)(4,6), (2,4)(5,7), (1,2)(3,4)(5,8)(6,7) ] );</span>
+<span id="cb23-40"><a href="#cb23-40" tabindex="-1"></a>SaveGroup(ps, Concatenation(path, "dic_lf.txt"), 8);</span>
+<span id="cb23-41"><a href="#cb23-41" tabindex="-1"></a></span>
+<span id="cb23-42"><a href="#cb23-42" tabindex="-1"></a>pt := Group( [ (3,5), (2,3)(4,5), (1,2)(4,6) ] );</span>
+<span id="cb23-43"><a href="#cb23-43" tabindex="-1"></a>SaveGroup(pt, Concatenation(path, "dic_rt.txt"), 6);</span>
+<span id="cb23-44"><a href="#cb23-44" tabindex="-1"></a></span>
+<span id="cb23-45"><a href="#cb23-45" tabindex="-1"></a>pu := Group( [ ( 2, 3)( 5, 7)( 8,12)( 9,11), ( 2, 9)( 3,11)( 4,10)( 5, 8)( 7,12), </span>
+<span id="cb23-46"><a href="#cb23-46" tabindex="-1"></a>  ( 1, 2)( 3, 4)( 5, 9)( 6, 8)(10,12) ] );</span>
+<span id="cb23-47"><a href="#cb23-47" tabindex="-1"></a>SaveGroup(pu, Concatenation(path, "co.txt"), 12);</span>
+<span id="cb23-48"><a href="#cb23-48" tabindex="-1"></a></span>
+<span id="cb23-49"><a href="#cb23-49" tabindex="-1"></a>pv := Group( [ ( 2, 3)( 4, 5)( 8, 9)(12,13), ( 1, 2)( 4, 6)( 8,10)(11,12), </span>
+<span id="cb23-50"><a href="#cb23-50" tabindex="-1"></a>  ( 1, 5, 4)( 2, 6, 3)( 7, 8, 9)(12,13,14), </span>
+<span id="cb23-51"><a href="#cb23-51" tabindex="-1"></a>  ( 1, 6)( 2, 3)( 4, 5)( 7,11)( 8,12)( 9,13)(10,14) ] );</span>
+<span id="cb23-52"><a href="#cb23-52" tabindex="-1"></a>SaveGroup(pv, Concatenation(path, "dtc_lf.txt"), 14);</span>
+<span id="cb23-53"><a href="#cb23-53" tabindex="-1"></a></span>
+<span id="cb23-54"><a href="#cb23-54" tabindex="-1"></a>pw := Group( [ ( 2, 3)( 5, 7)( 8,12)( 9,11), ( 2, 9)( 3,11)( 4,10)( 5, 8)( 7,12), </span>
+<span id="cb23-55"><a href="#cb23-55" tabindex="-1"></a>  ( 1, 2)( 3, 4)( 5, 9)( 6, 8)(10,12) ] );</span>
+<span id="cb23-56"><a href="#cb23-56" tabindex="-1"></a>SaveGroup(pw, Concatenation(path, "dtc_rt.txt"), 12);</span>
+<span id="cb23-57"><a href="#cb23-57" tabindex="-1"></a></span>
+<span id="cb23-58"><a href="#cb23-58" tabindex="-1"></a>px := Group( [ ( 2, 7)( 3,22)( 4,19)( 6,15)( 8,10)( 9,16)(11,14)(12,20)(17,24)</span>
+<span id="cb23-59"><a href="#cb23-59" tabindex="-1"></a>    (18,23), ( 1, 2, 5, 7)( 3, 4, 6, 8)( 9,14,18,12)(10,15,19,22)(11,16,20,23)</span>
+<span id="cb23-60"><a href="#cb23-60" tabindex="-1"></a>    (13,17,21,24), ( 1, 3,22)( 2,19,23)( 4, 7,18)( 5,20,12)( 6,14,24)</span>
+<span id="cb23-61"><a href="#cb23-61" tabindex="-1"></a>    ( 8,21,10)( 9,16,13)(11,15,17) ] );</span>
+<span id="cb23-62"><a href="#cb23-62" tabindex="-1"></a>SaveGroup(px, Concatenation(path, "rco.txt"), 24);</span></code></pre></div>
 <p>Then the following R code was used to create R objects from the save
 GAP output.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">convert_gap_to_r</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">infile</span>, <span class="va">pts</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">gaptext</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">infile</span><span class="op">)</span> </span>
 <span>  <span class="va">desc</span> <span class="op">&lt;-</span> <span class="va">gaptext</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">str_sub</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>;</span>
@@ -4947,7 +4964,7 @@ GAP output.</p>
 <span>  <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>The r objects were copied into the data folder of this package.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fnames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"oct_nsg1.txt"</span>,<span class="st">"c2xs4_aut_oct"</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"oct_nsg2.txt"</span>,<span class="st">"c2xa4_oct"</span><span class="op">)</span>,</span>
@@ -4983,7 +5000,7 @@ GAP output.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>
