@@ -347,8 +347,8 @@ s13s1trees <- trees_from_perms(deltoidal_tetracontaoctahedron, s13s11cosetreps, 
 # and its dual, the cuboctahedron
 data(s13s11trees, package = "spantreeorbits")
 
-#Look at one of the pairs, e.g., the first one
-tree <- s13s11trees[1,]
+#Look at one of the pairs, e.g., the twenty-first one
+tree <- s13s11trees[21,]
 
 tree %>% `dim<-`(c(1,24)) %>% kableExtra::kbl(caption = "The first of the spanning tree pairs, as a vector of edge labels: ") %>% kableExtra::column_spec(c(1:24), width = "2em") %>% 
   kableExtra::row_spec(1, align = 'c') %>% 
@@ -431,7 +431,7 @@ ttco %>%`rownames<-`(str_c('r', 1:24)) %>% kableExtra::kbl() %>%
 
 </p>
 The entries in the neighbor map that are not grayed out can be identified by listing which column (0 or 1) that they are in, in the map. 
-So this gives a representation of the tree pair as a vector of zeros and ones.
+This then gives a representation of the tree pair as a vector of zeros and ones.
 
 ```{r}
 
@@ -460,6 +460,8 @@ vec_to_int <- function(tree) {
 }
 
 int <- vec_to_int(vec)
+
+# Just for fun, also show the factors:
 factors <- gmp::factorize(int) %>% table() %>% str_c(names(.),'^{',., '}', collapse = ' ')
 rep <- str_c(int, ' = ', factors)
 ```
@@ -501,7 +503,7 @@ Summarizing, we have shown 5 different representations of a spanning tree pair:
 
 5. An integer between $ 0 $  and $ 2^{n} $, exclusive, where $ n $ is the length of the vector in representation 1.
 
-The 331776 spanning tree pairs for the rhombic dodecahedron and the  cuboctahedron will .use slightly less than 2 percent of these representations.
+The 331776 spanning tree pairs for the rhombic dodecahedron and the  cuboctahedron use slightly less than 2 percent of these representations.
 
 ### Arranging the Spanning Trees into Orbits
 ## Notes
