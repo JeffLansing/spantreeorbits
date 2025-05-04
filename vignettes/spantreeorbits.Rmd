@@ -455,7 +455,7 @@ Since there are only 24 entries in this vector, it can be "naturally" encoded as
 
 powers_of_two <- sapply(0:23, function(n) 2^n)
 
-vec_to_int <- function(tree) {
+vec_to_int <- function(vec) {
   powers_of_two[which(vec == 1)] %>% sum()
 }
 
@@ -506,4 +506,75 @@ Summarizing, we have shown 5 different representations of a spanning tree pair:
 The 331776 spanning tree pairs for the rhombic dodecahedron and the  cuboctahedron use slightly less than 2 percent of these representations.
 
 ### Arranging the Spanning Trees into Orbits
+
+According to [this document](https://doi.org/10.1016/j.tcs.2024.114593), in Table 1, there are 6912 nets of the cuboctahedron. Using the representations 4. and 5. from the previous section, we can arrange the 331776 spanning trees of the cuboctahedron (and the rhombic dodecahedron) into 6912 orbits, each of length 48.
+
+```{r}
+
+get_tree <- function(vec) {
+  c(which(vec == 0), which(vec != 0))
+}
+
+tree_to_int <- function(tree) {
+  powers_of_two[tree[14:24]] %>% sum()
+}
+
+#' get_orbits
+#'
+#' @param trees Spanning trees in zero-one format
+#' @param treesx Spanning trees as integers
+#' @param gens The generators of the automorphism group of the 
+#' rhombicuboctahedron
+#'
+#' @return A list of orbits and a list of graph components, 
+#' together in a named list.
+#' @export
+#'
+#' @examples
+get_orbits <- function(trees, treesx, gens) {
+  vals <- vector(mode = 'numeric', length = nrow(trees) * nrow(gens))
+  k <- 0
+  for(i in 1:nrow(trees)) {
+    v <- trees[i,]
+    for(j in 1:nrow(gens)) {
+      k <- k + 1
+      w <- v[gens[j,]] 
+      int <- get_tree(w) %>% tree_to_int()
+      vals[k] <- int
+    }
+  }
+  mch <- match(vals, treesx) %>% as.character()
+  ixs <- rep(1:nrow(trees), each = nrow(gens)) %>% as.character()
+  
+  edges <- cbind(ixs, mch)
+  gr <- edges %>% igraph::graph_from_edgelist(directed = T)
+  
+  sgrs <- igraph::decompose(gr, mode = 'weak')
+  orbits <- vector(mode = 'list', length = length(sgrs))
+  for(i in 1:length(sgrs)) {
+    sgr <- sgrs[[i]]
+    vs <- igraph::V(sgr)
+    orbit <- vs$name %>% as.integer() %>% sort()
+    orbits[[i]] <- orbit
+  }
+  
+  list(orbits = orbits, sgrs = sgrs)
+}
+
+gens <- c2xs4_rco$elements[c2xs4_rco$generators,]
+
+trees01 <- s13s11trees[,1:13] %>% apply(1, function(rw) {
+  v <- rep(1,24)
+  v[rw] <- 0
+  v
+}) %>% t()
+
+trees01x <- trees01 %*% powers_of_two %>% as.integer()
+
+os48 <- get_orbits(trees01, trees01x, gens)
+
+length(os48$orbits)
+
+```
+
 ## Notes
