@@ -538,16 +538,21 @@ get_orbits <- function(trees, treesx, gens) {
     v <- trees[i,]
     for(j in 1:nrow(gens)) {
       k <- k + 1
-      w <- v[gens[j,]] 
+      # the permutation acts on the tree on the right:
+      w <- v[gens[j,]]
+      # encode the result as an integer:
       int <- get_tree(w) %>% tree_to_int()
       vals[k] <- int
     }
   }
+  
+  # identify which trees resulted from the actions
   mch <- match(vals, treesx) %>% as.character()
   ixs <- rep(1:nrow(trees), each = nrow(gens)) %>% as.character()
   
+  # show the action of the group on the trees as a graph
   edges <- cbind(ixs, mch)
-  gr <- edges %>% igraph::graph_from_edgelist(directed = T)
+  gr <- edges %>% igraph::graph_from_edgelist(directed = T) 
   
   sgrs <- igraph::decompose(gr, mode = 'weak')
   orbits <- vector(mode = 'list', length = length(sgrs))
@@ -576,5 +581,7 @@ os48 <- get_orbits(trees01, trees01x, gens)
 length(os48$orbits)
 
 ```
+
+There is more to say about the structure of these orbits. The Orbit_Structure vignette provides this discussion.
 
 ## Notes

@@ -261,6 +261,7 @@ get_axes <- function(verts, texts = str_c('x', 1:nrow(verts))) {
 #' @param show_segments = TRUE Whether or not to show the segments of the containing poly
 #' @param show_labels = TRUE Whether or not to show the vertex labels of the containing poly
 #' @param show_axes = FALSE Whether or not to show the rotation axes of the containing poly
+#' @param show_arrows = FALSE Whether or not to show the segments of the containing poly as arrows
 #' @param colorize = FALSE Whether or not to color the segments of the containing poly with scico colors
 #' @param palette = "hawaii" The name of the scico pallette to use, if colorize is true
 #'
@@ -273,7 +274,8 @@ display_poly <- function(poly, dual = NULL, codual = NULL,
                          scale = 1, coscale = scale,
                          labels = TRUE, jitter = FALSE, zoom = 0.8,
                          theta = 20, phi = 10, umx = NULL,
-                         show_segments = TRUE, show_labels = TRUE, show_axes = FALSE,
+                         show_segments = TRUE, show_labels = TRUE,
+                         show_axes = FALSE, show_arrows =FALSE,
                          colorize = FALSE, palette = "hawaii") {
   open3d(windowRect = c(50, 50, 750, 700))
   if(is.null(umx)) {
@@ -304,6 +306,13 @@ display_poly <- function(poly, dual = NULL, codual = NULL,
     }
   } else if(show_segments) {
     segments3d(poly$segments, col="black", lwd=1)
+  } else if(show_arrows) {
+    edges <- poly$edges
+    stopifnot(NROW(edges)> 0)
+    for(j in 1:nrow(edges)) {
+      edge <- edges[j,]
+      arrow3d(poly$verts[edge[1],], poly$verts[edge[2],], type = 'lines', s = 1/10)
+    }
   }
   if(show_labels) {
     if(jitter) {
@@ -327,4 +336,3 @@ display_poly <- function(poly, dual = NULL, codual = NULL,
   }
   highlevel(integer()) # To trigger display as rglwidget
 }
-
