@@ -5,7 +5,7 @@
 \alias{cuboctahedron}
 \title{Cuboctahedron}
 \format{
-An object of class \code{list} of length 6.
+An object of class \code{list} of length 7.
 }
 \usage{
 cuboctahedron
@@ -21,6 +21,7 @@ A cuboctahedron data structure.
 \item{segments}{The edges of the cuboctahedron}
 \item{cu_faces}{The quadrilateral faces}
 \item{oct_faces}{The triangular faces}
+\item{edges}{An edgelist as indices of vertices}
 }
 }
 \keyword{datasets}

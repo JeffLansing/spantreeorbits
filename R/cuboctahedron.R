@@ -74,13 +74,17 @@ get_cuboctahedron <- function() {
   segix <- get_set(segx) %>% as.list() %>% unlist()
   segments <- verts[segix,]
 
+  edges <- cbind(rep(1:12, each = 2),
+                 c(2,9,4,11,1,7,3,5,2,6,7,12,4,8,6,9,3,10,8,11,1,12,5,10))
+
   cuboctahedron <- list(
     info = c(14,24,12) %>% `names<-`(c('faces', 'edges', 'vertices')),
     verts = verts,
     cu_faces = cu_faces,
     oct_faces = oct_faces,
     texts = texts,
-    segments = segments
+    segments = segments,
+    edges = edges
   )
   cuboctahedron
 }
@@ -93,6 +97,7 @@ get_cuboctahedron <- function() {
 #'  \item{segments}{The edges of the cuboctahedron}
 #'  \item{cu_faces}{The quadrilateral faces}
 #'  \item{oct_faces}{The triangular faces}
+#'  \item{edges}{An edgelist as indices of vertices}
 #' }
 #'
 cuboctahedron <- get_cuboctahedron()

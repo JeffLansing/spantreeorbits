@@ -71,7 +71,13 @@ get_rhombicuboctahedron <- function() {
   segx <- Reduce(rbind, segs)
   segix <- get_set(segx) %>% as.list() %>% unlist()
   segments <- verts[segix,]
-  edges <- segix %>% matrix(byrow = T, ncol = 2)
+  # edges <- segix %>% matrix(byrow = T, ncol = 2)
+  #TODO: arrange faces so that edges come out this way
+  edges <- c(1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,
+             15,15,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,7,22,1,
+             10,1,18,2,12,2,15,5,9,5,19,7,14,11,16,4,6,10,24,11,23,9,17,16,20,6,
+             8,13,15,14,21,20,23,3,8,17,19,18,24,3,4,21,22,12,13) %>%
+    `dim<-`(c(48,2))
 
   rhombicuboctahedron <- list(
     info = c(26,48,24) %>% `names<-`(c('faces', 'edges', 'vertices')),
