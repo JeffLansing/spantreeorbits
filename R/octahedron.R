@@ -56,12 +56,15 @@ get_octahedron <- function() {
   segix <- get_set(segx) %>% as.list() %>% unlist()
   segments <- verts[segix,]
 
+  edges <- cbind(rep(1:6, each = 2), c(2,4,3,5,1,6,3,5,1,6,2,4))
+
   octahedron <- list(
     info = c(8,12,6) %>% `names<-`(c('faces', 'edges', 'vertices')),
     verts = verts,
     faces = faces,
     texts = texts,
-    segments = segments
+    segments = segments,
+    edges = edges
   )
   octahedron
 }
@@ -73,6 +76,7 @@ get_octahedron <- function() {
 #'  \item{texts}{The vertex labels}
 #'  \item{segments}{The edges of the octahedron}
 #'  \item{faces}{The faces}
+#'  \item{edges}{An edgelist as indices of vertices}
 #' }
 #'
 octahedron <- get_octahedron()

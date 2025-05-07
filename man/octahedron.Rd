@@ -5,7 +5,7 @@
 \alias{octahedron}
 \title{Octahedron}
 \format{
-An object of class \code{list} of length 5.
+An object of class \code{list} of length 6.
 }
 \usage{
 octahedron
@@ -20,6 +20,7 @@ An octahedron data structure.
 \item{texts}{The vertex labels}
 \item{segments}{The edges of the octahedron}
 \item{faces}{The faces}
+\item{edges}{An edgelist as indices of vertices}
 }
 }
 \keyword{datasets}
